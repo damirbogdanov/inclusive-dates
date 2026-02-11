@@ -1,0 +1,85 @@
+# Inclusive Dates
+
+An accessible, natural language-capable datepicker component built with Stencil.
+
+## Features
+
+- 🎯 **Natural Language Input**: Type dates as you think - "tomorrow", "in 10 days", "next Monday"
+- ♿ **Accessible**: Built with WCAG compliance and keyboard navigation
+- 🌍 **Internationalization**: Support for multiple locales
+- 📅 **Range Selection**: Pick single dates or date ranges
+- 🎨 **Themeable**: Comes with light and dark themes
+- ⌨️ **Keyboard Friendly**: Full keyboard navigation support
+
+## Getting Started
+
+### Basic Usage
+
+\`\`\`html
+<inclusive-dates
+  id="datepicker"
+  label="Choose a date"
+  placeholder='Try "tomorrow" or "next week"'
+></inclusive-dates>
+\`\`\`
+
+### Range Mode
+
+\`\`\`html
+<inclusive-dates
+  id="datepicker"
+  range
+  label="Choose a date range"
+  placeholder='Try "June 8 to 12"'
+></inclusive-dates>
+\`\`\`
+
+### With Constraints
+
+\`\`\`html
+<inclusive-dates
+  id="datepicker"
+  label="Choose a date"
+  min-date="2026-03-01"
+  max-date="2026-03-31"
+></inclusive-dates>
+\`\`\`
+
+## Available Props
+
+- **id**: Unique identifier (required for accessibility)
+- **value**: Current value (string for single date, array for range)
+- **range**: Enable range mode
+- **label**: Label text for the input field
+- **placeholder**: Placeholder text
+- **locale**: Locale for date formatting and parsing
+- **disabled**: Disable the component
+- **minDate**: Earliest allowed date (YYYY-MM-DD)
+- **maxDate**: Latest allowed date (YYYY-MM-DD)
+- **inline**: Keep calendar always visible
+- **showQuickButtons**: Show quick date selection buttons
+- **firstDayOfWeek**: Which day starts the week (0=Sunday, 1=Monday)
+
+## Themes
+
+The component comes with pre-built themes:
+
+- **Light Theme**: Default clean theme
+- **Dark Theme**: Dark mode support
+
+Import themes from `/dist/themes/`:
+
+\`\`\`html
+<link rel="stylesheet" href="path/to/light.css" />
+\`\`\`
+
+## Natural Language Examples
+
+The datepicker understands many natural language inputs:
+
+- Relative: "tomorrow", "yesterday", "in 5 days", "3 weeks ago"
+- Named days: "next Monday", "last Friday"
+- Specific dates: "March 15", "15/03/2026", "2026-03-15"
+- Ranges: "March 10 to 15", "next Monday to Friday"
+
+Supported for English, Japanese, French, Dutch, Russian, and Portuguese.

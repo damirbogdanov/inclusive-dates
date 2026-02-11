@@ -5,6 +5,7 @@ import postcssNested from "postcss-nested";
 
 export const config: Config = {
   namespace: "inclusive-dates",
+  tsconfig: "tsconfig.stencil.json",
   testing: { globalSetup: "<rootDir>/test-setup.ts" },
   outputTargets: [
     {
