@@ -61,10 +61,10 @@
     }
   },
   "dependencies": {
-    "@stencil/core": "^2.13.0",
-    "@stencil/sass": "^3.0.0",
     "@a11y/focus-trap": "^1.0.5",
     "@react-aria/live-announcer": "^3.1.2",
+    "@stencil/core": "^2.13.0",
+    "@stencil/sass": "^3.0.0",
     "aria-hidden": "^1.2.2",
     "chrono-node": "^2.5.0"
   },
@@ -89,5 +89,6 @@
     "serve": "^14.0.1",
     "terser": "^5.15.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "yarn@4.12.0"
 }
