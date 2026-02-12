@@ -4,7 +4,6 @@ loader/
 docs-www/
 storybook-static/
 
-src/components.d.ts
 src/themes/*.css
 src/themes/*.css.map
 
