@@ -150,6 +150,7 @@ export class InclusiveDates {
   private errorMessage = "";
 
   componentDidLoad() {
+    this.syncFromValueProp();
     this.componentReady.emit();
     if (!this.id) {
       console.error(
@@ -477,16 +478,39 @@ export class InclusiveDates {
   }
 
   @Watch("value")
-  watchValue() {
-    if (Boolean(this.value) && !this.isRangeValue(this.value)) {
-      this.internalValue = this.value as string;
-    }
+  watchValue(newValue: string | string[] | undefined) {
+    this.syncFromValueProp(newValue);
   }
 
   private getClassName(element?: string) {
     return Boolean(element)
       ? `${this.elementClassName}__${element}`
       : this.elementClassName;
+  }
+
+  private syncFromValueProp(value = this.value) {
+    if (!value) return;
+
+    // store
+    this.internalValue = value;
+
+    // update calendar (expects Date or Date[])
+    if (this.pickerRef) {
+      if (Array.isArray(value)) {
+        const dates = value
+          .map(v => removeTimezoneOffset(new Date(v)))
+          .filter(d => !Number.isNaN(d.getTime()));
+        this.pickerRef.value = dates.length ? dates : null;
+      } else {
+        const d = removeTimezoneOffset(new Date(value));
+        this.pickerRef.value = Number.isNaN(d.getTime()) ? null : d;
+      }
+    }
+
+    // update text input (useInputValue=false so it formats from internalValue, not from input's current text)
+    if (this.inputRef) {
+      this.formatInput(true, false);
+    }
   }
 
   render() {
