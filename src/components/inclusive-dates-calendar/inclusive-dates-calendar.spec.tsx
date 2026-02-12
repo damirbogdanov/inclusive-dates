@@ -10,42 +10,34 @@ import { InclusiveDatesCalendar } from "./inclusive-dates-calendar";
 
 function getDisplayedDates(page: SpecPage) {
   return Array.from(
-    page.root.querySelectorAll<HTMLTableCellElement>(
+    page.root?.querySelectorAll<HTMLTableCellElement>(
       ".inclusive-dates-calendar__date"
-    )
+    ) as NodeListOf<HTMLTableCellElement>
   ).map((el) => +(el.children[0] as HTMLElement).innerText);
 }
 
 function getSelectedMonth(page: SpecPage) {
-  return +Array.from(
-    page.root
-      .querySelector<HTMLSelectElement>(
-        ".inclusive-dates-calendar__month-select"
-      )
-      .querySelectorAll("option")
-  )
-    .find((option) => option.getAttribute("selected") === "")
-    .getAttribute("value");
+
+  const options = page.root?.querySelector<HTMLSelectElement>(".inclusive-dates-calendar__month-select")?.querySelectorAll("option")
+  const selectedOption = Array.from(options || [])?.find((option) => option.getAttribute("selected") === "");
+
+  return +(selectedOption?.getAttribute("value") as string);
 }
 
 function getSelectedYear(page: SpecPage) {
-  return +page.root.querySelector<HTMLInputElement>(
-    ".inclusive-dates-calendar__year-select"
-  ).value;
+  return +(page.root?.querySelector<HTMLInputElement>(".inclusive-dates-calendar__year-select")?.value as string);
 }
 
 function getWeekdaysHeader(page: SpecPage) {
   return Array.from(
-    page.root.querySelectorAll<HTMLTableCellElement>(
+    page.root?.querySelectorAll<HTMLTableCellElement>(
       ".inclusive-dates-calendar__weekday"
-    )
+    ) as NodeListOf<HTMLTableCellElement>
   ).map((el) => el.innerText);
 }
 
 function triggerKeyDown(page: SpecPage, code: string) {
-  page.root
-    .querySelector(".inclusive-dates-calendar__calendar")
-    .dispatchEvent(new KeyboardEvent("keydown", { code }));
+  page.root?.querySelector(".inclusive-dates-calendar__calendar")?.dispatchEvent(new KeyboardEvent("keydown", { code }));
 }
 
 describe("inclusive-dates-calendar", () => {
@@ -75,7 +67,7 @@ describe("inclusive-dates-calendar", () => {
       language: "en"
     });
 
-    page.root.startDate = new Date("1989-05-16");
+    page.root!.startDate = new Date("1989-05-16");
     await page.waitForChanges();
 
     const selectedMonth = getSelectedMonth(page);
@@ -99,7 +91,7 @@ describe("inclusive-dates-calendar", () => {
       getWeekDays(0, "en-US").map((weekday) => `${weekday[0]}${weekday[1]}`)
     );
 
-    page.root.setAttribute("first-day-of-week", "1");
+    page.root?.setAttribute("first-day-of-week", "1");
     await page.waitForChanges();
 
     const weekdaysHeader2 = getWeekdaysHeader(page);
@@ -109,7 +101,7 @@ describe("inclusive-dates-calendar", () => {
       getWeekDays(1, "en-US").map((weekday) => `${weekday[0]}${weekday[1]}`)
     );
 
-    page.root.setAttribute("locale", "de-DE");
+    page.root?.setAttribute("locale", "de-DE");
     await page.waitForChanges();
 
     const weekdaysHeader3 = getWeekdaysHeader(page);
@@ -129,14 +121,12 @@ describe("inclusive-dates-calendar", () => {
 
     const spy = jest.fn();
 
-    page.root.startDate = new Date("2022-01-01");
-    page.root.addEventListener("selectDate", spy);
+    page.root!.startDate = new Date("2022-01-01");
+    page.root?.addEventListener("selectDate", spy);
 
     await page.waitForChanges();
 
-    page.root
-      .querySelector<HTMLTableCellElement>(".inclusive-dates-calendar__date")
-      .click();
+    page.root?.querySelector<HTMLTableCellElement>(".inclusive-dates-calendar__date")?.click();
 
     triggerKeyDown(page, "ArrowRight");
     triggerKeyDown(page, "Space");
@@ -156,12 +146,10 @@ describe("inclusive-dates-calendar", () => {
     expect(spy.mock.calls[3][0].detail).toEqual("2021-12-27");
     expect(spy.mock.calls[4][0].detail).toEqual("2021-12-26");
 
-    page.root.setAttribute("range", "true");
+    page.root?.setAttribute("range", "true");
     await page.waitForChanges();
 
-    page.root
-      .querySelector<HTMLTableCellElement>(".inclusive-dates-calendar__date")
-      .click();
+    page.root?.querySelector<HTMLTableCellElement>(".inclusive-dates-calendar__date")?.click();
 
     triggerKeyDown(page, "ArrowRight");
     triggerKeyDown(page, "Space");
@@ -170,9 +158,7 @@ describe("inclusive-dates-calendar", () => {
     expect(spy.mock.calls[6][0].detail).toEqual(["2021-11-28"]);
     expect(spy.mock.calls[7][0].detail).toEqual(["2021-11-28", "2021-11-29"]);
 
-    page.root
-      .querySelector<HTMLTableCellElement>(".inclusive-dates-calendar__date")
-      .click();
+    page.root?.querySelector<HTMLTableCellElement>(".inclusive-dates-calendar__date")?.click();
 
     expect(spy.mock.calls[6][0].detail).toEqual(["2021-11-28"]);
   });
@@ -186,12 +172,12 @@ describe("inclusive-dates-calendar", () => {
 
     const spy = jest.fn();
 
-    page.root.startDate = new Date("2022-01-01");
-    page.root.addEventListener("selectDate", spy);
+    page.root?.startDate = new Date("2022-01-01");
+    page.root?.addEventListener("selectDate", spy);
 
     await page.waitForChanges();
 
-    let currentDate = page.root.querySelector<HTMLTableCellElement>(
+    let currentDate = page.root?.querySelector<HTMLTableCellElement>(
       ".inclusive-dates-calendar__date"
     );
     expect(currentDate.innerText).toContain("choose as start date");
@@ -208,7 +194,7 @@ describe("inclusive-dates-calendar", () => {
 
     await page.waitForChanges();
 
-    currentDate = page.root.querySelector<HTMLTableCellElement>(
+    currentDate = page.root?.querySelector<HTMLTableCellElement>(
       ".inclusive-dates-calendar__date--current"
     );
 
@@ -219,7 +205,7 @@ describe("inclusive-dates-calendar", () => {
 
     await page.waitForChanges();
 
-    currentDate = page.root.querySelector<HTMLTableCellElement>(
+    currentDate = page.root?.querySelector<HTMLTableCellElement>(
       ".inclusive-dates-calendar__date--current"
     );
 
@@ -233,7 +219,7 @@ describe("inclusive-dates-calendar", () => {
       language: "en"
     });
 
-    page.root.startDate = new Date("2022-01-01");
+    page.root!.startDate = new Date("2022-01-01");
 
     await page.waitForChanges();
 
@@ -241,72 +227,63 @@ describe("inclusive-dates-calendar", () => {
     await page.waitForChanges();
 
     expect(
-      page.root.querySelector(".inclusive-dates-calendar__date--current")
-        .children[0].innerHTML
+      page.root?.querySelector(".inclusive-dates-calendar__date--current")?.children[0].innerHTML
     ).toBe("2");
 
     triggerKeyDown(page, "ArrowRight");
     await page.waitForChanges();
 
     expect(
-      page.root.querySelector(".inclusive-dates-calendar__date--current")
-        .children[0].innerHTML
+      page.root?.querySelector(".inclusive-dates-calendar__date--current")?.children[0].innerHTML
     ).toBe("3");
 
     triggerKeyDown(page, "ArrowDown");
     await page.waitForChanges();
 
     expect(
-      page.root.querySelector(".inclusive-dates-calendar__date--current")
-        .children[0].innerHTML
+      page.root?.querySelector(".inclusive-dates-calendar__date--current")?.children[0].innerHTML
     ).toBe("10");
 
     triggerKeyDown(page, "ArrowLeft");
     await page.waitForChanges();
 
     expect(
-      page.root.querySelector(".inclusive-dates-calendar__date--current")
-        .children[0].innerHTML
+      page.root?.querySelector(".inclusive-dates-calendar__date--current")?.children[0].innerHTML
     ).toBe("9");
 
     triggerKeyDown(page, "ArrowUp");
     await page.waitForChanges();
 
     expect(
-      page.root.querySelector(".inclusive-dates-calendar__date--current")
-        .children[0].innerHTML
+      page.root?.querySelector(".inclusive-dates-calendar__date--current")?.children[0].innerHTML
     ).toBe("2");
 
     triggerKeyDown(page, "End");
     await page.waitForChanges();
 
     expect(
-      page.root.querySelector(".inclusive-dates-calendar__date--current")
-        .children[0].innerHTML
+      page.root?.querySelector(".inclusive-dates-calendar__date--current")?.children[0].innerHTML
     ).toBe("31");
 
     triggerKeyDown(page, "Home");
     await page.waitForChanges();
 
     expect(
-      page.root.querySelector(".inclusive-dates-calendar__date--current")
-        .children[0].innerHTML
+      page.root?.querySelector(".inclusive-dates-calendar__date--current")?.children[0].innerHTML
     ).toBe("1");
 
     triggerKeyDown(page, "PageDown");
     await page.waitForChanges();
 
     expect(
-      page.root.querySelector(".inclusive-dates-calendar__date--current")
-        .children[0].innerHTML
+      page.root?.querySelector(".inclusive-dates-calendar__date--current")?.children[0].innerHTML
     ).toBe("1");
 
     triggerKeyDown(page, "PageUp");
     await page.waitForChanges();
 
     expect(
-      page.root.querySelector(".inclusive-dates-calendar__date--current")
-        .children[0].innerHTML
+      page.root?.querySelector(".inclusive-dates-calendar__date--current")?.children[0].innerHTML
     ).toBe("1");
   });
 
@@ -319,12 +296,12 @@ describe("inclusive-dates-calendar", () => {
 
     const spy = jest.fn();
 
-    page.root.addEventListener("selectDate", spy);
-    page.root.value = new Date("1989-05-16");
+    page.root?.addEventListener("selectDate", spy);
+    page.root!.value = new Date("1989-05-16");
 
-    page.root.setAttribute("range", "true");
+    page.root?.setAttribute("range", "true");
 
-    expect(page.root.value).toBeUndefined();
+    expect(page.root?.value).toBeUndefined();
     expect(spy.mock.calls[0][0].detail).toBeUndefined();
   });
 
@@ -337,22 +314,20 @@ describe("inclusive-dates-calendar", () => {
 
     const spy = jest.fn();
 
-    page.root.addEventListener("selectDate", spy);
-    page.root.setAttribute("start-date", "2022-01-01");
-    page.root.disableDate = (date: Date) =>
+    page.root?.addEventListener("selectDate", spy);
+    page.root?.setAttribute("start-date", "2022-01-01");
+    page.root!.disableDate = (date: Date) =>
       getISODateString(date) === "2022-01-01";
 
     await page.waitForChanges();
 
     const dateCell = Array.from(
-      page.root.querySelectorAll<HTMLTableCellElement>(
-        ".inclusive-dates-calendar__date"
-      )
+      page.root?.querySelectorAll<HTMLTableCellElement>(".inclusive-dates-calendar__date") as NodeListOf<HTMLTableCellElement>
     ).find((el) => el.dataset.date === "2022-01-01");
 
-    dateCell.click();
+    dateCell?.click();
 
-    expect(dateCell.getAttribute("aria-disabled")).toBe("true");
+    expect(dateCell?.getAttribute("aria-disabled")).toBe("true");
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -365,38 +340,38 @@ describe("inclusive-dates-calendar", () => {
 
     const spy = jest.fn();
 
-    page.root.addEventListener("selectDate", spy);
-    page.root.setAttribute("start-date", "2022-01-15");
+    page.root?.addEventListener("selectDate", spy);
+    page.root?.setAttribute("start-date", "2022-01-15");
 
     await page.waitForChanges();
 
     const disabledDateCell = Array.from(
-      page.root.querySelectorAll<HTMLTableCellElement>(
+      page.root?.querySelectorAll<HTMLTableCellElement>(
         ".inclusive-dates-calendar__date"
-      )
+      ) as NodeListOf<HTMLTableCellElement>
     ).find((el) => el.dataset.date === "2022-01-04");
 
     let nonDisabledDateCell = Array.from(
-      page.root.querySelectorAll<HTMLTableCellElement>(
+      page.root?.querySelectorAll<HTMLTableCellElement>(
         ".inclusive-dates-calendar__date"
-      )
+      ) as NodeListOf<HTMLTableCellElement>
     ).find((el) => el.dataset.date === "2022-01-15");
 
-    disabledDateCell.click();
+    disabledDateCell?.click();
 
-    expect(disabledDateCell.getAttribute("aria-disabled")).toBe("true");
+    expect(disabledDateCell?.getAttribute("aria-disabled")).toBe("true");
     expect(spy).not.toHaveBeenCalled();
 
-    nonDisabledDateCell.click();
-    expect(nonDisabledDateCell.getAttribute("aria-disabled")).toBe("false");
+    nonDisabledDateCell?.click();
+    expect(nonDisabledDateCell?.getAttribute("aria-disabled")).toBe("false");
     expect(spy).toHaveBeenCalled();
 
     nonDisabledDateCell = Array.from(
-      page.root.querySelectorAll<HTMLTableCellElement>(
+      page.root?.querySelectorAll<HTMLTableCellElement>(
         ".inclusive-dates-calendar__date"
-      )
+      ) as NodeListOf<HTMLTableCellElement>
     ).find((el) => el.dataset.date === "2022-01-05");
-    expect(nonDisabledDateCell.getAttribute("aria-disabled")).toBe("false");
+    expect(nonDisabledDateCell?.getAttribute("aria-disabled")).toBe("false");
   });
 
   it("respects max date", async () => {
@@ -408,37 +383,37 @@ describe("inclusive-dates-calendar", () => {
 
     const spy = jest.fn();
 
-    page.root.addEventListener("selectDate", spy);
-    page.root.setAttribute("start-date", "2022-01-15");
+    page.root?.addEventListener("selectDate", spy);
+    page.root?.setAttribute("start-date", "2022-01-15");
 
     await page.waitForChanges();
 
     const disabledDateCell = Array.from(
-      page.root.querySelectorAll<HTMLTableCellElement>(
+      page.root?.querySelectorAll<HTMLTableCellElement>(
         ".inclusive-dates-calendar__date"
-      )
+      ) as NodeListOf<HTMLTableCellElement>
     ).find((el) => el.dataset.date === "2022-01-30");
 
     let nonDisabledDateCell = Array.from(
-      page.root.querySelectorAll<HTMLTableCellElement>(
+      page.root?.querySelectorAll<HTMLTableCellElement>(
         ".inclusive-dates-calendar__date"
-      )
+      ) as NodeListOf<HTMLTableCellElement>
     ).find((el) => el.dataset.date === "2022-01-20");
 
-    disabledDateCell.click();
+    disabledDateCell?.click();
 
-    expect(disabledDateCell.getAttribute("aria-disabled")).toBe("true");
+    expect(disabledDateCell?.getAttribute("aria-disabled")).toBe("true");
     expect(spy).not.toHaveBeenCalled();
 
-    nonDisabledDateCell.click();
-    expect(nonDisabledDateCell.getAttribute("aria-disabled")).toBe("false");
+    nonDisabledDateCell?.click();
+    expect(nonDisabledDateCell?.getAttribute("aria-disabled")).toBe("false");
 
     nonDisabledDateCell = Array.from(
-      page.root.querySelectorAll<HTMLTableCellElement>(
+      page.root?.querySelectorAll<HTMLTableCellElement>(
         ".inclusive-dates-calendar__date"
-      )
+      ) as NodeListOf<HTMLTableCellElement>
     ).find((el) => el.dataset.date === "2022-01-29");
-    expect(nonDisabledDateCell.getAttribute("aria-disabled")).toBe("false");
+    expect(nonDisabledDateCell?.getAttribute("aria-disabled")).toBe("false");
   });
 
   it("changes months", async () => {
@@ -449,62 +424,62 @@ describe("inclusive-dates-calendar", () => {
     });
 
     const spy = jest.fn();
-    page.root.addEventListener("changeMonth", spy);
+    page.root?.addEventListener("changeMonth", spy);
 
-    const monthSelect = page.root.querySelector<HTMLSelectElement>(
+    const monthSelect = page.root?.querySelector<HTMLSelectElement>(
       ".inclusive-dates-calendar__month-select"
     );
 
-    const header = page.root.querySelector<HTMLElement>(
+    const header = page.root?.querySelector<HTMLElement>(
       ".inclusive-dates-calendar__header"
     );
 
-    const previousMonthButton = page.root.querySelector<HTMLButtonElement>(
+    const previousMonthButton = page.root?.querySelector<HTMLButtonElement>(
       ".inclusive-dates-calendar__previous-month-button"
     );
 
-    const nextMonthButton = page.root.querySelector<HTMLButtonElement>(
+    const nextMonthButton = page.root?.querySelector<HTMLButtonElement>(
       ".inclusive-dates-calendar__next-month-button"
     );
 
-    expect(header.innerText.startsWith("February")).toBeTruthy();
+    expect(header?.innerText.startsWith("February")).toBeTruthy();
 
-    monthSelect.value = "5";
-    monthSelect.dispatchEvent(new Event("change"));
+    monthSelect!.value = "5";
+    monthSelect?.dispatchEvent(new Event("change"));
 
     await page.waitForChanges();
 
-    expect(header.innerText.startsWith("May")).toBeTruthy();
+    expect(header?.innerText.startsWith("May")).toBeTruthy();
     expect(spy.mock.calls[0][0].detail).toEqual({ month: 5, year: 2022 });
 
-    previousMonthButton.click();
+    previousMonthButton?.click();
     await page.waitForChanges();
 
-    expect(header.innerText.startsWith("April")).toBeTruthy();
+    expect(header?.innerText.startsWith("April")).toBeTruthy();
     expect(spy.mock.calls[1][0].detail).toEqual({ month: 4, year: 2022 });
 
-    nextMonthButton.click();
+    nextMonthButton?.click();
     await page.waitForChanges();
 
-    expect(header.innerText.startsWith("May")).toBeTruthy();
+    expect(header?.innerText.startsWith("May")).toBeTruthy();
     expect(spy.mock.calls[2][0].detail).toEqual({ month: 5, year: 2022 });
 
-    nextMonthButton.click(); // Should not work - max date has been set
+    nextMonthButton?.click(); // Should not work - max date has been set
     await page.waitForChanges();
 
-    expect(header.innerText.startsWith("May")).toBeTruthy();
+    expect(header?.innerText.startsWith("May")).toBeTruthy();
     expect(spy.mock.calls[2][0].detail).toEqual({ month: 5, year: 2022 });
-    expect(previousMonthButton.getAttribute("disabled")).toEqual(null);
+    expect(previousMonthButton?.getAttribute("disabled")).toEqual(null);
 
-    monthSelect.value = "2";
-    monthSelect.dispatchEvent(new Event("change"));
+    monthSelect!.value = "2";
+    monthSelect?.dispatchEvent(new Event("change"));
     await page.waitForChanges();
 
-    previousMonthButton.click(); // Should not work - min date has been set
-    monthSelect.dispatchEvent(new Event("change"));
+    previousMonthButton?.click(); // Should not work - min date has been set
+    monthSelect?.dispatchEvent(new Event("change"));
     await page.waitForChanges();
 
-    expect(header.innerText.startsWith("February")).toBeTruthy();
+    expect(header?.innerText.startsWith("February")).toBeTruthy();
     // expect(previousMonthButton.getAttribute("disabled")).toEqual("");
   });
 
@@ -516,65 +491,65 @@ describe("inclusive-dates-calendar", () => {
     });
 
     const spy = jest.fn();
-    page.root.addEventListener("changeMonth", spy);
+    page.root?.addEventListener("changeMonth", spy);
 
-    const yearSelect = page.root.querySelector<HTMLInputElement>(
+    const yearSelect = page.root?.querySelector<HTMLInputElement>(
       ".inclusive-dates-calendar__year-select"
     );
 
-    const header = page.root.querySelector<HTMLElement>(
+    const header = page.root?.querySelector<HTMLElement>(
       ".inclusive-dates-calendar__header"
     );
 
-    const previousYearButton = page.root.querySelector<HTMLButtonElement>(
+    const previousYearButton = page.root?.querySelector<HTMLButtonElement>(
       ".inclusive-dates-calendar__previous-year-button"
     );
 
-    const nextYearButton = page.root.querySelector<HTMLButtonElement>(
+    const nextYearButton = page.root?.querySelector<HTMLButtonElement>(
       ".inclusive-dates-calendar__next-year-button"
     );
 
-    expect(header.innerText.includes("2022")).toBeTruthy();
+    expect(header?.innerText.includes("2022")).toBeTruthy();
 
-    yearSelect.value = "1989";
-    yearSelect.dispatchEvent(new Event("change"));
+    yearSelect!.value = "1989";
+    yearSelect?.dispatchEvent(new Event("change"));
 
     await page.waitForChanges();
 
-    expect(header.innerText.includes("1989")).toBeTruthy();
+    expect(header?.innerText.includes("1989")).toBeTruthy();
     expect(spy.mock.calls[0][0].detail).toEqual({ month: 1, year: 1989 });
 
-    previousYearButton.click();
+    previousYearButton?.click();
     await page.waitForChanges();
 
-    expect(header.innerText.includes("1988")).toBeTruthy();
+    expect(header?.innerText.includes("1988")).toBeTruthy();
     expect(spy.mock.calls[1][0].detail).toEqual({ month: 1, year: 1988 });
 
-    nextYearButton.click();
+    nextYearButton?.click();
     await page.waitForChanges();
 
-    expect(header.innerText.includes("1989")).toBeTruthy();
+    expect(header?.innerText.includes("1989")).toBeTruthy();
     expect(spy.mock.calls[2][0].detail).toEqual({ month: 1, year: 1989 });
 
-    yearSelect.value = "2025";
-    yearSelect.dispatchEvent(new Event("change"));
+    yearSelect!.value = "2025";
+    yearSelect?.dispatchEvent(new Event("change"));
     await page.waitForChanges();
 
-    nextYearButton.click();
+    nextYearButton?.click();
     await page.waitForChanges();
 
-    expect(header.innerText.includes("2026")).toBeFalsy();
-    expect(nextYearButton.getAttribute("aria-disabled")).toBe("");
+    expect(header?.innerText.includes("2026")).toBeFalsy();
+    expect(nextYearButton?.getAttribute("aria-disabled")).toBe("");
 
-    yearSelect.value = "1988";
-    yearSelect.dispatchEvent(new Event("change"));
+    yearSelect!.value = "1988";
+    yearSelect?.dispatchEvent(new Event("change"));
     await page.waitForChanges();
 
-    previousYearButton.click();
+    previousYearButton?.click();
     await page.waitForChanges();
 
-    expect(header.innerText.includes("1987")).toBeFalsy();
-    expect(previousYearButton.getAttribute("aria-disabled")).toBe("");
+    expect(header?.innerText.includes("1987")).toBeFalsy();
+    expect(previousYearButton?.getAttribute("aria-disabled")).toBe("");
   });
 
   it("jumps to current month", async () => {
@@ -584,23 +559,23 @@ describe("inclusive-dates-calendar", () => {
       language: "en"
     });
 
-    const todayButton = page.root.querySelector<HTMLButtonElement>(
+    const todayButton = page.root?.querySelector<HTMLButtonElement>(
       ".inclusive-dates-calendar__today-button"
     );
 
-    const header = page.root.querySelector<HTMLElement>(
+    const header = page.root?.querySelector<HTMLElement>(
       ".inclusive-dates-calendar__header"
     );
 
     const today = new Date();
 
-    expect(header.innerText.includes("January 1989")).toBeTruthy();
+    expect(header?.innerText.includes("January 1989")).toBeTruthy();
 
-    todayButton.click();
+    todayButton?.click();
     await page.waitForChanges();
 
     expect(
-      header.innerText.includes(
+      header?.innerText.includes(
         Intl.DateTimeFormat("en-US", {
           month: "long",
           year: "numeric"
@@ -618,19 +593,17 @@ describe("inclusive-dates-calendar", () => {
 
     const spy = jest.fn();
 
-    const clearButton = page.root.querySelector<HTMLButtonElement>(
+    const clearButton = page.root?.querySelector<HTMLButtonElement>(
       ".inclusive-dates-calendar__clear-button"
     );
 
-    page.root.addEventListener("selectDate", spy);
+    page.root?.addEventListener("selectDate", spy);
 
-    page.root
-      .querySelector<HTMLTableCellElement>(".inclusive-dates-calendar__date")
-      .click();
+    page.root?.querySelector<HTMLTableCellElement>(".inclusive-dates-calendar__date")?.click();
 
     expect(spy.mock.calls[0][0].detail).toBe("2021-12-26");
 
-    clearButton.click();
+    clearButton?.click();
     await page.waitForChanges();
 
     expect(spy.mock.calls[1][0].detail).toBe(undefined);
@@ -645,21 +618,19 @@ describe("inclusive-dates-calendar", () => {
 
     const spy = jest.fn();
 
-    page.root.startDate = new Date("2022-01-01");
-    page.root.addEventListener("selectDate", spy);
-    page.root.addEventListener("changeMonth", spy);
+    page.root!.startDate = new Date("2022-01-01");
+    page.root?.addEventListener("selectDate", spy);
+    page.root?.addEventListener("changeMonth", spy);
 
     await page.waitForChanges();
 
-    page.root
-      .querySelector<HTMLTableCellElement>(".inclusive-dates-calendar__date")
-      .click();
+    page.root?.querySelector<HTMLTableCellElement>(".inclusive-dates-calendar__date")?.click();
 
     triggerKeyDown(page, "ArrowRight");
     triggerKeyDown(page, "Space");
 
     expect(
-      page.root.children[0].classList.contains(
+      page.root?.children[0].classList.contains(
         "inclusive-dates-calendar--disabled"
       )
     ).toBeTruthy();

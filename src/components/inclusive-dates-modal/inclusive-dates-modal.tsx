@@ -26,12 +26,12 @@ export class InclusiveDatesModal {
   @Prop() inline?: boolean = false;
   @State() closing = false;
   @State() showing = this.inline || false;
-  @Event() opened: EventEmitter;
-  @Event() closed: EventEmitter;
+  @Event() opened!: EventEmitter;
+  @Event() closed!: EventEmitter;
 
-  private triggerElement: HTMLElement;
-  private el: HTMLElement;
-  private undo: () => void;
+  private triggerElement!: HTMLElement;
+  private el!: HTMLElement;
+  private undo!: () => void;
 
   /**
    * Open the dialog.
@@ -72,7 +72,7 @@ export class InclusiveDatesModal {
   };
 
   @Listen("click", { capture: true, target: "window" })
-  handleClick(event) {
+  handleClick(event: MouseEvent) {
     if (this.showing && !this.el.contains(event.target as Node)) {
       this.close();
     }
@@ -82,9 +82,7 @@ export class InclusiveDatesModal {
     return (
       <Host
         showing={this.showing}
-        ref={(r) => {
-          this.el = r;
-        }}
+        ref={(r) => r && (this.el = r)}
       >
         {!this.inline && this.showing && (
           <div

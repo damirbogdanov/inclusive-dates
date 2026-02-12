@@ -79,17 +79,17 @@ export interface MonthChangedEventDetails {
   tag: "inclusive-dates-calendar"
 })
 export class InclusiveDatesCalendar {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   @Prop() clearButtonContent?: string;
-  @Prop() disabled?: boolean = false;
+  @Prop() disabled: boolean = false;
   @Prop() modalIsOpen?: boolean = false;
 
-  @Prop() disableDate?: (date: Date) => boolean = () => false;
-  @Prop() elementClassName?: string = "inclusive-dates-calendar";
-  @Prop() firstDayOfWeek?: number = 0;
+  @Prop() disableDate: (date: Date) => boolean = () => false;
+  @Prop() elementClassName: string = "inclusive-dates-calendar";
+  @Prop() firstDayOfWeek: number = 0;
   @Prop() range?: boolean = false;
-  @Prop() labels?: InclusiveDatesCalendarLabels = defaultLabels;
+  @Prop() labels: InclusiveDatesCalendarLabels = defaultLabels;
   @Prop() locale?: string = navigator?.language || "en-US";
   @Prop() nextMonthButtonContent?: string;
   @Prop() nextYearButtonContent?: string;
@@ -97,7 +97,7 @@ export class InclusiveDatesCalendar {
   @Prop() previousYearButtonContent?: string;
   @Prop() minDate?: string;
   @Prop() maxDate?: string;
-  @Prop() inline?: boolean = false;
+  @Prop() inline: boolean = false;
   @Prop() showClearButton?: boolean = false;
   @Prop() showMonthStepper?: boolean = true;
   @Prop() showTodayButton?: boolean = true;
@@ -106,17 +106,17 @@ export class InclusiveDatesCalendar {
   @Prop() showHiddenTitle?: boolean = true;
   @Prop() startDate?: string = getISODateString(new Date());
   @Prop() todayButtonContent?: string;
-  @Prop({ mutable: true }) value?: Date | Date[];
+  @Prop({ mutable: true }) value?: Date | Date[] | null;
 
-  @State() currentDate: Date;
-  @State() hoveredDate: Date;
-  @State() weekdays: string[][];
+  @State() currentDate!: Date;
+  @State() hoveredDate?: Date;
+  @State() weekdays?: string[][];
 
-  @Event() selectDate: EventEmitter<string | string[] | undefined>;
-  @Event() changeMonth: EventEmitter<MonthChangedEventDetails>;
+  @Event() selectDate?: EventEmitter<string | string[] | undefined>;
+  @Event() changeMonth?: EventEmitter<MonthChangedEventDetails>;
 
-  private moveFocusAfterMonthChanged: Boolean;
-  private moveFocusOnModalOpen: Boolean;
+  private moveFocusAfterMonthChanged?: Boolean;
+  private moveFocusOnModalOpen?: Boolean;
 
   componentWillLoad() {
     this.init();
@@ -144,7 +144,7 @@ export class InclusiveDatesCalendar {
   @Watch("range")
   watchRange() {
     this.value = undefined;
-    this.selectDate.emit(undefined);
+    this.selectDate?.emit(undefined);
   }
 
   @Watch("startDate")
@@ -165,12 +165,12 @@ export class InclusiveDatesCalendar {
     }
   }
   @Watch("minDate")
-  watchMinDate(newValue) {
+  watchMinDate(newValue: string) {
     this.minDate = newValue;
   }
 
   @Watch("maxDate")
-  watchMaxDate(newValue) {
+  watchMaxDate(newValue: string) {
     this.maxDate = newValue;
   }
 
@@ -232,8 +232,8 @@ export class InclusiveDatesCalendar {
     }).format(this.currentDate);
   }
 
-  private focusDate(date: Date) {
-    this.el
+  private focusDate(date?: Date) {
+    date && this.el
       .querySelector<HTMLTableCellElement>(
         `[data-date="${getISODateString(date)}"]`
       )
@@ -245,16 +245,16 @@ export class InclusiveDatesCalendar {
     const year = date.getFullYear();
 
     if (!dateIsWithinLowerBounds(date, this.minDate))
-      date = new Date(this.minDate);
+      date = new Date(this.minDate!);
     if (!dateIsWithinUpperBounds(date, this.maxDate))
-      date = new Date(this.maxDate);
+      date = new Date(this.maxDate!);
 
     const monthChanged =
-      month !== this.currentDate.getMonth() ||
+      month !== this.currentDate?.getMonth() ||
       year !== this.currentDate.getFullYear();
 
     if (monthChanged) {
-      this.changeMonth.emit({ month: getMonth(date), year: getYear(date) });
+      this.changeMonth?.emit({ month: getMonth(date), year: getYear(date) });
 
       if (moveFocus) {
         this.moveFocusAfterMonthChanged = true;
@@ -292,20 +292,20 @@ export class InclusiveDatesCalendar {
           : [getISODateString(newValue[0]), getISODateString(newValue[1])];
 
       this.value = newValue;
-      this.selectDate.emit(isoValue);
+      this.selectDate?.emit(isoValue as string[] | undefined);
     } else {
       if (this.value?.getTime() === date.getTime()) {
         return;
       }
 
       this.value = date;
-      this.selectDate.emit(getISODateString(date));
+      this.selectDate?.emit(getISODateString(date));
     }
   }
 
-  // @ts-ignore
-  private isRangeValue(value: Date | Date[]): value is Date[] {
-    return this.range;
+
+  private isRangeValue(_value?: Date | Date[] | null): _value is Date[] {
+    return !!this.range;
   }
 
   private nextMonth = () => {
@@ -330,7 +330,7 @@ export class InclusiveDatesCalendar {
 
   private clear = () => {
     this.value = undefined;
-    this.selectDate.emit(undefined);
+    this.selectDate?.emit(undefined);
   };
 
   private onClick = (event: Event) => {
@@ -346,7 +346,7 @@ export class InclusiveDatesCalendar {
       return;
     }
 
-    const date = removeTimezoneOffset(new Date(target.dataset.date));
+    const date = removeTimezoneOffset(new Date(target!.dataset.date!));
 
     this.updateCurrentDate(date);
     this.onSelectDate(date);
@@ -425,7 +425,7 @@ export class InclusiveDatesCalendar {
     }
 
     const date = removeTimezoneOffset(
-      new Date((event.target as HTMLElement).closest("td").dataset.date)
+      new Date((event.target as HTMLElement).closest("td")?.dataset.date!)
     );
 
     this.hoveredDate = date;
@@ -438,6 +438,30 @@ export class InclusiveDatesCalendar {
   render() {
     const showFooter =
       this.showTodayButton || this.showClearButton || this.showKeyboardHint;
+
+    const disabled = {
+      year: {
+        prev:  this.disabled || (!!this.minDate && new Date(this.minDate).getFullYear() > getPreviousYear(this.currentDate).getFullYear()),
+        next: this.disabled || (!!this.maxDate && new Date(this.maxDate).getFullYear() < getNextYear(this.currentDate).getFullYear())
+      },
+      month: {
+        prev: this.disabled ||
+              monthIsDisabled(
+                getPreviousMonth(this.currentDate).getMonth(),
+                getPreviousMonth(this.currentDate).getFullYear(),
+                this.minDate,
+                this.maxDate
+              ),
+        next: this.disabled ||
+              monthIsDisabled(
+                getNextMonth(this.currentDate).getMonth(),
+                getNextMonth(this.currentDate).getFullYear(),
+                this.minDate,
+                this.maxDate
+              )
+      }
+
+    }
 
     return (
       <Host>
@@ -463,11 +487,7 @@ export class InclusiveDatesCalendar {
               <button
                 aria-label={this.labels.previousYearButton}
                 class={this.getClassName("previous-year-button")}
-                aria-disabled={
-                  this.disabled ||
-                  new Date(this.minDate).getFullYear() >
-                    getPreviousYear(this.currentDate).getFullYear()
-                }
+                aria-disabled={disabled.year.prev}
                 innerHTML={this.previousYearButtonContent || undefined}
                 onClick={this.previousYear}
                 type="button"
@@ -491,15 +511,7 @@ export class InclusiveDatesCalendar {
               <button
                 aria-label={this.labels.previousMonthButton}
                 class={this.getClassName("previous-month-button")}
-                aria-disabled={
-                  this.disabled ||
-                  monthIsDisabled(
-                    getPreviousMonth(this.currentDate).getMonth(),
-                    getPreviousMonth(this.currentDate).getFullYear(),
-                    this.minDate,
-                    this.maxDate
-                  )
-                }
+                aria-disabled={disabled.month.prev}
                 innerHTML={this.previousMonthButtonContent || undefined}
                 onClick={this.previousMonth}
                 type="button"
@@ -561,13 +573,7 @@ export class InclusiveDatesCalendar {
                 aria-label={this.labels.nextMonthButton}
                 class={this.getClassName("next-month-button")}
                 aria-disabled={
-                  this.disabled ||
-                  monthIsDisabled(
-                    getNextMonth(this.currentDate).getMonth(),
-                    getNextMonth(this.currentDate).getFullYear(),
-                    this.minDate,
-                    this.maxDate
-                  )
+                  disabled.month.next
                 }
                 innerHTML={this.nextMonthButtonContent || undefined}
                 onClick={this.nextMonth}
@@ -591,11 +597,7 @@ export class InclusiveDatesCalendar {
               <button
                 aria-label={this.labels.nextYearButton}
                 class={this.getClassName("next-year-button")}
-                aria-disabled={
-                  this.disabled ||
-                  new Date(this.maxDate).getFullYear() <
-                    getNextYear(this.currentDate).getFullYear()
-                }
+                aria-disabled={disabled.year.next}
                 innerHTML={this.nextYearButtonContent || undefined}
                 onClick={this.nextYear}
                 type="button"
@@ -626,7 +628,7 @@ export class InclusiveDatesCalendar {
             >
               <thead class={this.getClassName("calendar-header")}>
                 <tr class={this.getClassName("weekday-row")}>
-                  {this.weekdays.map((weekday) => (
+                  {this.weekdays?.map((weekday) => (
                     <th
                       role="columnheader"
                       abbr={weekday[1]}
@@ -651,7 +653,7 @@ export class InclusiveDatesCalendar {
                         const isCurrent = isSameDay(day, this.currentDate);
 
                         const isOverflowing =
-                          day.getMonth() !== this.currentDate.getMonth();
+                          day.getMonth() !== this.currentDate?.getMonth();
 
                         const isSelected = Array.isArray(this.value)
                           ? isSameDay(day, this.value[0]) ||
@@ -667,7 +669,7 @@ export class InclusiveDatesCalendar {
                           this.disableDate(day) ||
                           !dateIsWithinBounds(day, this.minDate, this.maxDate);
 
-                        const isInRange = !this.isRangeValue
+                        const isInRange = !this.isRangeValue(this.value)
                           ? false
                           : isDateInRange(day, {
                               from: this.value?.[0],
@@ -691,7 +693,7 @@ export class InclusiveDatesCalendar {
                               suffix = {
                                 1: `, ${this.labels.chooseAsEndDate}.`,
                                 2: `, ${this.labels.chooseAsStartDate}.`
-                              }[this.value.length];
+                              }[this.value.length] as string;
                             }
 
                             return `${

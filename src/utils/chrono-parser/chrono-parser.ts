@@ -63,7 +63,7 @@ export const chronoParseDate = async (
 
   let parsedDate;
   if (useStrict)
-    parsedDate = await chrono[locale].strict.parseDate(
+    parsedDate = await chrono[locale as supportedChronoLocales].strict.parseDate(
       dateString,
       {
         instant: referenceDate,
@@ -134,12 +134,12 @@ export const chronoParseRange = async (
   // Return if Chrono is not supported
   if (!chronoSupportedLocale) {
     const possibleDates = extractDates(dateString);
-    possibleDates.filter((dateString) => isValidISODate(dateString));
-    if (possibleDates.length > 0)
+    possibleDates?.filter((dateString) => isValidISODate(dateString));
+    if ((possibleDates || []).length > 0)
       return {
         value: {
-          start: removeTimezoneOffset(new Date(possibleDates[0])),
-          end: possibleDates[1]
+          start: removeTimezoneOffset(new Date(possibleDates?.[0] as string)),
+          end: possibleDates?.[1]
             ? removeTimezoneOffset(new Date(possibleDates[1]))
             : undefined
         }
@@ -158,7 +158,7 @@ export const chronoParseRange = async (
 
   let parsedRange: ParsedResult[];
   if (useStrict)
-    parsedRange = await chrono[locale].strict.parse(
+    parsedRange = await chrono[locale as supportedChronoLocales].strict.parse(
       dateString,
       {
         instant: referenceDate,
@@ -196,14 +196,18 @@ export const chronoParseRange = async (
   )
     endDate = parsedRange[0].end.date();
 
-  const returnValue = { value: { start: null, end: null } };
+  const returnValue: Partial<ChronoParsedRange> = { value: { start: null, end: null } };
 
+  // TODO: fix this
+  // @ts-ignore
   if (startDate instanceof Date || endDate instanceof Date) {
+    // @ts-ignore
     if (startDate && dateIsWithinBounds(startDate, minDate, maxDate))
-      returnValue.value.start = startDate;
+      returnValue.value!.start = startDate;
+    // @ts-ignore
     if (endDate && dateIsWithinBounds(endDate, minDate, maxDate))
-      returnValue.value.end = endDate;
-    if (returnValue.value.start !== null || returnValue.value.end !== null)
+      returnValue.value!.end = endDate;
+    if (returnValue.value?.start !== null || returnValue.value.end !== null)
       return returnValue;
     else return { value: null, reason: "rangeOutOfBounds" };
   } else return { value: null, reason: "invalid" };

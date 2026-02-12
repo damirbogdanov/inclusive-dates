@@ -1,6 +1,21 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "declaration": false,
+    "experimentalDecorators": true,
+    "lib": ["dom", "es2017"],
+    "moduleResolution": "node",
+    "module": "esnext",
+    "target": "es2017",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "h",
     "skipLibCheck": true
   },
   "exclude": ["node_modules", "**/*.stories.ts", "**/*.stories.tsx", "**/*.mdx", "**/*.spec.ts", "**/*.spec.tsx"]

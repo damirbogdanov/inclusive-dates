@@ -8,8 +8,8 @@ export function addDays(date: Date, days: number): Date {
 
 export function getDaysOfMonth(
   date: Date,
-  padded?: boolean,
-  firstDayOfWeek?: number
+  padded: boolean,
+  firstDayOfWeek: number
 ): Date[] {
   const days: Date[] = [];
   const firstOfMonth = getFirstOfMonth(date);
@@ -63,7 +63,7 @@ export function getFirstOfMonth(date: Date): Date {
   return firstOfMonth;
 }
 
-export function getISODateString(date: Date): string {
+function getISODateStringHistoricalImplementation(date: Date): string | undefined {
   if (!(date instanceof Date)) {
     return;
   }
@@ -71,6 +71,12 @@ export function getISODateString(date: Date): string {
     2,
     "0"
   )}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+export function getISODateString(date: Date): string {
+  // this is a lie, but can have unpredictable issues because heavily used,
+  // so atm keeping historical implementation, until better test coverage and confidence is achieved
+  return getISODateStringHistoricalImplementation(date) as string;
 }
 
 export function getLastOfMonth(date: Date): Date {
@@ -173,7 +179,7 @@ export function isDateInRange(date: Date, range: { from: Date; to: Date }) {
   return date >= earlyDate && date <= laterDate;
 }
 
-export function isSameDay(date1?: Date, date2?: Date) {
+export function isSameDay(date1?: Date | null, date2?: Date | null) {
   if (!date1 || !date2) {
     return false;
   }
@@ -229,8 +235,8 @@ export function dateIsWithinBounds(
 export function monthIsDisabled(
   month: number,
   year: number,
-  minDate: string,
-  maxDate: string
+  minDate?: string,
+  maxDate?: string
 ) {
   const firstDate = new Date(year, month, 1);
   firstDate.setDate(firstDate.getDate() - 1);
@@ -242,7 +248,7 @@ export function monthIsDisabled(
   );
 }
 
-export function isValidISODate(dateString) {
+export function isValidISODate(dateString: string): boolean {
   var isoFormat = /^\d{4}-\d{2}-\d{2}$/;
   if (dateString.match(isoFormat) == null) {
     return false;
@@ -252,8 +258,8 @@ export function isValidISODate(dateString) {
   }
 }
 
-export function extractDates(text) {
+export function extractDates(text: string) {
   var dateRegex = /\d{4}-\d{2}-\d{2}/g;
   var matches = text.match(dateRegex);
-  return matches.slice(0, 2);
+  return matches?.slice(0, 2);
 }

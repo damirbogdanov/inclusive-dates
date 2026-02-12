@@ -46,7 +46,7 @@ describe("format", () => {
         (_, index) => new Date(`2022-01-${String(index + 1).padStart(2, "0")}`)
       );
 
-    expect(getDaysOfMonth(new Date("2022-01-01"))).toEqual(expected);
+    expect(getDaysOfMonth(new Date("2022-01-01"), false, 0)).toEqual(expected);
 
     expect(getDaysOfMonth(new Date("2022-01-01"), true, 3)).toEqual([
       new Date("2021-12-29"),

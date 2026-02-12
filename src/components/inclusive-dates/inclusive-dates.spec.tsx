@@ -5,15 +5,15 @@ function getDatePicker(page: SpecPage): HTMLInclusiveDatesElement {
   return page.root as HTMLInclusiveDatesElement;
 }
 function getInput(page: SpecPage): HTMLInputElement {
-  return page.root.querySelector<HTMLInputElement>(".inclusive-dates__input");
+  return page.root?.querySelector<HTMLInputElement>(".inclusive-dates__input") as HTMLInputElement;
 }
 function getLabel(page: SpecPage): HTMLLabelElement {
-  return page.root.querySelector<HTMLLabelElement>(".inclusive-dates__label");
+  return page.root?.querySelector<HTMLLabelElement>(".inclusive-dates__label") as HTMLLabelElement;
 }
 function getQuickButtons(page: SpecPage): NodeListOf<HTMLButtonElement> {
-  return page.root.querySelectorAll<HTMLButtonElement>(
+  return page.root?.querySelectorAll<HTMLButtonElement>(
     ".inclusive-dates__quick-button"
-  );
+  ) as NodeListOf<HTMLButtonElement>;
 }
 
 // function getCalendarButton(page: SpecPage): HTMLButtonElement {
@@ -85,7 +85,7 @@ describe("inclusive-dates", () => {
     expect(input.value).toContain("50 years ago");
     expect(input.getAttribute("aria-invalid")).toEqual("");
     expect(
-      page.root.querySelectorAll(".inclusive-dates__input-error")
+      page.root?.querySelectorAll(".inclusive-dates__input-error")
     ).toHaveLength(1);
 
     input.value = "In 50 years"; // Max-date error
@@ -94,7 +94,7 @@ describe("inclusive-dates", () => {
     expect(input.value).toContain("In 50 years");
     expect(input.getAttribute("aria-invalid")).toEqual("");
     expect(
-      page.root.querySelectorAll(".inclusive-dates__input-error")
+      page.root?.querySelectorAll(".inclusive-dates__input-error")
     ).toHaveLength(1);
   });
 
@@ -287,7 +287,7 @@ describe("inclusive-dates", () => {
     expect(input.getAttribute("aria-invalid")).toEqual("");
 
     // Dates are not formatted when input-should-format="false"
-    page.root.setAttribute("input-should-format", "false");
+    page.root?.setAttribute("input-should-format", "false");
     input.value = "June 8 2023";
     input.dispatchEvent(new Event("change"));
     await page.waitForChanges();
@@ -322,7 +322,7 @@ describe("inclusive-dates", () => {
     expect(input.getAttribute("aria-invalid")).toEqual("");
 
     // Dates are not formatted when input-should-format="false"
-    page.root.setAttribute("input-should-format", "false");
+    page.root?.setAttribute("input-should-format", "false");
     input.value = "June 8 - 12 2023";
     input.dispatchEvent(new Event("change"));
     await page.waitForChanges();

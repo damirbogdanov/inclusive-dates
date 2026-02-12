@@ -19,7 +19,7 @@ async function parseDateWithOptions(
     referenceDate: referenceDate,
     ...options
   });
-  return { value: parsedDate.value, reason: parsedDate.reason };
+  return { value: parsedDate?.value, reason: parsedDate?.reason };
 }
 
 async function parseRangeWithOptions(
@@ -35,62 +35,62 @@ async function parseRangeWithOptions(
     referenceDate: referenceDate,
     ...options
   });
-  return { value: parsedRange.value, reason: parsedRange.reason };
+  return { value: parsedRange?.value, reason: parsedRange?.reason };
 }
 
 describe("Chrono date parser", () => {
   it("correctly parses absolute dates in English", async () => {
     let parsedDate = await parseDateWithOptions("January 15");
-    expect(isSameDay(parsedDate.value, new Date("2023-01-15"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-01-15"))).toBeTruthy();
 
     parsedDate = await parseDateWithOptions("February tenth");
-    expect(isSameDay(parsedDate.value, new Date("2023-02-10"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-02-10"))).toBeTruthy();
 
     parsedDate = await parseDateWithOptions("01-10-24");
-    expect(isSameDay(parsedDate.value, new Date("2024-01-10"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2024-01-10"))).toBeTruthy();
 
     parsedDate = await parseDateWithOptions("01/10/24");
-    expect(isSameDay(parsedDate.value, new Date("2024-01-10"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2024-01-10"))).toBeTruthy();
 
     parsedDate = await parseDateWithOptions("2024-01-10");
-    expect(isSameDay(parsedDate.value, new Date("2024-01-10"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2024-01-10"))).toBeTruthy();
 
     parsedDate = await parseDateWithOptions("Twenty second of September");
-    expect(isSameDay(parsedDate.value, new Date("2023-09-22"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-09-22"))).toBeTruthy();
 
     parsedDate = await parseDateWithOptions("June 1984");
-    expect(isSameDay(parsedDate.value, new Date("1984-06-01"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("1984-06-01"))).toBeTruthy();
 
     parsedDate = await parseDateWithOptions(
       "I want to book a ticket on the tenth of september"
     );
-    expect(isSameDay(parsedDate.value, new Date("2023-09-10"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-09-10"))).toBeTruthy();
   });
 
   it("correctly parses relative dates in English", async () => {
     let parsedDate = await parseDateWithOptions("today");
-    expect(isSameDay(parsedDate.value, new Date("2023-01-11"))).toBeTruthy();
-    expect(isSameDay(parsedDate.value, new Date("2023-01-12"))).toBeFalsy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-01-11"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-01-12"))).toBeFalsy();
 
     parsedDate = await parseDateWithOptions("tomorrow");
-    expect(isSameDay(parsedDate.value, new Date("2023-01-12"))).toBeTruthy();
-    expect(isSameDay(parsedDate.value, new Date("2023-01-11"))).toBeFalsy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-01-12"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-01-11"))).toBeFalsy();
 
     parsedDate = await parseDateWithOptions("yesterday");
-    expect(isSameDay(parsedDate.value, new Date("2023-01-10"))).toBeTruthy();
-    expect(isSameDay(parsedDate.value, new Date("2023-01-11"))).toBeFalsy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-01-10"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-01-11"))).toBeFalsy();
 
     parsedDate = await parseDateWithOptions("next year");
-    expect(isSameDay(parsedDate.value, new Date("2024-01-11"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2024-01-11"))).toBeTruthy();
 
     parsedDate = await parseDateWithOptions("in ten days");
-    expect(isSameDay(parsedDate.value, new Date("2023-01-21"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-01-21"))).toBeTruthy();
 
     parsedDate = await parseDateWithOptions("in ten years");
-    expect(isSameDay(parsedDate.value, new Date("2033-01-11"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2033-01-11"))).toBeTruthy();
 
     parsedDate = await parseDateWithOptions("in eleven months");
-    expect(isSameDay(parsedDate.value, new Date("2023-12-11"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-12-11"))).toBeTruthy();
   });
 
   it("can parse range dates", async () => {
@@ -98,70 +98,70 @@ describe("Chrono date parser", () => {
       "from january 25 to january 30"
     );
     expect(
-      isSameDay(parsedRange.value.start, new Date("2023-01-25"))
+      isSameDay(parsedRange?.value?.start, new Date("2023-01-25"))
     ).toBeTruthy();
     expect(
-      isSameDay(parsedRange.value.end, new Date("2023-01-30"))
+      isSameDay(parsedRange?.value?.end, new Date("2023-01-30"))
     ).toBeTruthy();
 
     parsedRange = await parseRangeWithOptions("june 1984 - february 1990");
     expect(
-      isSameDay(parsedRange.value.start, new Date("1984-06-01"))
+      isSameDay(parsedRange?.value?.start, new Date("1984-06-01"))
     ).toBeTruthy();
     expect(
-      isSameDay(parsedRange.value.end, new Date("1990-02-01"))
+      isSameDay(parsedRange?.value?.end, new Date("1990-02-01"))
     ).toBeTruthy();
 
     parsedRange = await parseRangeWithOptions(
       "june second 2008 - june third 2008"
     );
     expect(
-      isSameDay(parsedRange.value.start, new Date("2008-06-02"))
+      isSameDay(parsedRange?.value?.start, new Date("2008-06-02"))
     ).toBeTruthy();
     expect(
-      isSameDay(parsedRange.value.end, new Date("2008-06-03"))
+      isSameDay(parsedRange?.value?.end, new Date("2008-06-03"))
     ).toBeTruthy();
 
     parsedRange = await parseRangeWithOptions("june second 2008");
     expect(
-      isSameDay(parsedRange.value.start, new Date("2008-06-02"))
+      isSameDay(parsedRange?.value?.start, new Date("2008-06-02"))
     ).toBeTruthy();
-    expect(parsedRange.value.end).toBeNull();
+    expect(parsedRange?.value?.end).toBeNull();
   });
 
   it("adapts to different reference dates", async () => {
     let parsedDate = await parseDateWithOptions("today", {
       referenceDate: new Date("2023-02-02")
     });
-    expect(isSameDay(parsedDate.value, new Date("2023-02-02"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-02-02"))).toBeTruthy();
   });
 
   it("can use strict mode", async () => {
     let parsedDate = await parseDateWithOptions("today", { useStrict: true });
-    expect(parsedDate.value).toBeNull();
-    expect(parsedDate.reason).toEqual("invalid");
+    expect(parsedDate?.value).toBeNull();
+    expect(parsedDate?.reason).toEqual("invalid");
 
     parsedDate = await parseDateWithOptions("June eleven 1984", {
       useStrict: true
     });
-    expect(parsedDate.value).toBeNull();
-    expect(parsedDate.reason).toEqual("invalid");
+    expect(parsedDate?.value).toBeNull();
+    expect(parsedDate?.reason).toEqual("invalid");
 
     parsedDate = await parseDateWithOptions("Friday", {
       useStrict: true
     });
-    expect(parsedDate.value).toBeNull();
-    expect(parsedDate.reason).toEqual("invalid");
+    expect(parsedDate?.value).toBeNull();
+    expect(parsedDate?.reason).toEqual("invalid");
 
     parsedDate = await parseDateWithOptions("2023-02-01", {
       useStrict: true
     });
-    expect(isSameDay(parsedDate.value, new Date("2023-02-01"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2023-02-01"))).toBeTruthy();
 
     parsedDate = await parseDateWithOptions("August 8 2004", {
       useStrict: true
     });
-    expect(isSameDay(parsedDate.value, new Date("2004-08-08"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2004-08-08"))).toBeTruthy();
   });
 
   it("respects min and max date", async () => {
@@ -169,26 +169,26 @@ describe("Chrono date parser", () => {
       minDate: "2000-01-01",
       maxDate: "2030-12-31"
     });
-    expect(parsedDate.value).toBeNull();
-    expect(parsedDate.reason).toEqual("minDate");
+    expect(parsedDate?.value).toBeNull();
+    expect(parsedDate?.reason).toEqual("minDate");
 
     parsedDate = await parseDateWithOptions("in 50 years", {
       minDate: "2000-01-01",
       maxDate: "2030-12-31"
     });
-    expect(parsedDate.value).toBeNull();
-    expect(parsedDate.reason).toEqual("maxDate");
+    expect(parsedDate?.value).toBeNull();
+    expect(parsedDate?.reason).toEqual("maxDate");
 
     parsedDate = await parseDateWithOptions("January 1 2000", {
       minDate: "2000-01-01",
       maxDate: "2030-12-31"
     });
-    expect(isSameDay(parsedDate.value, new Date("2000-01-01"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2000-01-01"))).toBeTruthy();
 
     parsedDate = await parseDateWithOptions("December 31 2030", {
       minDate: "2000-01-01",
       maxDate: "2030-12-31"
     });
-    expect(isSameDay(parsedDate.value, new Date("2030-12-31"))).toBeTruthy();
+    expect(isSameDay(parsedDate?.value, new Date("2030-12-31"))).toBeTruthy();
   });
 });
