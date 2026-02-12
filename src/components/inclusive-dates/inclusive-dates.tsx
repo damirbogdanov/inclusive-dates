@@ -471,38 +471,9 @@ export class InclusiveDates {
     announce(contentNoCommas, "polite");
   }
 
-  @Watch("hasError")
-  watchHasError(newValue: boolean) {
-    this.hasError = newValue;
-  }
-  @Watch("locale")
-  watchLocale(newValue: string) {
-    this.locale = newValue;
-  }
-
-  @Watch("label")
-  watchLabel(newValue: string) {
-    this.label = newValue;
-  }
-
   @Watch("disabled")
   watchDisabled(newValue: boolean) {
     this.disabledState = newValue;
-    this.disabled = newValue;
-  }
-  @Watch("range")
-  watchRange(newValue: boolean) {
-    this.range = newValue;
-  }
-
-  @Watch("minDate")
-  watchMinDate(newValue: string) {
-    this.minDate = newValue;
-  }
-
-  @Watch("maxDate")
-  watchMaxDate(newValue: string) {
-    this.maxDate = newValue;
   }
 
   @Watch("value")

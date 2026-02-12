@@ -39,8 +39,8 @@ describe("inclusive-dates", () => {
     const input = getInput(page);
     const label = getLabel(page);
     expect(input.getAttribute("id")).not.toContain("undefined");
-    expect(label.getAttribute("htmlFor")).not.toContain("undefined");
-    expect(input.getAttribute("id")).toEqual(label.getAttribute("htmlFor"));
+    expect(label.getAttribute("for")).not.toContain("undefined");
+    expect(input.getAttribute("id")).toEqual(label.getAttribute("for"));
     expect(consoleSpy).not.toHaveBeenCalled();
     consoleSpy.mockClear();
 

@@ -9,63 +9,181 @@ import { InclusiveDatesLabels } from "./components/inclusive-dates/inclusive-dat
 import { InclusiveDatesCalendarLabels } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
 import { ChronoOptions, ChronoParsedDateString } from "./utils/chrono-parser/chrono-parser.type";
 import { InclusiveDatesCalendarLabels as InclusiveDatesCalendarLabels1, MonthChangedEventDetails } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
+export { InclusiveDatesLabels } from "./components/inclusive-dates/inclusive-dates";
+export { InclusiveDatesCalendarLabels } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
+export { ChronoOptions, ChronoParsedDateString } from "./utils/chrono-parser/chrono-parser.type";
+export { InclusiveDatesCalendarLabels as InclusiveDatesCalendarLabels1, MonthChangedEventDetails } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
 export namespace Components {
     interface InclusiveDates {
+        /**
+          * @default () =>     false
+         */
         "disableDate": HTMLInclusiveDatesCalendarElement["disableDate"];
+        /**
+          * @default false
+         */
         "disabled": boolean;
+        /**
+          * @default "inclusive-dates"
+         */
         "elementClassName"?: string;
+        /**
+          * @default 1
+         */
         "firstDayOfWeek"?: number;
+        /**
+          * @default true
+         */
         "formatInputOnAccept"?: boolean;
+        /**
+          * @default false
+         */
         "hasError": boolean;
         "id": string;
         "inclusiveDatesCalendarLabels"?: InclusiveDatesCalendarLabels;
+        /**
+          * @default defaultLabels
+         */
         "inclusiveDatesLabels": InclusiveDatesLabels;
+        /**
+          * @default false
+         */
         "inline": boolean;
+        /**
+          * @default this.range     ? "Choose a date range (any way you like)"     : "Choose a date (any way you like)"
+         */
         "label": string;
+        /**
+          * @default navigator?.language || "en-US"
+         */
         "locale": string;
         "maxDate"?: string;
         "minDate"?: string;
         "nextMonthButtonContent"?: string;
         "nextYearButtonContent"?: string;
         "parseDate": (text: string, shouldSetValue?: boolean, chronoOptions?: ChronoOptions | undefined) => Promise<ChronoParsedDateString>;
+        /**
+          * @default this.range     ? `Try "June 8 to 12"`     : `Try "tomorrrow" or "in ten days"`
+         */
         "placeholder": string;
+        /**
+          * @default this.range     ? ["Monday to Wednesday", "July 5 to 10"]     : ["Yesterday", "Today", "Tomorrow", "In 10 days"]
+         */
         "quickButtons": string[];
+        /**
+          * @default false
+         */
         "range"?: boolean;
+        /**
+          * @default getISODateString(new Date())
+         */
         "referenceDate": string;
+        /**
+          * @default true
+         */
         "showClearButton": boolean;
+        /**
+          * @default true
+         */
         "showKeyboardHint": boolean;
+        /**
+          * @default true
+         */
         "showMonthStepper": boolean;
+        /**
+          * @default true
+         */
         "showQuickButtons": boolean;
+        /**
+          * @default true
+         */
         "showTodayButton": boolean;
+        /**
+          * @default false
+         */
         "showYearStepper": boolean;
+        /**
+          * @default getISODateString(new Date())
+         */
         "startDate": string;
         "todayButtonContent"?: string;
+        /**
+          * @default false
+         */
         "useStrictDateParsing": boolean;
         "value"?: string | string[];
     }
     interface InclusiveDatesCalendar {
         "clearButtonContent"?: string;
+        /**
+          * @default () => false
+         */
         "disableDate": (date: Date) => boolean;
+        /**
+          * @default false
+         */
         "disabled": boolean;
+        /**
+          * @default "inclusive-dates-calendar"
+         */
         "elementClassName": string;
+        /**
+          * @default 0
+         */
         "firstDayOfWeek": number;
+        /**
+          * @default false
+         */
         "inline": boolean;
-        "labels": InclusiveDatesCalendarLabels;
+        /**
+          * @default defaultLabels
+         */
+        "labels": InclusiveDatesCalendarLabels1;
+        /**
+          * @default navigator?.language || "en-US"
+         */
         "locale"?: string;
         "maxDate"?: string;
         "minDate"?: string;
+        /**
+          * @default false
+         */
         "modalIsOpen"?: boolean;
         "nextMonthButtonContent"?: string;
         "nextYearButtonContent"?: string;
         "previousMonthButtonContent"?: string;
         "previousYearButtonContent"?: string;
+        /**
+          * @default false
+         */
         "range"?: boolean;
+        /**
+          * @default false
+         */
         "showClearButton"?: boolean;
+        /**
+          * @default true
+         */
         "showHiddenTitle"?: boolean;
+        /**
+          * @default false
+         */
         "showKeyboardHint"?: boolean;
+        /**
+          * @default true
+         */
         "showMonthStepper"?: boolean;
+        /**
+          * @default true
+         */
         "showTodayButton"?: boolean;
+        /**
+          * @default false
+         */
         "showYearStepper"?: boolean;
+        /**
+          * @default getISODateString(new Date())
+         */
         "startDate"?: string;
         "todayButtonContent"?: string;
         "value"?: Date | Date[] | null;
@@ -76,6 +194,9 @@ export namespace Components {
          */
         "close": () => Promise<void>;
         "getState": () => Promise<boolean>;
+        /**
+          * @default false
+         */
         "inline"?: boolean;
         "label": string;
         /**
@@ -98,19 +219,55 @@ export interface InclusiveDatesModalCustomEvent<T> extends CustomEvent<T> {
     target: HTMLInclusiveDatesModalElement;
 }
 declare global {
+    interface HTMLInclusiveDatesElementEventMap {
+        "selectDate": string | string[] | undefined;
+        "componentReady": void;
+    }
     interface HTMLInclusiveDatesElement extends Components.InclusiveDates, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLInclusiveDatesElementEventMap>(type: K, listener: (this: HTMLInclusiveDatesElement, ev: InclusiveDatesCustomEvent<HTMLInclusiveDatesElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLInclusiveDatesElementEventMap>(type: K, listener: (this: HTMLInclusiveDatesElement, ev: InclusiveDatesCustomEvent<HTMLInclusiveDatesElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLInclusiveDatesElement: {
         prototype: HTMLInclusiveDatesElement;
         new (): HTMLInclusiveDatesElement;
     };
+    interface HTMLInclusiveDatesCalendarElementEventMap {
+        "selectDate": string | string[] | undefined;
+        "changeMonth": MonthChangedEventDetails;
+    }
     interface HTMLInclusiveDatesCalendarElement extends Components.InclusiveDatesCalendar, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLInclusiveDatesCalendarElementEventMap>(type: K, listener: (this: HTMLInclusiveDatesCalendarElement, ev: InclusiveDatesCalendarCustomEvent<HTMLInclusiveDatesCalendarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLInclusiveDatesCalendarElementEventMap>(type: K, listener: (this: HTMLInclusiveDatesCalendarElement, ev: InclusiveDatesCalendarCustomEvent<HTMLInclusiveDatesCalendarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLInclusiveDatesCalendarElement: {
         prototype: HTMLInclusiveDatesCalendarElement;
         new (): HTMLInclusiveDatesCalendarElement;
     };
+    interface HTMLInclusiveDatesModalElementEventMap {
+        "opened": any;
+        "closed": any;
+    }
     interface HTMLInclusiveDatesModalElement extends Components.InclusiveDatesModal, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLInclusiveDatesModalElementEventMap>(type: K, listener: (this: HTMLInclusiveDatesModalElement, ev: InclusiveDatesModalCustomEvent<HTMLInclusiveDatesModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLInclusiveDatesModalElementEventMap>(type: K, listener: (this: HTMLInclusiveDatesModalElement, ev: InclusiveDatesModalCustomEvent<HTMLInclusiveDatesModalElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLInclusiveDatesModalElement: {
         prototype: HTMLInclusiveDatesModalElement;
@@ -123,18 +280,50 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    type OneOf<K extends string, PropT, AttrT = PropT> = { [P in K]: PropT } & { [P in `attr:${K}` | `prop:${K}`]?: never } | { [P in `attr:${K}`]: AttrT } & { [P in K | `prop:${K}`]?: never } | { [P in `prop:${K}`]: PropT } & { [P in K | `attr:${K}`]?: never };
+
     interface InclusiveDates {
+        /**
+          * @default () =>     false
+         */
         "disableDate"?: HTMLInclusiveDatesCalendarElement["disableDate"];
+        /**
+          * @default false
+         */
         "disabled"?: boolean;
+        /**
+          * @default "inclusive-dates"
+         */
         "elementClassName"?: string;
+        /**
+          * @default 1
+         */
         "firstDayOfWeek"?: number;
+        /**
+          * @default true
+         */
         "formatInputOnAccept"?: boolean;
+        /**
+          * @default false
+         */
         "hasError"?: boolean;
         "id": string;
         "inclusiveDatesCalendarLabels"?: InclusiveDatesCalendarLabels;
+        /**
+          * @default defaultLabels
+         */
         "inclusiveDatesLabels"?: InclusiveDatesLabels;
+        /**
+          * @default false
+         */
         "inline"?: boolean;
+        /**
+          * @default this.range     ? "Choose a date range (any way you like)"     : "Choose a date (any way you like)"
+         */
         "label"?: string;
+        /**
+          * @default navigator?.language || "en-US"
+         */
         "locale"?: string;
         "maxDate"?: string;
         "minDate"?: string;
@@ -142,32 +331,92 @@ declare namespace LocalJSX {
         "nextYearButtonContent"?: string;
         "onComponentReady"?: (event: InclusiveDatesCustomEvent<void>) => void;
         "onSelectDate"?: (event: InclusiveDatesCustomEvent<string | string[] | undefined>) => void;
+        /**
+          * @default this.range     ? `Try "June 8 to 12"`     : `Try "tomorrrow" or "in ten days"`
+         */
         "placeholder"?: string;
+        /**
+          * @default this.range     ? ["Monday to Wednesday", "July 5 to 10"]     : ["Yesterday", "Today", "Tomorrow", "In 10 days"]
+         */
         "quickButtons"?: string[];
+        /**
+          * @default false
+         */
         "range"?: boolean;
+        /**
+          * @default getISODateString(new Date())
+         */
         "referenceDate"?: string;
+        /**
+          * @default true
+         */
         "showClearButton"?: boolean;
+        /**
+          * @default true
+         */
         "showKeyboardHint"?: boolean;
+        /**
+          * @default true
+         */
         "showMonthStepper"?: boolean;
+        /**
+          * @default true
+         */
         "showQuickButtons"?: boolean;
+        /**
+          * @default true
+         */
         "showTodayButton"?: boolean;
+        /**
+          * @default false
+         */
         "showYearStepper"?: boolean;
+        /**
+          * @default getISODateString(new Date())
+         */
         "startDate"?: string;
         "todayButtonContent"?: string;
+        /**
+          * @default false
+         */
         "useStrictDateParsing"?: boolean;
         "value"?: string | string[];
     }
     interface InclusiveDatesCalendar {
         "clearButtonContent"?: string;
+        /**
+          * @default () => false
+         */
         "disableDate"?: (date: Date) => boolean;
+        /**
+          * @default false
+         */
         "disabled"?: boolean;
+        /**
+          * @default "inclusive-dates-calendar"
+         */
         "elementClassName"?: string;
+        /**
+          * @default 0
+         */
         "firstDayOfWeek"?: number;
+        /**
+          * @default false
+         */
         "inline"?: boolean;
-        "labels"?: InclusiveDatesCalendarLabels;
+        /**
+          * @default defaultLabels
+         */
+        "labels"?: InclusiveDatesCalendarLabels1;
+        /**
+          * @default navigator?.language || "en-US"
+         */
         "locale"?: string;
         "maxDate"?: string;
         "minDate"?: string;
+        /**
+          * @default false
+         */
         "modalIsOpen"?: boolean;
         "nextMonthButtonContent"?: string;
         "nextYearButtonContent"?: string;
@@ -175,36 +424,121 @@ declare namespace LocalJSX {
         "onSelectDate"?: (event: InclusiveDatesCalendarCustomEvent<string | string[] | undefined>) => void;
         "previousMonthButtonContent"?: string;
         "previousYearButtonContent"?: string;
+        /**
+          * @default false
+         */
         "range"?: boolean;
+        /**
+          * @default false
+         */
         "showClearButton"?: boolean;
+        /**
+          * @default true
+         */
         "showHiddenTitle"?: boolean;
+        /**
+          * @default false
+         */
         "showKeyboardHint"?: boolean;
+        /**
+          * @default true
+         */
         "showMonthStepper"?: boolean;
+        /**
+          * @default true
+         */
         "showTodayButton"?: boolean;
+        /**
+          * @default false
+         */
         "showYearStepper"?: boolean;
+        /**
+          * @default getISODateString(new Date())
+         */
         "startDate"?: string;
         "todayButtonContent"?: string;
         "value"?: Date | Date[] | null;
     }
     interface InclusiveDatesModal {
+        /**
+          * @default false
+         */
         "inline"?: boolean;
         "label": string;
         "onClosed"?: (event: InclusiveDatesModalCustomEvent<any>) => void;
         "onOpened"?: (event: InclusiveDatesModalCustomEvent<any>) => void;
     }
+
+    interface InclusiveDatesAttributes {
+        "id": string;
+        "value": string | string[];
+        "range": boolean;
+        "label": string;
+        "placeholder": string;
+        "locale": string;
+        "disabled": boolean;
+        "minDate": string;
+        "maxDate": string;
+        "startDate": string;
+        "referenceDate": string;
+        "useStrictDateParsing": boolean;
+        "inline": boolean;
+        "hasError": boolean;
+        "nextMonthButtonContent": string;
+        "nextYearButtonContent": string;
+        "showYearStepper": boolean;
+        "showMonthStepper": boolean;
+        "showClearButton": boolean;
+        "showTodayButton": boolean;
+        "formatInputOnAccept": boolean;
+        "showKeyboardHint": boolean;
+        "elementClassName": string;
+        "firstDayOfWeek": number;
+        "todayButtonContent": string;
+        "showQuickButtons": boolean;
+    }
+    interface InclusiveDatesCalendarAttributes {
+        "clearButtonContent": string;
+        "disabled": boolean;
+        "modalIsOpen": boolean;
+        "elementClassName": string;
+        "firstDayOfWeek": number;
+        "range": boolean;
+        "locale": string;
+        "nextMonthButtonContent": string;
+        "nextYearButtonContent": string;
+        "previousMonthButtonContent": string;
+        "previousYearButtonContent": string;
+        "minDate": string;
+        "maxDate": string;
+        "inline": boolean;
+        "showClearButton": boolean;
+        "showMonthStepper": boolean;
+        "showTodayButton": boolean;
+        "showYearStepper": boolean;
+        "showKeyboardHint": boolean;
+        "showHiddenTitle": boolean;
+        "startDate": string;
+        "todayButtonContent": string;
+    }
+    interface InclusiveDatesModalAttributes {
+        "label": string;
+        "inline": boolean;
+    }
+
     interface IntrinsicElements {
-        "inclusive-dates": InclusiveDates;
-        "inclusive-dates-calendar": InclusiveDatesCalendar;
-        "inclusive-dates-modal": InclusiveDatesModal;
+        "inclusive-dates": Omit<InclusiveDates, keyof InclusiveDatesAttributes> & { [K in keyof InclusiveDates & keyof InclusiveDatesAttributes]?: InclusiveDates[K] } & { [K in keyof InclusiveDates & keyof InclusiveDatesAttributes as `attr:${K}`]?: InclusiveDatesAttributes[K] } & { [K in keyof InclusiveDates & keyof InclusiveDatesAttributes as `prop:${K}`]?: InclusiveDates[K] } & OneOf<"id", InclusiveDates["id"], InclusiveDatesAttributes["id"]>;
+        "inclusive-dates-calendar": Omit<InclusiveDatesCalendar, keyof InclusiveDatesCalendarAttributes> & { [K in keyof InclusiveDatesCalendar & keyof InclusiveDatesCalendarAttributes]?: InclusiveDatesCalendar[K] } & { [K in keyof InclusiveDatesCalendar & keyof InclusiveDatesCalendarAttributes as `attr:${K}`]?: InclusiveDatesCalendarAttributes[K] } & { [K in keyof InclusiveDatesCalendar & keyof InclusiveDatesCalendarAttributes as `prop:${K}`]?: InclusiveDatesCalendar[K] };
+        "inclusive-dates-modal": Omit<InclusiveDatesModal, keyof InclusiveDatesModalAttributes> & { [K in keyof InclusiveDatesModal & keyof InclusiveDatesModalAttributes]?: InclusiveDatesModal[K] } & { [K in keyof InclusiveDatesModal & keyof InclusiveDatesModalAttributes as `attr:${K}`]?: InclusiveDatesModalAttributes[K] } & { [K in keyof InclusiveDatesModal & keyof InclusiveDatesModalAttributes as `prop:${K}`]?: InclusiveDatesModal[K] } & OneOf<"label", InclusiveDatesModal["label"], InclusiveDatesModalAttributes["label"]>;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "inclusive-dates": LocalJSX.InclusiveDates & JSXBase.HTMLAttributes<HTMLInclusiveDatesElement>;
-            "inclusive-dates-calendar": LocalJSX.InclusiveDatesCalendar & JSXBase.HTMLAttributes<HTMLInclusiveDatesCalendarElement>;
-            "inclusive-dates-modal": LocalJSX.InclusiveDatesModal & JSXBase.HTMLAttributes<HTMLInclusiveDatesModalElement>;
+            "inclusive-dates": LocalJSX.IntrinsicElements["inclusive-dates"] & JSXBase.HTMLAttributes<HTMLInclusiveDatesElement>;
+            "inclusive-dates-calendar": LocalJSX.IntrinsicElements["inclusive-dates-calendar"] & JSXBase.HTMLAttributes<HTMLInclusiveDatesCalendarElement>;
+            "inclusive-dates-modal": LocalJSX.IntrinsicElements["inclusive-dates-modal"] & JSXBase.HTMLAttributes<HTMLInclusiveDatesModalElement>;
         }
     }
 }

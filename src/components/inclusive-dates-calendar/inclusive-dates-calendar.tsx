@@ -164,15 +164,6 @@ export class InclusiveDatesCalendar {
       }
     }
   }
-  @Watch("minDate")
-  watchMinDate(newValue: string) {
-    this.minDate = newValue;
-  }
-
-  @Watch("maxDate")
-  watchMaxDate(newValue: string) {
-    this.maxDate = newValue;
-  }
 
   componentDidRender() {
     if (this.moveFocusAfterMonthChanged) {

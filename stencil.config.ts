@@ -38,5 +38,6 @@ export const config: Config = {
     postcss({
       plugins: [autoprefixer(), postcssNested()]
     })
-  ]
+  ],
+  sourceMap: false
 };
