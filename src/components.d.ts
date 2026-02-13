@@ -6,13 +6,13 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { InclusiveDatesLabels } from "./components/inclusive-dates/inclusive-dates";
-import { InclusiveDatesCalendarLabels } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
+import { InclusiveDatesCalendarLabels, YearChangedEventDetails } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
 import { ChronoOptions, ChronoParsedDateString } from "./utils/chrono-parser/chrono-parser.type";
-import { InclusiveDatesCalendarLabels as InclusiveDatesCalendarLabels1, MonthChangedEventDetails } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
+import { InclusiveDatesCalendarLabels as InclusiveDatesCalendarLabels1, MonthChangedEventDetails, YearChangedEventDetails as YearChangedEventDetails1 } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
 export { InclusiveDatesLabels } from "./components/inclusive-dates/inclusive-dates";
-export { InclusiveDatesCalendarLabels } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
+export { InclusiveDatesCalendarLabels, YearChangedEventDetails } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
 export { ChronoOptions, ChronoParsedDateString } from "./utils/chrono-parser/chrono-parser.type";
-export { InclusiveDatesCalendarLabels as InclusiveDatesCalendarLabels1, MonthChangedEventDetails } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
+export { InclusiveDatesCalendarLabels as InclusiveDatesCalendarLabels1, MonthChangedEventDetails, YearChangedEventDetails as YearChangedEventDetails1 } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
 export namespace Components {
     interface InclusiveDates {
         /**
@@ -225,6 +225,7 @@ export interface InclusiveDatesModalCustomEvent<T> extends CustomEvent<T> {
 declare global {
     interface HTMLInclusiveDatesElementEventMap {
         "selectDate": string | string[] | undefined;
+        "changeYear": YearChangedEventDetails;
         "componentReady": void;
     }
     interface HTMLInclusiveDatesElement extends Components.InclusiveDates, HTMLStencilElement {
@@ -244,6 +245,7 @@ declare global {
     interface HTMLInclusiveDatesCalendarElementEventMap {
         "selectDate": string | string[] | undefined;
         "changeMonth": MonthChangedEventDetails;
+        "changeYear": YearChangedEventDetails1;
     }
     interface HTMLInclusiveDatesCalendarElement extends Components.InclusiveDatesCalendar, HTMLStencilElement {
         addEventListener<K extends keyof HTMLInclusiveDatesCalendarElementEventMap>(type: K, listener: (this: HTMLInclusiveDatesCalendarElement, ev: InclusiveDatesCalendarCustomEvent<HTMLInclusiveDatesCalendarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -337,6 +339,7 @@ declare namespace LocalJSX {
         "minDate"?: string;
         "nextMonthButtonContent"?: string;
         "nextYearButtonContent"?: string;
+        "onChangeYear"?: (event: InclusiveDatesCustomEvent<YearChangedEventDetails>) => void;
         "onComponentReady"?: (event: InclusiveDatesCustomEvent<void>) => void;
         "onSelectDate"?: (event: InclusiveDatesCustomEvent<string | string[] | undefined>) => void;
         /**
@@ -429,6 +432,7 @@ declare namespace LocalJSX {
         "nextMonthButtonContent"?: string;
         "nextYearButtonContent"?: string;
         "onChangeMonth"?: (event: InclusiveDatesCalendarCustomEvent<MonthChangedEventDetails>) => void;
+        "onChangeYear"?: (event: InclusiveDatesCalendarCustomEvent<YearChangedEventDetails1>) => void;
         "onSelectDate"?: (event: InclusiveDatesCalendarCustomEvent<string | string[] | undefined>) => void;
         "previousMonthButtonContent"?: string;
         "previousYearButtonContent"?: string;

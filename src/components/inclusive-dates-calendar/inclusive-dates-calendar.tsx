@@ -72,6 +72,10 @@ export interface MonthChangedEventDetails {
   year: number;
 }
 
+export interface YearChangedEventDetails {
+  year: number;
+}
+
 @Component({
   scoped: true,
   shadow: false,
@@ -114,6 +118,7 @@ export class InclusiveDatesCalendar {
 
   @Event() selectDate?: EventEmitter<string | string[] | undefined>;
   @Event() changeMonth?: EventEmitter<MonthChangedEventDetails>;
+  @Event() changeYear?: EventEmitter<YearChangedEventDetails>;
 
   private moveFocusAfterMonthChanged?: Boolean;
   private moveFocusOnModalOpen?: Boolean;
@@ -362,6 +367,7 @@ export class InclusiveDatesCalendar {
 
     date.setFullYear(year);
 
+    this.changeYear?.emit({ year });
     this.updateCurrentDate(date);
   };
 

@@ -16,7 +16,8 @@ import moment from "moment";
 import { getISODateString, removeTimezoneOffset } from "../../utils/utils";
 import {
   InclusiveDatesCalendarLabels,
-  MonthChangedEventDetails
+  MonthChangedEventDetails,
+  YearChangedEventDetails
 } from "../inclusive-dates-calendar/inclusive-dates-calendar";
 import {
   ChronoOptions,
@@ -140,6 +141,8 @@ export class InclusiveDates {
   @State() disabledState: boolean = this.disabled;
 
   @Event() selectDate!: EventEmitter<string | string[] | undefined>;
+
+  @Event() changeYear?: EventEmitter<YearChangedEventDetails>;
 
   @Event() componentReady!: EventEmitter<void>;
 
@@ -272,6 +275,10 @@ export class InclusiveDates {
       )}`,
       "assertive"
     );
+  };
+
+  private handleYearChange = (yearDetail: YearChangedEventDetails) => {
+    this.changeYear?.emit(yearDetail);
   };
   private handleChange = async (event: Event) => {
     if (this.range) {
@@ -579,6 +586,9 @@ export class InclusiveDates {
             }
             onChangeMonth={(event) =>
               this.handleChangedMonths(event.detail as MonthChangedEventDetails)
+            }
+            onChangeYear={(event) =>
+              this.handleYearChange(event.detail as YearChangedEventDetails)
             }
             labels={
               this.inclusiveDatesCalendarLabels

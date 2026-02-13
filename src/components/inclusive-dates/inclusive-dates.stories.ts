@@ -692,3 +692,86 @@ async function verifyNaturalLanguageWithFormat(canvasElement: HTMLElement) {
   }
 }
 
+export const YearChangeEvent: Story = {
+  args: {
+    ...commonArgs,
+    id: 'datepicker-year-change',
+    startDate: '2026-02-12',
+    firstDayOfWeek: 1,
+    showMonthStepper: false,
+    showTodayButton: false,
+    showQuickButtons: false,
+    inline: true,
+    locale: 'en-US',
+  },
+  render: (args) => html`
+    <div>
+      <inclusive-dates
+        id=${args.id}
+        .value=${ifDefined(args.value)}
+        label=${ifDefined(args.label)}
+        placeholder=${ifDefined(args.placeholder)}
+        locale=${ifDefined(args.locale)}
+        format=${ifDefined(args.format)}
+        min-date=${ifDefined(args.minDate)}
+        max-date=${ifDefined(args.maxDate)}
+        start-date=${ifDefined(args.startDate)}
+        reference-date=${ifDefined(args.referenceDate)}
+        .quickButtons=${args.quickButtons}
+        first-day-of-week=${ifDefined(args.firstDayOfWeek)}
+        ?range=${args.range}
+        ?show-quick-buttons=${args.showQuickButtons}
+        ?disabled=${args.disabled}
+        ?inline=${args.inline}
+        ?show-year-stepper=${args.showYearStepper}
+        show-month-stepper=${args.showMonthStepper}
+        show-clear-button=${args.showClearButton}
+        show-today-button=${args.showTodayButton}
+        input-should-format=${args.formatInputOnAccept}
+      ></inclusive-dates>
+      <div id="year-change-output" style="margin-top: 1rem; padding: 1rem; background: #f0f0f0; border-radius: 4px;">
+        Selected date: <span id="selected-date">None</span>
+      </div>
+    </div>
+  `,
+  play: async ({ canvasElement }) => {
+    const datePicker = canvasElement.querySelector('inclusive-dates') as HTMLInclusiveDatesElement;
+    const selectedDateSpan = canvasElement.querySelector('#selected-date') as HTMLSpanElement;
+    
+    await customElements.whenDefined('inclusive-dates');
+    await new Promise<void>((resolve) => {
+      datePicker.addEventListener('componentReady', () => resolve(), { once: true });
+    });
+    
+    // Listen to year change event and set value to first day of selected year
+    datePicker.addEventListener('changeYear', (e: any) => {
+      const year = e.detail.year;
+      const firstDayOfYear = `${year}-01-01`;
+      datePicker.value = firstDayOfYear;
+      selectedDateSpan.textContent = firstDayOfYear;
+    });
+    
+    // Get the calendar within the datepicker
+    const calendar = datePicker.querySelector('inclusive-dates-calendar') as HTMLInclusiveDatesCalendarElement;
+    await waitFor(() => expect(calendar).toBeTruthy());
+    
+    // Trigger year change by selecting a different year
+    const yearSelect = calendar.querySelector('.inclusive-dates-calendar__year-select') as HTMLSelectElement;
+    await waitFor(() => expect(yearSelect).toBeTruthy());
+    
+    // Change to 2025
+    yearSelect.value = '2025';
+    await fireEvent.change(yearSelect);
+    
+    await waitFor(() => {
+      expect(selectedDateSpan.textContent).toBe('2025-01-01');
+    }, { timeout: 2000 });
+    
+    // Verify the input field is also updated
+    const input = datePicker.querySelector('input') as HTMLInputElement;
+    await waitFor(() => {
+      expect(input.value).toBeTruthy();
+    });
+  },
+};
+
