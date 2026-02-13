@@ -69,7 +69,8 @@
     "@stencil/core": "^4",
     "@stencil/sass": "^3.0.0",
     "aria-hidden": "^1.2.2",
-    "chrono-node": "^2.5.0"
+    "chrono-node": "^2.5.0",
+    "moment": "^2.30.1"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.7",
@@ -81,6 +82,8 @@
     "@storybook/addon-vitest": "^10.2.8",
     "@storybook/test": "^8.6.15",
     "@storybook/web-components-vite": "10.2.8",
+    "@types/jest": "^27.0.3",
+    "@types/moment": "^2.13.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitest/browser": "^4.0.18",

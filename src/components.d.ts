@@ -32,6 +32,10 @@ export namespace Components {
          */
         "firstDayOfWeek"?: number;
         /**
+          * @default "YYYY-MM-DD"
+         */
+        "format": string;
+        /**
           * @default true
          */
         "formatInputOnAccept"?: boolean;
@@ -300,6 +304,10 @@ declare namespace LocalJSX {
          */
         "firstDayOfWeek"?: number;
         /**
+          * @default "YYYY-MM-DD"
+         */
+        "format"?: string;
+        /**
           * @default true
          */
         "formatInputOnAccept"?: boolean;
@@ -494,6 +502,7 @@ declare namespace LocalJSX {
         "showKeyboardHint": boolean;
         "elementClassName": string;
         "firstDayOfWeek": number;
+        "format": string;
         "todayButtonContent": string;
         "showQuickButtons": boolean;
     }

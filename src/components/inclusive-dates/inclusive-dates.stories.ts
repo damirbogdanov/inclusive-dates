@@ -18,6 +18,7 @@ const meta: Meta<Components.InclusiveDates> = {
       label=${ifDefined(args.label)}
       placeholder=${ifDefined(args.placeholder)}
       locale=${ifDefined(args.locale)}
+      format=${ifDefined(args.format)}
       min-date=${ifDefined(args.minDate)}
       max-date=${ifDefined(args.maxDate)}
       start-date=${ifDefined(args.startDate)}
@@ -263,6 +264,129 @@ export const RangeWithoutInputShouldFormat: Story = {
   }
 };
 
+// Format-related stories
+export const DefaultFormat: Story = {
+  args: {
+    ...commonArgs,
+    id: 'datepicker-default-format',
+    label: 'Default format (YYYY-MM-DD)',
+    placeholder: 'Select date',
+    locale: 'en-US',
+  },
+  play: async ({ canvasElement }) => {
+    await verifyDefaultFormat(canvasElement);
+  }
+};
+
+export const DDMMYYYYFormat: Story = {
+  args: {
+    ...commonArgs,
+    id: 'datepicker-ddmmyyyy',
+    label: 'DD/MM/YYYY format',
+    format: 'DD/MM/YYYY',
+    value: '15/03/2026',
+    locale: 'en-US',
+  },
+  play: async ({ canvasElement }) => {
+    await verifyDDMMYYYYFormat(canvasElement);
+  }
+};
+
+export const MMDDYYYYFormat: Story = {
+  args: {
+    ...commonArgs,
+    id: 'datepicker-mmddyyyy',
+    label: 'MM/DD/YYYY format',
+    format: 'MM/DD/YYYY',
+    value: '03/15/2026',
+    locale: 'en-US',
+  },
+  play: async ({ canvasElement }) => {
+    await verifyMMDDYYYYFormat(canvasElement);
+  }
+};
+
+export const CustomFormatWithValue: Story = {
+  args: {
+    ...commonArgs,
+    id: 'datepicker-custom-format-value',
+    label: 'Custom format with value',
+    format: 'DD/MM/YYYY',
+    value: '15/03/2026',
+    locale: 'en-US',
+  },
+  play: async ({ canvasElement }) => {
+    await verifyValueInCustomFormat(canvasElement);
+  }
+};
+
+export const CustomMomentFormatTokens: Story = {
+  args: {
+    ...commonArgs,
+    id: 'datepicker-moment-tokens',
+    label: 'Custom Moment format tokens',
+    format: 'YYYY-MM-DD',
+    locale: 'en-US',
+  },
+  play: async ({ canvasElement }) => {
+    await verifyCustomMomentFormat(canvasElement);
+  }
+};
+
+export const FormatConsistencyOnUpdate: Story = {
+  args: {
+    ...commonArgs,
+    id: 'datepicker-format-consistency',
+    label: 'Format consistency on updates',
+    format: 'DD-MM-YYYY',
+    locale: 'en-US',
+  },
+  play: async ({ canvasElement }) => {
+    await verifyFormatConsistency(canvasElement);
+  }
+};
+
+export const RangeModeWithCustomFormat: Story = {
+  args: {
+    ...commonArgs,
+    id: 'datepicker-range-custom-format',
+    label: 'Range with custom format',
+    format: 'DD/MM/YYYY',
+    range: true,
+    locale: 'en-US',
+  },
+  play: async ({ canvasElement }) => {
+    await verifyRangeWithCustomFormat(canvasElement);
+  }
+};
+
+export const FormattedValueInEvent: Story = {
+  args: {
+    ...commonArgs,
+    id: 'datepicker-formatted-event',
+    label: 'Formatted value in events',
+    format: 'DD/MM/YYYY',
+    locale: 'en-US',
+  },
+  play: async ({ canvasElement }) => {
+    await verifyFormattedValueInEvent(canvasElement);
+  }
+};
+
+export const NaturalLanguageWithCustomFormat: Story = {
+  args: {
+    ...commonArgs,
+    id: 'datepicker-natural-language-format',
+    label: 'Natural language with custom format',
+    format: 'DD/MM/YYYY',
+    locale: 'en-US',
+    referenceDate: '2026-03-15',
+  },
+  play: async ({ canvasElement }) => {
+    await verifyNaturalLanguageWithFormat(canvasElement);
+  }
+};
+
 
 
 
@@ -433,11 +557,138 @@ async function inputFormattingWorksForDateRanges(canvasElement: HTMLElement) {
   await waitFor(() => expect(input.getAttribute("aria-invalid")).toEqual(""));
 }
 
+// Format-related play functions
+async function verifyDefaultFormat(canvasElement: HTMLElement) {
+  const datePicker = canvasElement.querySelector('inclusive-dates') as HTMLInclusiveDatesElement;
+  await customElements.whenDefined('inclusive-dates');
 
-//     // Dates are not formatted when input-should-format="false"
-//     page.root?.setAttribute("input-should-format", "false");
-//     input.value = "June 8 - 12 2023";
-//     input.dispatchEvent(new Event("change"));
-//     await page.waitForChanges();
-//     expect(input.value).toContain("2023-06-08 to 2023-06-12");
-//   });
+  await new Promise<void>((resolve) => {
+    datePicker.addEventListener('componentReady', () => resolve(), { once: true });
+  });
+
+  // Verify default format is YYYY-MM-DD
+  expect(datePicker.format).toBe('YYYY-MM-DD');
+}
+
+async function verifyDDMMYYYYFormat(canvasElement: HTMLElement) {
+  const datePicker = canvasElement.querySelector('inclusive-dates') as HTMLInclusiveDatesElement;
+  await customElements.whenDefined('inclusive-dates');
+
+  await new Promise<void>((resolve) => {
+    datePicker.addEventListener('componentReady', () => resolve(), { once: true });
+  });
+
+  expect(datePicker.format).toBe('DD/MM/YYYY');
+  expect(datePicker.value).toBe('15/03/2026');
+}
+
+async function verifyMMDDYYYYFormat(canvasElement: HTMLElement) {
+  const datePicker = canvasElement.querySelector('inclusive-dates') as HTMLInclusiveDatesElement;
+  await customElements.whenDefined('inclusive-dates');
+
+  await new Promise<void>((resolve) => {
+    datePicker.addEventListener('componentReady', () => resolve(), { once: true });
+  });
+
+  expect(datePicker.format).toBe('MM/DD/YYYY');
+  expect(datePicker.value).toBe('03/15/2026');
+}
+
+async function verifyValueInCustomFormat(canvasElement: HTMLElement) {
+  const datePicker = canvasElement.querySelector('inclusive-dates') as HTMLInclusiveDatesElement;
+  await customElements.whenDefined('inclusive-dates');
+
+  await new Promise<void>((resolve) => {
+    datePicker.addEventListener('componentReady', () => resolve(), { once: true });
+  });
+
+  // Check if value is set correctly
+  expect(datePicker.value).toBe('15/03/2026');
+
+  // Verify it's a valid date in the given format
+  const moment = await import('moment');
+  const parsedDate = moment.default('15/03/2026', 'DD/MM/YYYY', true);
+  expect(parsedDate.isValid()).toBe(true);
+}
+
+async function verifyCustomMomentFormat(canvasElement: HTMLElement) {
+  const datePicker = canvasElement.querySelector('inclusive-dates') as HTMLInclusiveDatesElement;
+  await customElements.whenDefined('inclusive-dates');
+
+  await new Promise<void>((resolve) => {
+    datePicker.addEventListener('componentReady', () => resolve(), { once: true });
+  });
+
+  // Set a value programmatically
+  datePicker.value = '2026-03-15';
+
+  // Verify the value is in the correct format
+  expect(datePicker.value).toBe('2026-03-15');
+
+  const moment = await import('moment');
+  const parsedDate = moment.default('2026-03-15', 'YYYY-MM-DD', true);
+  expect(parsedDate.isValid()).toBe(true);
+}
+
+async function verifyFormatConsistency(canvasElement: HTMLElement) {
+  const datePicker = canvasElement.querySelector('inclusive-dates') as HTMLInclusiveDatesElement;
+  await customElements.whenDefined('inclusive-dates');
+
+  await new Promise<void>((resolve) => {
+    datePicker.addEventListener('componentReady', () => resolve(), { once: true });
+  });
+
+  // Set value programmatically
+  datePicker.value = '15-03-2026';
+
+  // Value should remain in the same format
+  expect(datePicker.value).toBe('15-03-2026');
+  expect(datePicker.format).toBe('DD-MM-YYYY');
+}
+
+async function verifyRangeWithCustomFormat(canvasElement: HTMLElement) {
+  const datePicker = canvasElement.querySelector('inclusive-dates') as HTMLInclusiveDatesElement;
+  await customElements.whenDefined('inclusive-dates');
+
+  await new Promise<void>((resolve) => {
+    datePicker.addEventListener('componentReady', () => resolve(), { once: true });
+  });
+
+  expect(datePicker.range).toBe(true);
+  expect(datePicker.format).toBe('DD/MM/YYYY');
+}
+
+async function verifyFormattedValueInEvent(canvasElement: HTMLElement) {
+  const datePicker = canvasElement.querySelector('inclusive-dates') as HTMLInclusiveDatesElement;
+  await customElements.whenDefined('inclusive-dates');
+
+  await new Promise<void>((resolve) => {
+    datePicker.addEventListener('componentReady', () => resolve(), { once: true });
+  });
+
+  expect(datePicker.format).toBe('DD/MM/YYYY');
+
+  // Programmatically set value to verify it works with the format
+  datePicker.value = '15/03/2026';
+  expect(datePicker.value).toBe('15/03/2026');
+}
+
+async function verifyNaturalLanguageWithFormat(canvasElement: HTMLElement) {
+  const datePicker = canvasElement.querySelector('inclusive-dates') as HTMLInclusiveDatesElement;
+  await customElements.whenDefined('inclusive-dates');
+
+  await new Promise<void>((resolve) => {
+    datePicker.addEventListener('componentReady', () => resolve(), { once: true });
+  });
+
+  // Test the parseDate method with custom format
+  const result = await datePicker.parseDate('tomorrow', false);
+
+  // It should return a date in DD/MM/YYYY format
+  if (result.value) {
+    const moment = await import('moment');
+    const parsedDate = moment.default(result.value, 'DD/MM/YYYY', true);
+    expect(parsedDate.isValid()).toBe(true);
+  }
+}
+

@@ -11,6 +11,7 @@ import {
   Watch
 } from "@stencil/core";
 import { announce } from "@react-aria/live-announcer";
+import moment from "moment";
 
 import { getISODateString, removeTimezoneOffset } from "../../utils/utils";
 import {
@@ -123,6 +124,8 @@ export class InclusiveDates {
   @Prop() elementClassName?: string = "inclusive-dates";
   // Which day that should start the week (0 is sunday, 1 is monday)
   @Prop() firstDayOfWeek?: number = 1; // Monday
+  // Format for the value prop (input/output format). Defaults to ISO format (YYYY-MM-DD). Uses moment.js format tokens.
+  @Prop() format: string = "YYYY-MM-DD";
   // Quick buttons with dates displayed under the text field
   @Prop() quickButtons: string[] = this.range
     ? ["Monday to Wednesday", "July 5 to 10"]
@@ -185,7 +188,7 @@ export class InclusiveDates {
     return {
       value:
         parsedDate && parsedDate.value instanceof Date
-          ? getISODateString(parsedDate.value)
+          ? moment(parsedDate.value).format(this.format)
           : undefined,
       reason: parsedDate && parsedDate.reason ? parsedDate.reason : undefined
     };
@@ -204,11 +207,11 @@ export class InclusiveDates {
   private updateValue(newValue: Date | Date[]) {
     // Range
     if (Array.isArray(newValue)) {
-      this.internalValue = newValue.map((date) => getISODateString(date));
+      this.internalValue = newValue.map((date) => moment(date).format(this.format));
     }
     // Single
     else {
-      this.internalValue = getISODateString(newValue);
+      this.internalValue = moment(newValue).format(this.format);
     }
     if (this.pickerRef) {
       this.pickerRef.value = newValue;
@@ -388,30 +391,30 @@ export class InclusiveDates {
         if (this.internalValue.length === 0) return; // Range date is invalid, leave the text field as is
         let output = "";
         this.internalValue.forEach((value, index) => {
+          const parsedDate = moment(useInputValue ? this.inputRef.value : value, this.format, true);
+          const dateToFormat = parsedDate.isValid() 
+            ? parsedDate.toDate() 
+            : removeTimezoneOffset(new Date(useInputValue ? this.inputRef.value : value));
           return (output += `${
             index === 1 ? ` ${this.inclusiveDatesLabels.to} ` : ""
           }${Intl.DateTimeFormat(this.locale, {
             day: "numeric",
             month: "short",
             year: "numeric"
-          }).format(
-            removeTimezoneOffset(
-              new Date(useInputValue ? this.inputRef.value : value)
-            )
-          )}`);
+          }).format(dateToFormat)}`);
         });
         this.inputRef.value = output;
       } else {
+        const parsedDate = moment(useInputValue ? this.inputRef.value : this.internalValue, this.format, true);
+        const dateToFormat = parsedDate.isValid() 
+          ? parsedDate.toDate() 
+          : removeTimezoneOffset(new Date(useInputValue ? this.inputRef.value : this.internalValue));
         this.inputRef.value = Intl.DateTimeFormat(this.locale, {
           weekday: "long",
           day: "numeric",
           month: "long",
           year: "numeric"
-        }).format(
-          removeTimezoneOffset(
-            new Date(useInputValue ? this.inputRef.value : this.internalValue)
-          )
-        );
+        }).format(dateToFormat);
       }
     } else if (
       this.internalValue &&
@@ -497,13 +500,17 @@ export class InclusiveDates {
     // update calendar (expects Date or Date[])
     if (this.pickerRef) {
       if (Array.isArray(value)) {
-        const dates = value
-          .map(v => removeTimezoneOffset(new Date(v)))
-          .filter(d => !Number.isNaN(d.getTime()));
+        const dates = value.reduce((acc: Date[], v) => {
+          const d = moment(v, this.format, true);
+          if (d.isValid()) acc.push(d.toDate());
+          return acc;
+        }, [] as Date[]);
         this.pickerRef.value = dates.length ? dates : null;
       } else {
-        const d = removeTimezoneOffset(new Date(value));
-        this.pickerRef.value = Number.isNaN(d.getTime()) ? null : d;
+        const parsedDate = moment(this.value, this.format, true);
+        if (parsedDate.isValid()) {
+          this.pickerRef.value = parsedDate.toDate();
+        }
       }
     }
 
