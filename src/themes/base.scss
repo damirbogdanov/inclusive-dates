@@ -200,7 +200,7 @@ inclusive-dates *:focus-visible {
 .inclusive-dates-calendar__date--today > * {
   font-weight: 700;
   font-style: normal;
-  color: var(--focus-color);
+  color: var(--active-color);
 }
 
 .inclusive-dates-calendar__date--selected > *,
@@ -208,7 +208,7 @@ inclusive-dates *:focus-visible {
 .inclusive-dates-calendar__date--in-range:hover > *,
 .inclusive-dates-calendar__date--in-range > * {
   color: var(--bg-color);
-  background-color: var(--focus-color);
+  background-color: var(--active-color);
   font-weight: 500;
   outline-offset: 0.125rem;
   @media screen and (forced-colors: active) {
