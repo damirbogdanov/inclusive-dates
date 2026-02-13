@@ -48,7 +48,7 @@ Stories are located alongside components in `src/components/*/` with `.stories.t
 Example:
 
 ```typescript
-import type { Meta, StoryObj } from '@storybook/web-components';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit-html';
 
 const meta: Meta = {
