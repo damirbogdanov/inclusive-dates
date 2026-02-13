@@ -587,6 +587,7 @@ export class InclusiveDates {
             showYearStepper={this.showYearStepper}
             showClearButton={this.showClearButton}
             showKeyboardHint={this.showKeyboardHint}
+            showTodayButton={this.showTodayButton}
             disableDate={this.disableDate}
             minDate={this.minDate}
             maxDate={this.maxDate}
