@@ -87,7 +87,7 @@ export namespace Components {
          */
         "showClearButton": boolean;
         /**
-          * @default true
+          * @default false
          */
         "showKeyboardHint": boolean;
         /**
@@ -363,7 +363,7 @@ declare namespace LocalJSX {
          */
         "showClearButton"?: boolean;
         /**
-          * @default true
+          * @default false
          */
         "showKeyboardHint"?: boolean;
         /**

@@ -117,7 +117,7 @@ export class InclusiveDates {
   @Prop({ attribute: "input-should-format" }) formatInputOnAccept?: boolean =
     true;
   // Show or hide the keyboard hints
-  @Prop() showKeyboardHint: boolean = true;
+  @Prop() showKeyboardHint: boolean = false;
   // Function to disable individual dates
   @Prop() disableDate: HTMLInclusiveDatesCalendarElement["disableDate"] = () =>
     false;
