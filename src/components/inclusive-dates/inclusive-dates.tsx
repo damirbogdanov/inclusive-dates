@@ -133,6 +133,8 @@ export class InclusiveDates {
     : ["Yesterday", "Today", "Tomorrow", "In 10 days"];
   // Text content for the today button in the calendar
   @Prop() todayButtonContent?: string;
+  // HTML content for the calendar button (allows custom icons/SVG)
+  @Prop() calendarButtonContent?: string;
   // Show or hide the quick buttons
   @Prop() showQuickButtons: boolean = true;
 
@@ -399,8 +401,8 @@ export class InclusiveDates {
         let output = "";
         this.internalValue.forEach((value, index) => {
           const parsedDate = moment(useInputValue ? this.inputRef.value : value, this.format, true);
-          const dateToFormat = parsedDate.isValid() 
-            ? parsedDate.toDate() 
+          const dateToFormat = parsedDate.isValid()
+            ? parsedDate.toDate()
             : removeTimezoneOffset(new Date(useInputValue ? this.inputRef.value : value));
           return (output += `${
             index === 1 ? ` ${this.inclusiveDatesLabels.to} ` : ""
@@ -413,8 +415,8 @@ export class InclusiveDates {
         this.inputRef.value = output;
       } else {
         const parsedDate = moment(useInputValue ? this.inputRef.value : this.internalValue, this.format, true);
-        const dateToFormat = parsedDate.isValid() 
-          ? parsedDate.toDate() 
+        const dateToFormat = parsedDate.isValid()
+          ? parsedDate.toDate()
           : removeTimezoneOffset(new Date(useInputValue ? this.inputRef.value : this.internalValue));
         this.inputRef.value = Intl.DateTimeFormat(this.locale, {
           weekday: "long",
@@ -559,7 +561,11 @@ export class InclusiveDates {
               class={this.getClassName("calendar-button")}
               disabled={this.disabledState}
             >
-              {this.inclusiveDatesLabels.openCalendar}
+              {this.calendarButtonContent ? (
+                <span innerHTML={this.calendarButtonContent}></span>
+              ) : (
+                this.inclusiveDatesLabels.openCalendar
+              )}
             </button>
           )}
         </div>

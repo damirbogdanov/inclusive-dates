@@ -464,348 +464,354 @@ export class InclusiveDatesCalendar {
       <Host>
         <div
           class={{
-            [this.getClassName()]: true,
-            [`${this.getClassName()}--disabled`]: this.disabled,
-            [this.getClassName("inline")]: this.inline
-          }}
-        >
-          <div class={this.getClassName("header")}>
-            {this.showHiddenTitle && (
-              <span
-                aria-atomic="true"
-                aria-live="polite"
-                class="visually-hidden"
-              >
-                {this.getTitle()}
+            [`${this.getClassName()}-wrapper`]: true,
+          }}>
+          <div
+            class={{
+              [this.getClassName()]: true,
+              [`${this.getClassName()}--disabled`]: this.disabled,
+              [this.getClassName("inline")]: this.inline
+            }}
+          >
+            <div class={this.getClassName("header")}>
+              {this.showHiddenTitle && (
+                <span
+                  aria-atomic="true"
+                  aria-live="polite"
+                  class="visually-hidden"
+                >
+                  {this.getTitle()}
+                </span>
+              )}
+
+              {this.showYearStepper && (
+                <button
+                  aria-label={this.labels.previousYearButton}
+                  class={this.getClassName("previous-year-button")}
+                  aria-disabled={disabled.year.prev}
+                  innerHTML={this.previousYearButtonContent || undefined}
+                  onClick={this.previousYear}
+                  type="button"
+                >
+                  <svg
+                    fill="none"
+                    height="24"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <polyline points="11 17 6 12 11 7"></polyline>
+                    <polyline points="18 17 13 12 18 7"></polyline>
+                  </svg>
+                </button>
+              )}
+              {this.showMonthStepper && (
+                <button
+                  aria-label={this.labels.previousMonthButton}
+                  class={this.getClassName("previous-month-button")}
+                  aria-disabled={disabled.month.prev}
+                  innerHTML={this.previousMonthButtonContent || undefined}
+                  onClick={this.previousMonth}
+                  type="button"
+                >
+                  <svg
+                    fill="none"
+                    height="24"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </button>
+              )}
+              <span class={this.getClassName("current-month")}>
+                <select
+                  aria-label={this.labels.monthSelect}
+                  class={this.getClassName("month-select")}
+                  aria-disabled={this.disabled}
+                  name="month"
+                  onChange={this.onMonthSelect}
+                >
+                  {getMonths(this.locale).map((month, index) => {
+                    return (
+                      <option
+                        key={month}
+                        selected={this.currentDate.getMonth() === index}
+                        value={index + 1}
+                        disabled={monthIsDisabled(
+                          index,
+                          this.currentDate.getFullYear(),
+                          this.minDate,
+                          this.maxDate
+                        )}
+                      >
+                        {month}
+                      </option>
+                    );
+                  })}
+                </select>
+                <input
+                  aria-label={this.labels.yearSelect}
+                  class={this.getClassName("year-select")}
+                  aria-disabled={this.disabled}
+                  max={this.maxDate ? this.maxDate.slice(0, 4) : 9999}
+                  min={this.minDate ? this.minDate.slice(0, 4) : 1}
+                  name="year"
+                  onChange={this.onYearSelect}
+                  type="number"
+                  value={this.currentDate.getFullYear()}
+                />
               </span>
-            )}
-
-            {this.showYearStepper && (
-              <button
-                aria-label={this.labels.previousYearButton}
-                class={this.getClassName("previous-year-button")}
-                aria-disabled={disabled.year.prev}
-                innerHTML={this.previousYearButtonContent || undefined}
-                onClick={this.previousYear}
-                type="button"
-              >
-                <svg
-                  fill="none"
-                  height="24"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  width="24"
+              {this.showMonthStepper && (
+                <button
+                  aria-label={this.labels.nextMonthButton}
+                  class={this.getClassName("next-month-button")}
+                  aria-disabled={
+                    disabled.month.next
+                  }
+                  innerHTML={this.nextMonthButtonContent || undefined}
+                  onClick={this.nextMonth}
+                  type="button"
                 >
-                  <polyline points="11 17 6 12 11 7"></polyline>
-                  <polyline points="18 17 13 12 18 7"></polyline>
-                </svg>
-              </button>
-            )}
-            {this.showMonthStepper && (
-              <button
-                aria-label={this.labels.previousMonthButton}
-                class={this.getClassName("previous-month-button")}
-                aria-disabled={disabled.month.prev}
-                innerHTML={this.previousMonthButtonContent || undefined}
-                onClick={this.previousMonth}
-                type="button"
-              >
-                <svg
-                  fill="none"
-                  height="24"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  width="24"
-                >
-                  <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-              </button>
-            )}
-            <span class={this.getClassName("current-month")}>
-              <select
-                aria-label={this.labels.monthSelect}
-                class={this.getClassName("month-select")}
-                aria-disabled={this.disabled}
-                name="month"
-                onChange={this.onMonthSelect}
-              >
-                {getMonths(this.locale).map((month, index) => {
-                  return (
-                    <option
-                      key={month}
-                      selected={this.currentDate.getMonth() === index}
-                      value={index + 1}
-                      disabled={monthIsDisabled(
-                        index,
-                        this.currentDate.getFullYear(),
-                        this.minDate,
-                        this.maxDate
-                      )}
-                    >
-                      {month}
-                    </option>
-                  );
-                })}
-              </select>
-              <input
-                aria-label={this.labels.yearSelect}
-                class={this.getClassName("year-select")}
-                aria-disabled={this.disabled}
-                max={this.maxDate ? this.maxDate.slice(0, 4) : 9999}
-                min={this.minDate ? this.minDate.slice(0, 4) : 1}
-                name="year"
-                onChange={this.onYearSelect}
-                type="number"
-                value={this.currentDate.getFullYear()}
-              />
-            </span>
-            {this.showMonthStepper && (
-              <button
-                aria-label={this.labels.nextMonthButton}
-                class={this.getClassName("next-month-button")}
-                aria-disabled={
-                  disabled.month.next
-                }
-                innerHTML={this.nextMonthButtonContent || undefined}
-                onClick={this.nextMonth}
-                type="button"
-              >
-                <svg
-                  fill="none"
-                  height="24"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  width="24"
-                >
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </button>
-            )}
-            {this.showYearStepper && (
-              <button
-                aria-label={this.labels.nextYearButton}
-                class={this.getClassName("next-year-button")}
-                aria-disabled={disabled.year.next}
-                innerHTML={this.nextYearButtonContent || undefined}
-                onClick={this.nextYear}
-                type="button"
-              >
-                <svg
-                  fill="none"
-                  height="24"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  width="24"
-                >
-                  <polyline points="13 17 18 12 13 7"></polyline>
-                  <polyline points="6 17 11 12 6 7"></polyline>
-                </svg>
-              </button>
-            )}
-          </div>
-
-          <div class={this.getClassName("body")}>
-            <table
-              class={this.getClassName("calendar")}
-              onKeyDown={this.onKeyDown}
-              role="grid"
-              aria-label={this.getTitle()}
-            >
-              <thead class={this.getClassName("calendar-header")}>
-                <tr class={this.getClassName("weekday-row")}>
-                  {this.weekdays?.map((weekday) => (
-                    <th
-                      role="columnheader"
-                      abbr={weekday[1]}
-                      class={this.getClassName("weekday")}
-                      key={weekday[0]}
-                      scope="col"
-                    >
-                      <span aria-hidden="true">{weekday[0]}</span>
-                      <span class="visually-hidden">{weekday[1]}</span>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-
-              <tbody>
-                {this.getCalendarRows().map((calendarRow) => {
-                  const rowKey = `row-${calendarRow[0].getMonth()}-${calendarRow[0].getDate()}`;
-
-                  return (
-                    <tr class={this.getClassName("calendar-row")} key={rowKey}>
-                      {calendarRow.map((day) => {
-                        const isCurrent = isSameDay(day, this.currentDate);
-
-                        const isOverflowing =
-                          day.getMonth() !== this.currentDate?.getMonth();
-
-                        const isSelected = Array.isArray(this.value)
-                          ? isSameDay(day, this.value[0]) ||
-                            (this.value[1] &&
-                              dateIsWithinBounds(
-                                day,
-                                getISODateString(this.value[0]),
-                                getISODateString(this.value[1])
-                              ))
-                          : isSameDay(day, this.value);
-
-                        const isDisabled =
-                          this.disableDate(day) ||
-                          !dateIsWithinBounds(day, this.minDate, this.maxDate);
-
-                        const isInRange = !this.isRangeValue(this.value)
-                          ? false
-                          : isDateInRange(day, {
-                              from: this.value?.[0],
-                              to:
-                                this.value?.[1] ||
-                                this.hoveredDate ||
-                                this.currentDate
-                            }) && !isDisabled;
-
-                        const isToday = isSameDay(day, new Date());
-
-                        const cellKey = `cell-${day.getMonth()}-${day.getDate()}`;
-
-                        const getScreenReaderText = () => {
-                          if (this.range) {
-                            let suffix = !this.value
-                              ? `, ${this.labels.chooseAsStartDate}.`
-                              : "";
-
-                            if (Array.isArray(this.value)) {
-                              suffix = {
-                                1: `, ${this.labels.chooseAsEndDate}.`,
-                                2: `, ${this.labels.chooseAsStartDate}.`
-                              }[this.value.length] as string;
-                            }
-
-                            return `${
-                              isSelected ? `${this.labels.selected}, ` : ""
-                            }${Intl.DateTimeFormat(this.locale, {
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric"
-                            }).format(day)}${suffix}`;
-                          } else {
-                            return `${
-                              isSelected ? `${this.labels.selected}, ` : ""
-                            }${Intl.DateTimeFormat(this.locale, {
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric"
-                            }).format(day)}`;
-                          }
-                        };
-
-                        const className = {
-                          [this.getClassName("date")]: true,
-                          [this.getClassName("date--current")]: isCurrent,
-                          [this.getClassName("date--disabled")]: isDisabled,
-                          [this.getClassName("date--overflowing")]:
-                            isOverflowing,
-                          [this.getClassName("date--today")]: isToday,
-                          [this.getClassName("date--selected")]: isSelected,
-                          [this.getClassName("date--in-range")]: isInRange
-                        };
-
-                        const Tag = isSelected
-                          ? "strong"
-                          : isToday
-                          ? "em"
-                          : "span";
-
-                        return (
-                          <td
-                            aria-disabled={String(isDisabled)}
-                            aria-selected={isSelected ? "true" : undefined}
-                            class={className}
-                            data-date={getISODateString(day)}
-                            key={cellKey}
-                            onClick={this.onClick}
-                            onMouseEnter={this.onMouseEnter}
-                            onMouseLeave={this.onMouseLeave}
-                            role="gridcell"
-                            tabIndex={
-                              isSameDay(day, this.currentDate) && !this.disabled
-                                ? 0
-                                : -1
-                            }
-                          >
-                            <Tag aria-hidden="true">{day.getDate()}</Tag>
-                            <span class="visually-hidden">
-                              {getScreenReaderText()}
-                            </span>
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-
-          {showFooter && (
-            <div class={this.getClassName("footer")}>
-              <div class={this.getClassName("footer-buttons")}>
-                {this.showTodayButton && (
-                  <button
-                    class={this.getClassName("today-button")}
-                    disabled={this.disabled}
-                    innerHTML={this.todayButtonContent || undefined}
-                    onClick={this.showToday}
-                    type="button"
+                  <svg
+                    fill="none"
+                    height="24"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    width="24"
                   >
-                    {this.labels.todayButton}
-                  </button>
-                )}
-                {this.showClearButton && (
-                  <button
-                    class={this.getClassName("clear-button")}
-                    disabled={this.disabled}
-                    innerHTML={this.clearButtonContent || undefined}
-                    onClick={this.clear}
-                    type="button"
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              )}
+              {this.showYearStepper && (
+                <button
+                  aria-label={this.labels.nextYearButton}
+                  class={this.getClassName("next-year-button")}
+                  aria-disabled={disabled.year.next}
+                  innerHTML={this.nextYearButtonContent || undefined}
+                  onClick={this.nextYear}
+                  type="button"
+                >
+                  <svg
+                    fill="none"
+                    height="24"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    width="24"
                   >
-                    {this.labels.clearButton}
-                  </button>
-                )}
-              </div>
-              {this.showKeyboardHint &&
-                !window.matchMedia("(pointer: coarse)").matches && (
-                  <button
-                    type="button"
-                    onClick={() => alert("Todo: Add Keyboard helper!")}
-                    class={this.getClassName("keyboard-hint")}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="1em"
-                      width="1em"
-                      viewBox="0 0 48 48"
-                      fill="currentColor"
-                    >
-                      <path d="M7 38q-1.2 0-2.1-.925Q4 36.15 4 35V13q0-1.2.9-2.1.9-.9 2.1-.9h34q1.2 0 2.1.9.9.9.9 2.1v22q0 1.15-.9 2.075Q42.2 38 41 38Zm0-3h34V13H7v22Zm8-3.25h18v-3H15Zm-4.85-6.25h3v-3h-3Zm6.2 0h3v-3h-3Zm6.15 0h3v-3h-3Zm6.2 0h3v-3h-3Zm6.15 0h3v-3h-3Zm-24.7-6.25h3v-3h-3Zm6.2 0h3v-3h-3Zm6.15 0h3v-3h-3Zm6.2 0h3v-3h-3Zm6.15 0h3v-3h-3ZM7 35V13v22Z" />
-                    </svg>
-                    {this.labels.keyboardHint}
-                  </button>
-                )}
+                    <polyline points="13 17 18 12 13 7"></polyline>
+                    <polyline points="6 17 11 12 6 7"></polyline>
+                  </svg>
+                </button>
+              )}
             </div>
-          )}
+
+            <div class={this.getClassName("body")}>
+              <table
+                class={this.getClassName("calendar")}
+                onKeyDown={this.onKeyDown}
+                role="grid"
+                aria-label={this.getTitle()}
+              >
+                <thead class={this.getClassName("calendar-header")}>
+                  <tr class={this.getClassName("weekday-row")}>
+                    {this.weekdays?.map((weekday) => (
+                      <th
+                        role="columnheader"
+                        abbr={weekday[1]}
+                        class={this.getClassName("weekday")}
+                        key={weekday[0]}
+                        scope="col"
+                      >
+                        <span aria-hidden="true">{weekday[0]}</span>
+                        <span class="visually-hidden">{weekday[1]}</span>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {this.getCalendarRows().map((calendarRow) => {
+                    const rowKey = `row-${calendarRow[0].getMonth()}-${calendarRow[0].getDate()}`;
+
+                    return (
+                      <tr class={this.getClassName("calendar-row")} key={rowKey}>
+                        {calendarRow.map((day) => {
+                          const isCurrent = isSameDay(day, this.currentDate);
+
+                          const isOverflowing =
+                            day.getMonth() !== this.currentDate?.getMonth();
+
+                          const isSelected = Array.isArray(this.value)
+                            ? isSameDay(day, this.value[0]) ||
+                              (this.value[1] &&
+                                dateIsWithinBounds(
+                                  day,
+                                  getISODateString(this.value[0]),
+                                  getISODateString(this.value[1])
+                                ))
+                            : isSameDay(day, this.value);
+
+                          const isDisabled =
+                            this.disableDate(day) ||
+                            !dateIsWithinBounds(day, this.minDate, this.maxDate);
+
+                          const isInRange = !this.isRangeValue(this.value)
+                            ? false
+                            : isDateInRange(day, {
+                                from: this.value?.[0],
+                                to:
+                                  this.value?.[1] ||
+                                  this.hoveredDate ||
+                                  this.currentDate
+                              }) && !isDisabled;
+
+                          const isToday = isSameDay(day, new Date());
+
+                          const cellKey = `cell-${day.getMonth()}-${day.getDate()}`;
+
+                          const getScreenReaderText = () => {
+                            if (this.range) {
+                              let suffix = !this.value
+                                ? `, ${this.labels.chooseAsStartDate}.`
+                                : "";
+
+                              if (Array.isArray(this.value)) {
+                                suffix = {
+                                  1: `, ${this.labels.chooseAsEndDate}.`,
+                                  2: `, ${this.labels.chooseAsStartDate}.`
+                                }[this.value.length] as string;
+                              }
+
+                              return `${
+                                isSelected ? `${this.labels.selected}, ` : ""
+                              }${Intl.DateTimeFormat(this.locale, {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric"
+                              }).format(day)}${suffix}`;
+                            } else {
+                              return `${
+                                isSelected ? `${this.labels.selected}, ` : ""
+                              }${Intl.DateTimeFormat(this.locale, {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric"
+                              }).format(day)}`;
+                            }
+                          };
+
+                          const className = {
+                            [this.getClassName("date")]: true,
+                            [this.getClassName("date--current")]: isCurrent,
+                            [this.getClassName("date--disabled")]: isDisabled,
+                            [this.getClassName("date--overflowing")]:
+                              isOverflowing,
+                            [this.getClassName("date--today")]: isToday,
+                            [this.getClassName("date--selected")]: isSelected,
+                            [this.getClassName("date--in-range")]: isInRange
+                          };
+
+                          const Tag = isSelected
+                            ? "strong"
+                            : isToday
+                            ? "em"
+                            : "span";
+
+                          return (
+                            <td
+                              aria-disabled={String(isDisabled)}
+                              aria-selected={isSelected ? "true" : undefined}
+                              class={className}
+                              data-date={getISODateString(day)}
+                              key={cellKey}
+                              onClick={this.onClick}
+                              onMouseEnter={this.onMouseEnter}
+                              onMouseLeave={this.onMouseLeave}
+                              role="gridcell"
+                              tabIndex={
+                                isSameDay(day, this.currentDate) && !this.disabled
+                                  ? 0
+                                  : -1
+                              }
+                            >
+                              <Tag aria-hidden="true">{day.getDate()}</Tag>
+                              <span class="visually-hidden">
+                                {getScreenReaderText()}
+                              </span>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {showFooter && (
+              <div class={this.getClassName("footer")}>
+                <div class={this.getClassName("footer-buttons")}>
+                  {this.showTodayButton && (
+                    <button
+                      class={this.getClassName("today-button")}
+                      disabled={this.disabled}
+                      innerHTML={this.todayButtonContent || undefined}
+                      onClick={this.showToday}
+                      type="button"
+                    >
+                      {this.labels.todayButton}
+                    </button>
+                  )}
+                  {this.showClearButton && (
+                    <button
+                      class={this.getClassName("clear-button")}
+                      disabled={this.disabled}
+                      innerHTML={this.clearButtonContent || undefined}
+                      onClick={this.clear}
+                      type="button"
+                    >
+                      {this.labels.clearButton}
+                    </button>
+                  )}
+                </div>
+                {this.showKeyboardHint &&
+                  !window.matchMedia("(pointer: coarse)").matches && (
+                    <button
+                      type="button"
+                      onClick={() => alert("Todo: Add Keyboard helper!")}
+                      class={this.getClassName("keyboard-hint")}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="1em"
+                        width="1em"
+                        viewBox="0 0 48 48"
+                        fill="currentColor"
+                      >
+                        <path d="M7 38q-1.2 0-2.1-.925Q4 36.15 4 35V13q0-1.2.9-2.1.9-.9 2.1-.9h34q1.2 0 2.1.9.9.9.9 2.1v22q0 1.15-.9 2.075Q42.2 38 41 38Zm0-3h34V13H7v22Zm8-3.25h18v-3H15Zm-4.85-6.25h3v-3h-3Zm6.2 0h3v-3h-3Zm6.15 0h3v-3h-3Zm6.2 0h3v-3h-3Zm6.15 0h3v-3h-3Zm-24.7-6.25h3v-3h-3Zm6.2 0h3v-3h-3Zm6.15 0h3v-3h-3Zm6.2 0h3v-3h-3Zm6.15 0h3v-3h-3ZM7 35V13v22Z" />
+                      </svg>
+                      {this.labels.keyboardHint}
+                    </button>
+                  )}
+              </div>
+            )}
+          </div>
+          <slot name="after-calendar" />
         </div>
       </Host>
     );

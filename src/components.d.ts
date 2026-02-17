@@ -15,6 +15,7 @@ export { ChronoOptions, ChronoParsedDateString } from "./utils/chrono-parser/chr
 export { InclusiveDatesCalendarLabels as InclusiveDatesCalendarLabels1, MonthChangedEventDetails, YearChangedEventDetails as YearChangedEventDetails1 } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
 export namespace Components {
     interface InclusiveDates {
+        "calendarButtonContent"?: string;
         /**
           * @default () =>     false
          */
@@ -289,6 +290,7 @@ declare namespace LocalJSX {
     type OneOf<K extends string, PropT, AttrT = PropT> = { [P in K]: PropT } & { [P in `attr:${K}` | `prop:${K}`]?: never } | { [P in `attr:${K}`]: AttrT } & { [P in K | `prop:${K}`]?: never } | { [P in `prop:${K}`]: PropT } & { [P in K | `attr:${K}`]?: never };
 
     interface InclusiveDates {
+        "calendarButtonContent"?: string;
         /**
           * @default () =>     false
          */
@@ -508,6 +510,7 @@ declare namespace LocalJSX {
         "firstDayOfWeek": number;
         "format": string;
         "todayButtonContent": string;
+        "calendarButtonContent": string;
         "showQuickButtons": boolean;
     }
     interface InclusiveDatesCalendarAttributes {
