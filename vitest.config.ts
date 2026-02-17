@@ -8,35 +8,42 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   test: {
-    coverage: {
-      provider: 'v8',
-    },
     globals: true,
     environment: 'happy-dom',
     setupFiles: ['./vitest.setup.ts'],
-    include: ['**/*.test.ts', '**/*.test.tsx', '**/*.spec.ts', '**/*.spec.tsx'],
-    exclude: ['node_modules', 'dist', 'build', '.storybook'],
-    projects: [{
-      test: {
-        name: 'storybook',
-        browser: {
-          enabled: true,
-          headless: true,
-          provider: playwright({}),
-          instances: [{
-            browser: 'chromium'
-          }],
+    projects: [
+      {
+        // Unit tests project - tests source files directly
+        test: {
+          name: 'unit',
+          include: ['src/**/*.spec.{ts,tsx}'],
+          globals: true,
+          environment: 'node',
+          // Unit tests for utilities
         },
-        setupFiles: ['.storybook/vitest.setup.ts']
       },
-      plugins: [
-        // The plugin will run tests for the stories defined in your Storybook config
-        // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
-        storybookTest({
-          configDir: path.join(dirname, '.storybook')
-        })
-      ],
-    }],
+      {
+        // Storybook integration tests project - NO COVERAGE
+        test: {
+          name: 'storybook',
+          include: ['src/**/*.stories.{ts,tsx}'],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [{
+              browser: 'chromium'
+            }],
+          },
+          setupFiles: ['.storybook/vitest.setup.ts']
+        },
+        plugins: [
+          storybookTest({
+            configDir: path.join(dirname, '.storybook')
+          })
+        ],
+      }
+    ],
   },
 
 });

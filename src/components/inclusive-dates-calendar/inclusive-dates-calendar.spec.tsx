@@ -1,0 +1,308 @@
+import { newSpecPage } from '@stencil/core/testing';
+import { InclusiveDatesCalendar } from './inclusive-dates-calendar';
+
+describe('inclusive-dates-calendar', () => {
+  const createPage = async (html = `<inclusive-dates-calendar></inclusive-dates-calendar>`) => {
+    return newSpecPage({
+      components: [InclusiveDatesCalendar],
+      html,
+    });
+  };
+
+  it('renders with defaults and initializes current date/weekdays', async () => {
+    const page = await createPage();
+    const instance = page.rootInstance as any;
+
+    expect(page.root).toBeTruthy();
+    expect(instance.currentDate).toBeInstanceOf(Date);
+    expect(Array.isArray(instance.weekdays)).toBe(true);
+  });
+
+  it('watches modal, locale, firstDayOfWeek, range, startDate, and value', async () => {
+    const page = await createPage();
+    const instance = page.rootInstance as any;
+
+    instance.modalIsOpen = true;
+    instance.watchModalIsOpen();
+    expect(instance.moveFocusOnModalOpen).toBe(true);
+
+    const oldWeekdays = instance.weekdays;
+    instance.firstDayOfWeek = 1;
+    instance.watchFirstDayOfWeek();
+    expect(instance.weekdays).not.toBe(oldWeekdays);
+
+    instance.locale = undefined;
+    instance.watchLocale();
+    expect(instance.locale).toBeTruthy();
+
+    const emitSpy = jest.spyOn(instance.selectDate, 'emit');
+    instance.range = true;
+    instance.watchRange();
+    expect(instance.value).toBeUndefined();
+    expect(emitSpy).toHaveBeenCalledWith(undefined);
+
+    instance.startDate = '2024-03-15';
+    instance.watchStartDate();
+    expect(instance.currentDate).toBeInstanceOf(Date);
+
+    instance.value = [new Date('2024-03-10'), new Date('2024-03-12')];
+    instance.watchValue();
+    expect(instance.currentDate.getDate()).toBe(10);
+
+    instance.value = new Date('2024-03-20');
+    instance.watchValue();
+    expect(instance.currentDate.getDate()).toBe(20);
+  });
+
+  it('focuses date when requested from lifecycle flags', async () => {
+    const page = await createPage();
+    const instance = page.rootInstance as any;
+
+    const focusSpy = jest.fn();
+    jest.spyOn(page.root!, 'querySelector').mockReturnValue({ focus: focusSpy } as any);
+
+    instance.moveFocusAfterMonthChanged = true;
+    instance.componentDidRender();
+    expect(focusSpy).toHaveBeenCalled();
+
+    jest.useFakeTimers();
+    instance.moveFocusOnModalOpen = true;
+    instance.componentDidRender();
+    jest.runAllTimers();
+    expect(focusSpy).toHaveBeenCalledTimes(2);
+    jest.useRealTimers();
+  });
+
+  it('returns calendar title and rows', async () => {
+    const page = await createPage('<inclusive-dates-calendar start-date="2024-03-15"></inclusive-dates-calendar>');
+    const instance = page.rootInstance as any;
+
+    const title = instance.getTitle();
+    const rows = instance.getCalendarRows();
+
+    expect(title).toContain('2024');
+    expect(Array.isArray(rows)).toBe(true);
+    expect(rows.length).toBeGreaterThan(3);
+  });
+
+  it('returns undefined title when current date is missing', async () => {
+    const page = await createPage();
+    const instance = page.rootInstance as any;
+    instance.currentDate = undefined;
+    expect(instance.getTitle()).toBeUndefined();
+  });
+
+  it('updates current date with bounds and emits month change', async () => {
+    const page = await createPage('<inclusive-dates-calendar min-date="2024-03-01" max-date="2024-03-31" start-date="2024-03-15"></inclusive-dates-calendar>');
+    const instance = page.rootInstance as any;
+
+    const emitSpy = jest.spyOn(instance.changeMonth, 'emit');
+    const focusSpy = jest.spyOn(instance, 'focusDate').mockImplementation(() => undefined);
+
+    instance.updateCurrentDate(new Date('2024-02-01'), true);
+    expect(instance.currentDate.getMonth()).toBe(2);
+
+    instance.updateCurrentDate(new Date('2024-04-20'), true);
+    expect(instance.currentDate.getMonth()).toBe(2);
+
+    instance.updateCurrentDate(new Date('2024-03-20'), true);
+    expect(focusSpy).toHaveBeenCalled();
+
+    instance.updateCurrentDate(new Date('2024-05-01'));
+    expect(emitSpy).toHaveBeenCalled();
+  });
+
+  it('selects single dates and ignores disabled/same-date selections', async () => {
+    const page = await createPage('<inclusive-dates-calendar start-date="2024-03-15"></inclusive-dates-calendar>');
+    const instance = page.rootInstance as any;
+    instance.range = false;
+
+    const emitSpy = jest.spyOn(instance.selectDate, 'emit');
+
+    instance.disableDate = () => true;
+    instance.onSelectDate(new Date('2024-03-16'));
+    expect(emitSpy).not.toHaveBeenCalled();
+
+    instance.disableDate = () => false;
+    instance.onSelectDate(new Date('2024-03-16'));
+    expect(instance.value).toBeInstanceOf(Date);
+    expect(emitSpy).toHaveBeenCalled();
+
+    emitSpy.mockClear();
+    instance.onSelectDate(new Date('2024-03-16'));
+    expect(emitSpy).not.toHaveBeenCalled();
+  });
+
+  it('selects ranges and normalizes inverted range order', async () => {
+    const page = await createPage('<inclusive-dates-calendar range start-date="2024-03-15"></inclusive-dates-calendar>');
+    const instance = page.rootInstance as any;
+    const emitSpy = jest.spyOn(instance.selectDate, 'emit');
+
+    instance.onSelectDate(new Date('2024-03-20'));
+    expect(instance.value).toEqual([new Date('2024-03-20')]);
+
+    instance.onSelectDate(new Date('2024-03-18'));
+    expect(Array.isArray(instance.value)).toBe(true);
+    expect(instance.value[0].getDate()).toBe(18);
+    expect(instance.value[1].getDate()).toBe(20);
+    expect(emitSpy).toHaveBeenCalled();
+  });
+
+  it('handles next/previous/today/clear operations', async () => {
+    const page = await createPage('<inclusive-dates-calendar start-date="2024-03-15"></inclusive-dates-calendar>');
+    const instance = page.rootInstance as any;
+
+    const updateSpy = jest.spyOn(instance, 'updateCurrentDate');
+    const emitSpy = jest.spyOn(instance.selectDate, 'emit');
+
+    instance.nextMonth();
+    instance.previousMonth();
+    instance.nextYear();
+    instance.previousYear();
+    instance.showToday();
+
+    expect(updateSpy).toHaveBeenCalled();
+
+    instance.clear();
+    expect(instance.value).toBeUndefined();
+    expect(emitSpy).toHaveBeenCalledWith(undefined);
+  });
+
+  it('handles click selection and ignores invalid click targets', async () => {
+    const page = await createPage('<inclusive-dates-calendar start-date="2024-03-15"></inclusive-dates-calendar>');
+    const instance = page.rootInstance as any;
+
+    const selectSpy = jest.spyOn(instance, 'onSelectDate');
+    const updateSpy = jest.spyOn(instance, 'updateCurrentDate');
+
+    instance.onClick({ target: { closest: () => null } } as any);
+    expect(selectSpy).not.toHaveBeenCalled();
+
+    instance.onClick({
+      target: {
+        closest: () => ({ dataset: { date: '2024-03-16' } }),
+      },
+    } as any);
+
+    expect(updateSpy).toHaveBeenCalled();
+    expect(selectSpy).toHaveBeenCalled();
+
+    instance.disabled = true;
+    selectSpy.mockClear();
+    instance.onClick({
+      target: {
+        closest: () => ({ dataset: { date: '2024-03-17' } }),
+      },
+    } as any);
+    expect(selectSpy).not.toHaveBeenCalled();
+  });
+
+  it('handles month and year selectors with bounds', async () => {
+    const page = await createPage('<inclusive-dates-calendar min-date="2024-03-01" max-date="2024-03-31" start-date="2024-03-15"></inclusive-dates-calendar>');
+    const instance = page.rootInstance as any;
+
+    const updateSpy = jest.spyOn(instance, 'updateCurrentDate');
+    const changeYearSpy = jest.spyOn(instance.changeYear, 'emit');
+
+    instance.onMonthSelect({ target: { value: '4' } } as any);
+    expect(updateSpy).toHaveBeenCalled();
+
+    updateSpy.mockClear();
+    instance.currentDate = new Date('2025-01-01');
+    instance.onMonthSelect({ target: { value: '3' } } as any);
+    expect(updateSpy).not.toHaveBeenCalled();
+
+    instance.currentDate = new Date('2024-03-15');
+    instance.onYearSelect({ target: { value: '2024' } } as any);
+    expect(changeYearSpy).toHaveBeenCalledWith({ year: 2024 });
+  });
+
+  it('handles keyboard navigation and date selection keys', async () => {
+    const page = await createPage('<inclusive-dates-calendar start-date="2024-03-15"></inclusive-dates-calendar>');
+    const instance = page.rootInstance as any;
+
+    const updateSpy = jest.spyOn(instance, 'updateCurrentDate');
+    const selectSpy = jest.spyOn(instance, 'onSelectDate');
+
+    const fire = (code: string, shiftKey = false) => {
+      const preventDefault = jest.fn();
+      instance.onKeyDown({ code, shiftKey, preventDefault } as any);
+      expect(preventDefault).toHaveBeenCalled();
+    };
+
+    fire('ArrowLeft');
+    fire('ArrowRight');
+    fire('ArrowUp');
+    fire('ArrowDown');
+    fire('PageUp');
+    fire('PageUp', true);
+    fire('PageDown');
+    fire('PageDown', true);
+    fire('Home');
+    fire('End');
+    fire('Space');
+    fire('Enter');
+
+    expect(updateSpy).toHaveBeenCalled();
+    expect(selectSpy).toHaveBeenCalled();
+
+    instance.disabled = true;
+    updateSpy.mockClear();
+    instance.onKeyDown({ code: 'ArrowLeft', preventDefault: jest.fn() } as any);
+    expect(updateSpy).not.toHaveBeenCalled();
+  });
+
+  it('handles mouse enter/leave hover state', async () => {
+    const page = await createPage();
+    const instance = page.rootInstance as any;
+
+    instance.onMouseEnter({ target: { closest: () => ({ dataset: { date: '2024-03-20' } }) } } as any);
+    expect(instance.hoveredDate).toBeInstanceOf(Date);
+
+    instance.onMouseLeave();
+    expect(instance.hoveredDate).toBeUndefined();
+
+    instance.disabled = true;
+    instance.onMouseEnter({ target: { closest: () => ({ dataset: { date: '2024-03-21' } }) } } as any);
+    expect(instance.hoveredDate).toBeUndefined();
+  });
+
+  it('renders footer controls and keyboard hint toggle', async () => {
+    const matchMediaMock = jest.fn().mockReturnValue({ matches: false });
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: matchMediaMock,
+    });
+
+    const page = await createPage(
+      '<inclusive-dates-calendar show-today-button show-clear-button show-keyboard-hint inline></inclusive-dates-calendar>',
+    );
+
+    expect(page.root?.querySelector('.inclusive-dates-calendar__today-button')).toBeTruthy();
+    expect(page.root?.querySelector('.inclusive-dates-calendar__clear-button')).toBeTruthy();
+    expect(page.root?.querySelector('.inclusive-dates-calendar__keyboard-hint')).toBeTruthy();
+
+    matchMediaMock.mockReturnValue({ matches: true });
+    await page.waitForChanges();
+  });
+
+  it('renders range prompt text and triggers keyboard hint action', async () => {
+    const matchMediaMock = jest.fn().mockReturnValue({ matches: false });
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: matchMediaMock,
+    });
+
+    const page = await createPage('<inclusive-dates-calendar range show-keyboard-hint></inclusive-dates-calendar>');
+    const instance = page.rootInstance as any;
+    instance.value = [new Date(instance.currentDate)];
+    await page.waitForChanges();
+
+    const selectedCellSr = page.root?.querySelector('[aria-selected="true"] .visually-hidden')?.textContent || '';
+    expect(selectedCellSr).toContain(instance.labels.chooseAsEndDate);
+
+    const keyboardHint = page.root?.querySelector('.inclusive-dates-calendar__keyboard-hint') as HTMLButtonElement;
+    keyboardHint.click();
+    expect(keyboardHint).toBeTruthy();
+  });
+});

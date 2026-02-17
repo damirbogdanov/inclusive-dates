@@ -1,6 +1,5 @@
 import type { Preview } from "@storybook/web-components-vite";
 import { defineCustomElements } from "../dist/esm/loader";
-import { spyOn } from "@storybook/test";
 
 defineCustomElements();
 
@@ -26,13 +25,6 @@ const preview: Preview = {
       return story();
     },
   ],
-
-  async beforeEach() {
-    spyOn(console, "warn").mockName("console.warn");
-  },
-  async afterEach() {
-    (console.warn as any).mockClear?.();
-  },
 };
 
 export default preview;

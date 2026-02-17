@@ -6,6 +6,25 @@ import postcssNested from "postcss-nested";
 export const config: Config = {
   namespace: "inclusive-dates",
   tsconfig: "tsconfig.stencil.json",
+  testing: {
+    browserHeadless: "shell",
+    testPathIgnorePatterns: [
+      '/node_modules/',
+      '/dist/',
+      '/www/',
+    ],
+    coverageDirectory: 'coverage',
+    coverageReporters: ['text', 'html', 'lcov', 'json'],
+    collectCoverageFrom: [
+      'src/components/**/*.{ts,tsx}',
+      'src/utils/**/*.{ts,tsx}',
+      '!src/**/*.stories.ts',
+      '!src/**/*.spec.tsx',
+      '!src/**/*.e2e.ts',
+      '!src/**/*.d.ts',
+      '!src/index.ts',
+    ],
+  },
   outputTargets: [
     {
       copy: [
