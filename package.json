@@ -1,15 +1,17 @@
 {
-  "name": "inclusive-dates",
+  "name": "@tabworthy/components",
   "version": "0.1.10",
-  "description": "A small, accessible datepicker Web Component with natural language date input.",
+  "description": "Small, accessible datepicker and datetimepicker Web Components with natural language date input.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fymmot/inclusive-dates"
+    "url": "https://github.com/tabworthy/tabworthy-components"
   },
   "keywords": [
     "datepicker",
+    "datetimepicker",
     "calendar",
     "accessibility",
+    "ay11y",
     "wai-aria",
     "web component",
     "inclusive design",
@@ -24,7 +26,7 @@
   "types": "dist/types/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/inclusive-dates/inclusive-dates.esm.js",
+  "unpkg": "dist/tabworthy-components/tabworthy-components.esm.js",
   "files": [
     "dist/"
   ],
@@ -33,7 +35,7 @@
     "build:stencil": "yarn sass && stencil build",
     "build:docs": "rimraf docs-www && copyfiles -u 1 docs/* docs/**/* dist/themes/* docs-www && copyfiles dist/esm/* docs-www && node terser.js",
     "prettier": "prettier --write .",
-    "start": "yarn start:stencil",
+    "start": "yarn storybook",
     "start2": "concurrently --kill-others \"yarn sass:watch\" \"stencil build --dev --watch --serve\"",
     "start:stencil": "stencil build --dev --watch --serve",
     "start:docs": "concurrently --kill-others \"npm-watch build:docs\" \"serve docs-www\"",

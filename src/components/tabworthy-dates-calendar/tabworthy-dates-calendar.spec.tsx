@@ -1,8 +1,8 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { InclusiveDatesCalendar } from './inclusive-dates-calendar';
+import { InclusiveDatesCalendar } from './tabworthy-dates-calendar';
 
-describe('inclusive-dates-calendar', () => {
-  const createPage = async (html = `<inclusive-dates-calendar></inclusive-dates-calendar>`) => {
+describe('tabworthy-dates-calendar', () => {
+  const createPage = async (html = `<tabworthy-dates-calendar></tabworthy-dates-calendar>`) => {
     return newSpecPage({
       components: [InclusiveDatesCalendar],
       html,
@@ -74,7 +74,7 @@ describe('inclusive-dates-calendar', () => {
   });
 
   it('returns calendar title and rows', async () => {
-    const page = await createPage('<inclusive-dates-calendar start-date="2024-03-15"></inclusive-dates-calendar>');
+    const page = await createPage('<tabworthy-dates-calendar start-date="2024-03-15"></tabworthy-dates-calendar>');
     const instance = page.rootInstance as any;
 
     const title = instance.getTitle();
@@ -93,7 +93,7 @@ describe('inclusive-dates-calendar', () => {
   });
 
   it('updates current date with bounds and emits month change', async () => {
-    const page = await createPage('<inclusive-dates-calendar min-date="2024-03-01" max-date="2024-03-31" start-date="2024-03-15"></inclusive-dates-calendar>');
+    const page = await createPage('<tabworthy-dates-calendar min-date="2024-03-01" max-date="2024-03-31" start-date="2024-03-15"></tabworthy-dates-calendar>');
     const instance = page.rootInstance as any;
 
     const emitSpy = jest.spyOn(instance.changeMonth, 'emit');
@@ -113,7 +113,7 @@ describe('inclusive-dates-calendar', () => {
   });
 
   it('selects single dates and ignores disabled/same-date selections', async () => {
-    const page = await createPage('<inclusive-dates-calendar start-date="2024-03-15"></inclusive-dates-calendar>');
+    const page = await createPage('<tabworthy-dates-calendar start-date="2024-03-15"></tabworthy-dates-calendar>');
     const instance = page.rootInstance as any;
     instance.range = false;
 
@@ -134,7 +134,7 @@ describe('inclusive-dates-calendar', () => {
   });
 
   it('selects ranges and normalizes inverted range order', async () => {
-    const page = await createPage('<inclusive-dates-calendar range start-date="2024-03-15"></inclusive-dates-calendar>');
+    const page = await createPage('<tabworthy-dates-calendar range start-date="2024-03-15"></tabworthy-dates-calendar>');
     const instance = page.rootInstance as any;
     const emitSpy = jest.spyOn(instance.selectDate, 'emit');
 
@@ -149,7 +149,7 @@ describe('inclusive-dates-calendar', () => {
   });
 
   it('handles next/previous/today/clear operations', async () => {
-    const page = await createPage('<inclusive-dates-calendar start-date="2024-03-15"></inclusive-dates-calendar>');
+    const page = await createPage('<tabworthy-dates-calendar start-date="2024-03-15"></tabworthy-dates-calendar>');
     const instance = page.rootInstance as any;
 
     const updateSpy = jest.spyOn(instance, 'updateCurrentDate');
@@ -169,7 +169,7 @@ describe('inclusive-dates-calendar', () => {
   });
 
   it('handles click selection and ignores invalid click targets', async () => {
-    const page = await createPage('<inclusive-dates-calendar start-date="2024-03-15"></inclusive-dates-calendar>');
+    const page = await createPage('<tabworthy-dates-calendar start-date="2024-03-15"></tabworthy-dates-calendar>');
     const instance = page.rootInstance as any;
 
     const selectSpy = jest.spyOn(instance, 'onSelectDate');
@@ -198,7 +198,7 @@ describe('inclusive-dates-calendar', () => {
   });
 
   it('handles month and year selectors with bounds', async () => {
-    const page = await createPage('<inclusive-dates-calendar min-date="2024-03-01" max-date="2024-03-31" start-date="2024-03-15"></inclusive-dates-calendar>');
+    const page = await createPage('<tabworthy-dates-calendar min-date="2024-03-01" max-date="2024-03-31" start-date="2024-03-15"></tabworthy-dates-calendar>');
     const instance = page.rootInstance as any;
 
     const updateSpy = jest.spyOn(instance, 'updateCurrentDate');
@@ -218,7 +218,7 @@ describe('inclusive-dates-calendar', () => {
   });
 
   it('handles keyboard navigation and date selection keys', async () => {
-    const page = await createPage('<inclusive-dates-calendar start-date="2024-03-15"></inclusive-dates-calendar>');
+    const page = await createPage('<tabworthy-dates-calendar start-date="2024-03-15"></tabworthy-dates-calendar>');
     const instance = page.rootInstance as any;
 
     const updateSpy = jest.spyOn(instance, 'updateCurrentDate');
@@ -275,12 +275,12 @@ describe('inclusive-dates-calendar', () => {
     });
 
     const page = await createPage(
-      '<inclusive-dates-calendar show-today-button show-clear-button show-keyboard-hint inline></inclusive-dates-calendar>',
+      '<tabworthy-dates-calendar show-today-button show-clear-button show-keyboard-hint inline></tabworthy-dates-calendar>',
     );
 
-    expect(page.root?.querySelector('.inclusive-dates-calendar__today-button')).toBeTruthy();
-    expect(page.root?.querySelector('.inclusive-dates-calendar__clear-button')).toBeTruthy();
-    expect(page.root?.querySelector('.inclusive-dates-calendar__keyboard-hint')).toBeTruthy();
+    expect(page.root?.querySelector('.tabworthy-dates-calendar__today-button')).toBeTruthy();
+    expect(page.root?.querySelector('.tabworthy-dates-calendar__clear-button')).toBeTruthy();
+    expect(page.root?.querySelector('.tabworthy-dates-calendar__keyboard-hint')).toBeTruthy();
 
     matchMediaMock.mockReturnValue({ matches: true });
     await page.waitForChanges();
@@ -293,7 +293,7 @@ describe('inclusive-dates-calendar', () => {
       value: matchMediaMock,
     });
 
-    const page = await createPage('<inclusive-dates-calendar range show-keyboard-hint></inclusive-dates-calendar>');
+    const page = await createPage('<tabworthy-dates-calendar range show-keyboard-hint></tabworthy-dates-calendar>');
     const instance = page.rootInstance as any;
     instance.value = [new Date(instance.currentDate)];
     await page.waitForChanges();
@@ -301,7 +301,7 @@ describe('inclusive-dates-calendar', () => {
     const selectedCellSr = page.root?.querySelector('[aria-selected="true"] .visually-hidden')?.textContent || '';
     expect(selectedCellSr).toContain(instance.labels.chooseAsEndDate);
 
-    const keyboardHint = page.root?.querySelector('.inclusive-dates-calendar__keyboard-hint') as HTMLButtonElement;
+    const keyboardHint = page.root?.querySelector('.tabworthy-dates-calendar__keyboard-hint') as HTMLButtonElement;
     keyboardHint.click();
     expect(keyboardHint).toBeTruthy();
   });

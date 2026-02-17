@@ -34,8 +34,8 @@ The static build will be output to `storybook-static/` directory.
 
 Stories are located alongside components in `src/components/*/` with `.stories.ts` extension:
 
-- `inclusive-dates.stories.ts`: Main datepicker component stories
-- `inclusive-dates-calendar.stories.ts`: Calendar component stories
+- `tabworthy-dates.stories.ts`: Main datepicker component stories
+- `tabworthy-dates-calendar.stories.ts`: Calendar component stories
 - `Introduction.stories.ts`: Getting started documentation
 
 ## Adding New Stories

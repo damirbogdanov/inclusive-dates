@@ -1,29 +1,33 @@
 
-inclusive-dates-calendar,
-inclusive-dates-calendar *,
-inclusive-dates-calendar *:before,
-inclusive-dates-calendar *:after {
+tabworthy-dates-calendar,
+tabworthy-dates-calendar *,
+tabworthy-dates-calendar *:before,
+tabworthy-dates-calendar *:after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-inclusive-dates-calendar {
+tabworthy-dates-calendar {
   display: inline-flex;
 }
 
-inclusive-dates *:focus-visible {
+tabworthy-dates *:focus-visible {
   outline: 0.25rem solid var(--focus-color);
 }
 
-.inclusive-dates-calendar-wrapper {
+.tabworthy-dates-calendar-wrapper {
   border: 0.0625rem solid var(--border-color);
   border-radius: 0.375rem;
   display: flex;
+
+  &--inline {
+    margin-top: 0.5em;
+  }
 }
 
-.inclusive-dates-calendar,
-.inclusive-dates {
+.tabworthy-dates-calendar,
+.tabworthy-dates {
   display: block;
   width: min-content;
   min-width: 18rem;
@@ -40,63 +44,63 @@ inclusive-dates *:focus-visible {
 }
 
 @media screen and (min-width: 23.5rem) {
-  .inclusive-dates-calendar,
-  .inclusive-dates {
+  .tabworthy-dates-calendar,
+  .tabworthy-dates {
     min-width: 20rem;
     max-width: 24rem;
   }
 }
 
-.inclusive-dates-calendar--disabled *[aria-disabled] {
+.tabworthy-dates-calendar--disabled *[aria-disabled] {
   opacity: 0.5;
   cursor: default;
 }
 
-.inclusive-dates-calendar--disabled .inclusive-dates-calendar__weekday {
+.tabworthy-dates-calendar--disabled .tabworthy-dates-calendar__weekday {
   color: var(--disabled-color);
 }
 
-.inclusive-dates-calendar--disabled .inclusive-dates-calendar__date:focus > * {
+.tabworthy-dates-calendar--disabled .tabworthy-dates-calendar__date:focus > * {
   outline: none;
 }
 
-.inclusive-dates-calendar--disabled .inclusive-dates-calendar__date {
+.tabworthy-dates-calendar--disabled .tabworthy-dates-calendar__date {
   cursor: default;
   opacity: 0.5;
 }
 
-.inclusive-dates-calendar--disabled .inclusive-dates-calendar__date:hover > * {
+.tabworthy-dates-calendar--disabled .tabworthy-dates-calendar__date:hover > * {
   background-color: transparent;
 }
 
-.inclusive-dates-calendar--disabled
-  .inclusive-dates-calendar__date--in-range:hover
+.tabworthy-dates-calendar--disabled
+  .tabworthy-dates-calendar__date--in-range:hover
   > * {
   background-color: #f2f3f5;
 }
 
-.inclusive-dates-calendar--disabled
-  .inclusive-dates-calendar__date--selected:hover
+.tabworthy-dates-calendar--disabled
+  .tabworthy-dates-calendar__date--selected:hover
   > * {
   color: #fff;
   background-color: var(--hover-color);
 }
 
-.inclusive-dates-calendar__header {
+.tabworthy-dates-calendar__header {
   display: flex;
   padding: 0.75rem;
   align-items: center;
   gap: 0.5rem;
 }
 
-.inclusive-dates-calendar__current-month {
+.tabworthy-dates-calendar__current-month {
   display: flex;
   flex-grow: 1;
   gap: 0.5rem;
 }
 
-.inclusive-dates-calendar__month-select,
-.inclusive-dates-calendar__year-select {
+.tabworthy-dates-calendar__month-select,
+.tabworthy-dates-calendar__year-select {
   display: flex;
   height: 2rem;
   padding-right: 0.5rem;
@@ -119,20 +123,20 @@ inclusive-dates *:focus-visible {
   }
 }
 
-.inclusive-dates-calendar__month-select {
+.tabworthy-dates-calendar__month-select {
   flex-grow: 1;
   cursor: pointer;
   appearance: none;
 }
 
-.inclusive-dates-calendar__year-select {
+.tabworthy-dates-calendar__year-select {
   max-width: 5rem;
 }
 
-.inclusive-dates-calendar__previous-month-button,
-.inclusive-dates-calendar__next-month-button,
-.inclusive-dates-calendar__previous-year-button,
-.inclusive-dates-calendar__next-year-button {
+.tabworthy-dates-calendar__previous-month-button,
+.tabworthy-dates-calendar__next-month-button,
+.tabworthy-dates-calendar__previous-year-button,
+.tabworthy-dates-calendar__next-year-button {
   display: inline-flex;
   width: 2rem;
   height: 2rem;
@@ -159,19 +163,19 @@ inclusive-dates *:focus-visible {
   }
 }
 
-.inclusive-dates-calendar__body {
+.tabworthy-dates-calendar__body {
   padding-right: 0.75rem;
   padding-bottom: 0.75rem;
   padding-left: 0.75rem;
 }
 
-.inclusive-dates-calendar__calendar {
+.tabworthy-dates-calendar__calendar {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
 }
 
-.inclusive-dates-calendar__weekday > span {
+.tabworthy-dates-calendar__weekday > span {
   display: flex;
   padding: 0.2rem;
   justify-content: center;
@@ -180,28 +184,28 @@ inclusive-dates *:focus-visible {
   aspect-ratio: 1;
 }
 
-.inclusive-dates-calendar__date {
+.tabworthy-dates-calendar__date {
   padding: 0.125rem;
   text-align: center;
   cursor: pointer;
 }
 
-.inclusive-dates-calendar__date:focus {
+.tabworthy-dates-calendar__date:focus {
   outline: none;
 }
 
-.inclusive-dates-calendar__date:focus-visible > * {
+.tabworthy-dates-calendar__date:focus-visible > * {
   outline: 0.25rem solid var(--focus-color);
   @media screen and (forced-colors: active) {
     outline-color: Highlight;
   }
 }
 
-.inclusive-dates-calendar__date:hover > * {
+.tabworthy-dates-calendar__date:hover > * {
   background-color: var(--hover-color);
 }
 
-.inclusive-dates-calendar__date > * {
+.tabworthy-dates-calendar__date > * {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -209,22 +213,22 @@ inclusive-dates *:focus-visible {
   aspect-ratio: 1;
 }
 
-.inclusive-dates-calendar__date--current {
+.tabworthy-dates-calendar__date--current {
 }
 
-.inclusive-dates-calendar__date--overflowing {
+.tabworthy-dates-calendar__date--overflowing {
 }
 
-.inclusive-dates-calendar__date--today > * {
+.tabworthy-dates-calendar__date--today > * {
   font-weight: 700;
   font-style: normal;
   color: var(--active-color);
 }
 
-.inclusive-dates-calendar__date--selected > *,
-.inclusive-dates-calendar__date--selected:hover > *,
-.inclusive-dates-calendar__date--in-range:hover > *,
-.inclusive-dates-calendar__date--in-range > * {
+.tabworthy-dates-calendar__date--selected > *,
+.tabworthy-dates-calendar__date--selected:hover > *,
+.tabworthy-dates-calendar__date--in-range:hover > *,
+.tabworthy-dates-calendar__date--in-range > * {
   color: var(--bg-color);
   background-color: var(--active-color);
   font-weight: 500;
@@ -234,7 +238,7 @@ inclusive-dates *:focus-visible {
   }
 }
 
-.inclusive-dates-calendar__date--disabled {
+.tabworthy-dates-calendar__date--disabled {
   color: var(--disabled-color);
   cursor: default;
   @media screen and (forced-colors: active) {
@@ -253,21 +257,21 @@ inclusive-dates *:focus-visible {
   }
 }
 
-.inclusive-dates-calendar__date--disabled:not(
-    .inclusive-dates-calendar__date--selected
-  ):not(.inclusive-dates-calendar__date--in-range):hover
+.tabworthy-dates-calendar__date--disabled:not(
+    .tabworthy-dates-calendar__date--selected
+  ):not(.tabworthy-dates-calendar__date--in-range):hover
   > * {
   background-color: transparent;
 }
 
-.inclusive-dates-calendar__date--disabled.inclusive-dates-calendar__date--in-range:not(
-    .inclusive-dates-calendar__date--selected
-  ):not(.inclusive-dates-calendar__date--in-range)
+.tabworthy-dates-calendar__date--disabled.tabworthy-dates-calendar__date--in-range:not(
+    .tabworthy-dates-calendar__date--selected
+  ):not(.tabworthy-dates-calendar__date--in-range)
   > * {
   background-color: transparent;
 }
 
-.inclusive-dates-calendar__footer {
+.tabworthy-dates-calendar__footer {
   padding-right: 0.75rem;
   padding-bottom: 0.75rem;
   padding-left: 0.75rem;
@@ -275,16 +279,16 @@ inclusive-dates *:focus-visible {
   flex-direction: column;
   gap: 1rem;
 }
-.inclusive-dates-calendar__footer-buttons {
+.tabworthy-dates-calendar__footer-buttons {
   align-items: center;
   display: flex;
   gap: 0.5rem;
 }
 
-.inclusive-dates-calendar__clear-button,
-.inclusive-dates-calendar__today-button,
-.inclusive-dates__quick-button,
-.inclusive-dates__calendar-button {
+.tabworthy-dates-calendar__clear-button,
+.tabworthy-dates-calendar__today-button,
+.tabworthy-dates__quick-button,
+.tabworthy-dates__calendar-button {
   display: inline-flex;
   height: 2rem;
   padding-right: 0.5rem;
@@ -316,18 +320,18 @@ inclusive-dates *:focus-visible {
   font-weight: 600;
   display: block;
 }
-.inclusive-dates__calendar-button {
+.tabworthy-dates__calendar-button {
   margin-left: 0.5rem;
   height: 2.5rem;
 }
-.inclusive-dates__quick-group {
+.tabworthy-dates__quick-group {
   margin-top: 0.5rem;
   display: inline-grid;
   grid-auto-flow: column;
   gap: 0.5rem;
 }
 
-.inclusive-dates__quick-button {
+.tabworthy-dates__quick-button {
   color: var(--text-color);
   background-color: inherit;
   text-decoration: underline;
@@ -336,7 +340,7 @@ inclusive-dates *:focus-visible {
   }
 }
 
-.inclusive-dates__input {
+.tabworthy-dates__input {
   box-sizing: border-box;
   display: inline-flex;
   height: 2.5rem;
@@ -355,7 +359,7 @@ inclusive-dates *:focus-visible {
   }
 }
 
-.inclusive-dates-calendar__keyboard-hint {
+.tabworthy-dates-calendar__keyboard-hint {
   color: var(--secondary-color);
   display: flex;
   align-items: center;
@@ -375,30 +379,26 @@ inclusive-dates *:focus-visible {
   padding: 0.25rem;
 }
 
-.inclusive-dates__label {
+.tabworthy-dates__label {
   font-weight: 600;
   margin-bottom: 0.5rem;
   display: inline-block;
   font-family: "Segoe UI", sans-serif;
 }
 
-.inclusive-dates__input {
+.tabworthy-dates__input {
   flex-grow: 1;
 }
 
-.inclusive-dates__input-container {
+.tabworthy-dates__input-container {
   min-width: 300px;
   max-width: 400px;
   display: flex;
 }
-.inclusive-dates__input-error {
+
+.tabworthy-dates__input-error {
   display: flex;
   padding: 0.5rem;
   color: var(--error-color);
   font-weight: 700;
 }
-
-.inclusive-dates-calendar__inline {
-  margin-top: 0.5em;
-}
-

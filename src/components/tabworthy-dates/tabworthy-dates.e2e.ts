@@ -4,17 +4,17 @@ import { newE2EPage } from '@stencil/core/testing';
  * E2E tests for InclusiveDates component
  * Converted from Storybook interaction tests for proper coverage tracking
  */
-describe('inclusive-dates e2e', () => {
+describe('tabworthy-dates e2e', () => {
 
   describe('accessibility', () => {
     it('should have correctly associated label and input', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates id="test-1" label="Choose a date"></inclusive-dates>
+        <tabworthy-dates id="test-1" label="Choose a date"></tabworthy-dates>
       `);
 
-      const input = await page.find('inclusive-dates >>> input');
-      const label = await page.find('inclusive-dates >>> label');
+      const input = await page.find('tabworthy-dates >>> input');
+      const label = await page.find('tabworthy-dates >>> label');
 
       const inputId = await input.getAttribute('id');
       const labelFor = await label.getAttribute('for');
@@ -31,17 +31,17 @@ describe('inclusive-dates e2e', () => {
     it('should parse natural language dates', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-2"
           label="Choose a date"
           reference-date="2023-01-21"
           max-date="2034-11-02"
           min-date="1988-12-30"
           locale="en-US"
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
 
       // Test "Yesterday"
       await input.press('Backspace'); // Clear any existing value
@@ -74,24 +74,24 @@ describe('inclusive-dates e2e', () => {
     it('should validate min date constraint', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-3"
           label="Choose a date"
           reference-date="2023-01-21"
           max-date="2034-11-02"
           min-date="1988-12-30"
           locale="en-US"
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
 
       await input.type('50 years ago');
       await page.keyboard.press('Tab');
       await page.waitForChanges();
 
       const ariaInvalid = await input.getAttribute('aria-invalid');
-      const errorMessage = await page.find('inclusive-dates >>> .error-message');
+      const errorMessage = await page.find('tabworthy-dates >>> .error-message');
 
       expect(ariaInvalid).toBeTruthy();
       expect(errorMessage).toBeTruthy();
@@ -100,24 +100,24 @@ describe('inclusive-dates e2e', () => {
     it('should validate max date constraint', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-4"
           label="Choose a date"
           reference-date="2023-01-21"
           max-date="2034-11-02"
           min-date="1988-12-30"
           locale="en-US"
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
 
       await input.type('In 50 years');
       await page.keyboard.press('Tab');
       await page.waitForChanges();
 
       const ariaInvalid = await input.getAttribute('aria-invalid');
-      const errorMessage = await page.find('inclusive-dates >>> .error-message');
+      const errorMessage = await page.find('tabworthy-dates >>> .error-message');
 
       expect(ariaInvalid).toBeTruthy();
       expect(errorMessage).toBeTruthy();
@@ -128,7 +128,7 @@ describe('inclusive-dates e2e', () => {
     it('should parse date range inputs', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-5"
           label="Choose a date range"
           range
@@ -136,10 +136,10 @@ describe('inclusive-dates e2e', () => {
           min-date="1970-01-01"
           max-date="2030-01-01"
           locale="en-US"
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
 
       // Test "From today to tomorrow"
       await input.type('From today to tomorrow');
@@ -171,7 +171,7 @@ describe('inclusive-dates e2e', () => {
     it('should validate date ranges', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-6"
           label="Choose a date range"
           range
@@ -179,10 +179,10 @@ describe('inclusive-dates e2e', () => {
           min-date="1970-01-01"
           max-date="2030-01-01"
           locale="en-US"
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
 
       // Test invalid range (before min date)
       await input.type('June to july 1964');
@@ -207,23 +207,23 @@ describe('inclusive-dates e2e', () => {
     it('should populate input when quick button clicked (single dates)', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-7"
           label="Choose a date"
           show-quick-buttons
           reference-date="2023-01-21"
           locale="en-US"
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const component = await page.find('inclusive-dates');
+      const component = await page.find('tabworthy-dates');
       component.setProperty('quickButtons', ['Yesterday', 'In ten days']);
       await page.waitForChanges();
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
 
       // Click "Yesterday" button
-      const yesterdayButton = await page.find('inclusive-dates >>> button:nth-of-type(1)');
+      const yesterdayButton = await page.find('tabworthy-dates >>> button:nth-of-type(1)');
       await yesterdayButton.click();
       await page.waitForChanges();
 
@@ -231,7 +231,7 @@ describe('inclusive-dates e2e', () => {
       expect(value).toContain('January 20, 2023');
 
       // Click "In ten days" button
-      const inTenDaysButton = await page.find('inclusive-dates >>> button:nth-of-type(2)');
+      const inTenDaysButton = await page.find('tabworthy-dates >>> button:nth-of-type(2)');
       await inTenDaysButton.click();
       await page.waitForChanges();
 
@@ -242,24 +242,24 @@ describe('inclusive-dates e2e', () => {
     it('should populate input when quick button clicked (ranges)', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-8"
           label="Choose a date range"
           range
           show-quick-buttons
           reference-date="2023-01-21"
           locale="en-US"
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const component = await page.find('inclusive-dates');
+      const component = await page.find('tabworthy-dates');
       component.setProperty('quickButtons', ['July 5-10', 'August 1999 - September 2000']);
       await page.waitForChanges();
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
 
       // Click first quick button
-      const julyButton = await page.find('inclusive-dates >>> button:nth-of-type(1)');
+      const julyButton = await page.find('tabworthy-dates >>> button:nth-of-type(1)');
       await julyButton.click();
       await page.waitForChanges();
 
@@ -267,7 +267,7 @@ describe('inclusive-dates e2e', () => {
       expect(value).toContain('Jul 5, 2023 to Jul 10, 2023');
 
       // Click second quick button
-      const augustButton = await page.find('inclusive-dates >>> button:nth-of-type(2)');
+      const augustButton = await page.find('tabworthy-dates >>> button:nth-of-type(2)');
       await augustButton.click();
       await page.waitForChanges();
 
@@ -280,15 +280,15 @@ describe('inclusive-dates e2e', () => {
     it('should format single dates on focus/blur', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-9"
           label="Choose a date"
           input-should-format="true"
           locale="en-US"
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
 
       // Type a date
       await input.type('June 8 2023');
@@ -317,16 +317,16 @@ describe('inclusive-dates e2e', () => {
     it('should format date ranges on focus/blur', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-10"
           label="Choose a date range"
           range
           input-should-format="true"
           locale="en-US"
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
 
       // Type a range
       await input.type('June 8 - 12 2023');
@@ -357,14 +357,14 @@ describe('inclusive-dates e2e', () => {
     it('should not parse natural language for unsupported locales', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-11"
           label="Välj ett datum"
           locale="sv-SE"
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
 
       // Try natural language input in Swedish
       await input.type('om tio dagar');
@@ -379,14 +379,14 @@ describe('inclusive-dates e2e', () => {
     it('should accept ISO dates for unsupported locales', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-12"
           label="Välj ett datum"
           locale="sv-SE"
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
 
       // Type ISO date
       await input.type('2023-02-02');
@@ -403,15 +403,15 @@ describe('inclusive-dates e2e', () => {
     it('should respect custom date formats', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-13"
           label="Choose a date"
           format="DD/MM/YYYY"
           locale="en-US"
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
 
       await input.type('June 8 2023');
       await page.keyboard.press('Tab');
@@ -426,14 +426,14 @@ describe('inclusive-dates e2e', () => {
     it('should show calendar inline when inline prop is set', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-14"
           label="Choose a date"
           inline
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const calendar = await page.find('inclusive-dates >>> inclusive-dates-calendar');
+      const calendar = await page.find('tabworthy-dates >>> tabworthy-dates-calendar');
       expect(calendar).toBeTruthy();
 
       // Calendar should be visible
@@ -446,14 +446,14 @@ describe('inclusive-dates e2e', () => {
     it('should disable input when disabled prop is set', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-15"
           label="Choose a date"
           disabled
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
       const isDisabled = await input.getProperty('disabled');
 
       expect(isDisabled).toBe(true);
@@ -464,17 +464,17 @@ describe('inclusive-dates e2e', () => {
     it('should emit dateChange event when date changes', async () => {
       const page = await newE2EPage();
       await page.setContent(`
-        <inclusive-dates
+        <tabworthy-dates
           id="test-16"
           label="Choose a date"
           locale="en-US"
-        ></inclusive-dates>
+        ></tabworthy-dates>
       `);
 
-      const component = await page.find('inclusive-dates');
+      const component = await page.find('tabworthy-dates');
       const dateChangeSpy = await component.spyOnEvent('dateChange');
 
-      const input = await page.find('inclusive-dates >>> input');
+      const input = await page.find('tabworthy-dates >>> input');
       await input.type('tomorrow');
       await page.keyboard.press('Tab');
       await page.waitForChanges();

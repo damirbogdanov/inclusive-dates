@@ -43,7 +43,7 @@ const defaultLabels: InclusivekTimesPickerLabels = {
 @Component({
   scoped: true,
   shadow: false,
-  tag: "inclusive-times-picker"
+  tag: "tabworthy-times-picker"
 })
 export class InclusiveTimesPicker {
   @Element() el!: HTMLElement;
@@ -58,7 +58,7 @@ export class InclusiveTimesPicker {
   // Hide labels visually but keep them for screen readers
   @Prop() labelsSrOnly: boolean = true;
   @Prop() disabled: boolean = false;
-  @Prop() elementClassName: string = "inclusive-times-picker";
+  @Prop() elementClassName: string = "tabworthy-times-picker";
 
   @State() internalHours: number = this.hours;
   @State() internalMinutes: number = this.minutes;

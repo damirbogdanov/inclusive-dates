@@ -13,22 +13,22 @@ import {
 import { announce } from "@react-aria/live-announcer";
 import moment from "moment";
 
-import { getISODateString, removeTimezoneOffset } from "../../utils/utils";
+import { getISODateString, removeTimezoneOffset } from "@shared/utils/utils";
 import {
-  InclusiveDatesCalendarLabels,
+  DatesCalendarLabels,
   MonthChangedEventDetails,
   YearChangedEventDetails
-} from "../inclusive-dates-calendar/inclusive-dates-calendar";
+} from "../tabworthy-dates-calendar/tabworthy-dates-calendar";
 import {
   ChronoOptions,
   ChronoParsedDateString
-} from "../../utils/chrono-parser/chrono-parser.type";
+} from "@shared/utils/chrono-parser/chrono-parser.type";
 import {
   chronoParseDate,
   chronoParseRange
-} from "../../utils/chrono-parser/chrono-parser";
+} from "@shared/utils/chrono-parser/chrono-parser";
 
-export interface InclusiveDatesLabels {
+export interface DatesLabels {
   selected: string;
   openCalendar: string;
   calendar: string;
@@ -42,7 +42,7 @@ export interface InclusiveDatesLabels {
   startDate: string;
 }
 
-const defaultLabels: InclusiveDatesLabels = {
+const defaultLabels: DatesLabels = {
   selected: "selected",
   openCalendar: "Open calendar",
   calendar: "calendar",
@@ -58,10 +58,10 @@ const defaultLabels: InclusiveDatesLabels = {
 @Component({
   scoped: true,
   shadow: false,
-  styleUrl: "inclusive-dates.css",
-  tag: "inclusive-dates"
+  styleUrl: "tabworthy-dates.css",
+  tag: "tabworthy-dates"
 })
-export class InclusiveDates {
+export class TabworthyDates {
   @Element() el!: HTMLElement;
   // A unique ID for the datepicker. Mandatory for accessibility
   @Prop({ reflect: true }) id!: string;
@@ -91,10 +91,10 @@ export class InclusiveDates {
   @Prop() referenceDate: string = getISODateString(new Date());
   // Enable or disable strict Chrono date parsing
   @Prop() useStrictDateParsing: boolean = false;
-  // Labels used for internal translations
-  @Prop() inclusiveDatesLabels: InclusiveDatesLabels = defaultLabels;
 
-  @Prop() inclusiveDatesCalendarLabels?: InclusiveDatesCalendarLabels;
+  // Labels used for internal translations
+  @Prop() datesLabels: DatesLabels = defaultLabels;
+  @Prop() datesCalendarLabels?: DatesCalendarLabels;
 
   // Prevent hiding the calendar
   @Prop() inline: boolean = false;
@@ -119,10 +119,10 @@ export class InclusiveDates {
   // Show or hide the keyboard hints
   @Prop() showKeyboardHint: boolean = false;
   // Function to disable individual dates
-  @Prop() disableDate: HTMLInclusiveDatesCalendarElement["disableDate"] = () =>
+  @Prop() disableDate: HTMLTabworthyDatesCalendarElement["disableDate"] = () =>
     false;
   // Component name used to generate CSS classes
-  @Prop() elementClassName?: string = "inclusive-dates";
+  @Prop() elementClassName?: string = "tabworthy-dates";
   // Which day that should start the week (0 is sunday, 1 is monday)
   @Prop() firstDayOfWeek?: number = 1; // Monday
   // Format for the value prop (input/output format). Defaults to ISO format (YYYY-MM-DD). Uses moment.js format tokens.
@@ -148,10 +148,10 @@ export class InclusiveDates {
 
   @Event() componentReady!: EventEmitter<void>;
 
-  private modalRef?: HTMLInclusiveDatesModalElement;
+  private modalRef?: HTMLTabworthyDatesModalElement;
   private inputRef!: HTMLInputElement;
   private calendarButtonRef?: HTMLButtonElement;
-  private pickerRef?: HTMLInclusiveDatesCalendarElement;
+  private pickerRef?: HTMLTabworthyDatesCalendarElement;
   private chronoSupportedLocale = ["en", "ja", "fr", "nl", "ru", "pt"].includes(
     this.locale.slice(0, 2)
   );
@@ -162,12 +162,12 @@ export class InclusiveDates {
     this.componentReady.emit();
     if (!this.id) {
       console.error(
-        'inclusive-dates: The "id" prop is required for accessibility'
+        'tabworthy-dates: The "id" prop is required for accessibility'
       );
     }
     if (!this.chronoSupportedLocale)
       console.warn(
-        `inclusive-dates: The chosen locale "${this.locale}" is not supported by Chrono.js. Date parsing has been disabled`
+        `tabworthy-dates: The chosen locale "${this.locale}" is not supported by Chrono.js. Date parsing has been disabled`
       );
   }
 
@@ -228,7 +228,7 @@ export class InclusiveDates {
   }
 
   private handleCalendarButtonClick = async () => {
-    await customElements.whenDefined("inclusive-dates-modal");
+    await customElements.whenDefined("tabworthy-dates-modal");
     this.calendarButtonRef && await this.modalRef?.setTriggerElement(this.calendarButtonRef);
     if ((await this.modalRef?.getState()) === false) await this.modalRef?.open();
     else if ((await this.modalRef?.getState()) === true)
@@ -311,8 +311,8 @@ export class InclusiveDates {
         this.errorState = true;
         if (!!parsedRange?.reason) {
           this.errorMessage = {
-            invalid: this.inclusiveDatesLabels.invalidDateError,
-            rangeOutOfBounds: this.inclusiveDatesLabels.rangeOutOfBoundsError,
+            invalid: this.datesLabels.invalidDateError,
+            rangeOutOfBounds: this.datesLabels.rangeOutOfBoundsError,
             minDate: '',
             maxDate: '',
           }[parsedRange.reason];
@@ -337,7 +337,7 @@ export class InclusiveDates {
       if (parsedDate && parsedDate.value instanceof Date) {
         if (this.disableDate(parsedDate.value)) {
           this.errorState = true;
-          this.errorMessage = this.inclusiveDatesLabels.disabledDateError;
+          this.errorMessage = this.datesLabels.disabledDateError;
         } else {
           this.updateValue(parsedDate.value);
           this.formatInput(true, false);
@@ -365,16 +365,16 @@ export class InclusiveDates {
           this.errorMessage = {
               // TODO: Add locale date formatting to these messages
               minDate: minDate
-                ? `${this.inclusiveDatesLabels.minDateError} ${getISODateString(
+                ? `${this.datesLabels.minDateError} ${getISODateString(
                     minDate
                   )}`
                 : "",
               maxDate: maxDate
-                ? `${this.inclusiveDatesLabels.maxDateError} ${getISODateString(
+                ? `${this.datesLabels.maxDateError} ${getISODateString(
                     maxDate
                   )}`
                 : "",
-              invalid: this.inclusiveDatesLabels.invalidDateError
+              invalid: this.datesLabels.invalidDateError
             }[parsedDate.reason];
         }
       }
@@ -387,7 +387,7 @@ export class InclusiveDates {
         if (this.internalValue.length === 0) return;
         this.inputRef.value = this.internalValue
           .toString()
-          .replace(",", ` ${this.inclusiveDatesLabels.to} `);
+          .replace(",", ` ${this.datesLabels.to} `);
       }
       return;
     }
@@ -405,7 +405,7 @@ export class InclusiveDates {
             ? parsedDate.toDate()
             : removeTimezoneOffset(new Date(useInputValue ? this.inputRef.value : value));
           return (output += `${
-            index === 1 ? ` ${this.inclusiveDatesLabels.to} ` : ""
+            index === 1 ? ` ${this.datesLabels.to} ` : ""
           }${Intl.DateTimeFormat(this.locale, {
             day: "numeric",
             month: "short",
@@ -458,12 +458,12 @@ export class InclusiveDates {
     let content = "";
     if (Array.isArray(newValue)) {
       if (newValue.length === 1) {
-        content += `${this.inclusiveDatesLabels.startDate} `;
+        content += `${this.datesLabels.startDate} `;
       }
       newValue.forEach(
         (value, index) =>
           (content += `${
-            index === 1 ? ` ${this.inclusiveDatesLabels.to} ` : ""
+            index === 1 ? ` ${this.datesLabels.to} ` : ""
           }${Intl.DateTimeFormat(this.locale, {
             weekday: "long",
             day: "numeric",
@@ -479,7 +479,7 @@ export class InclusiveDates {
         year: "numeric"
       }).format(removeTimezoneOffset(new Date(newValue)));
     if (content.length === 0) return;
-    content += ` ${this.inclusiveDatesLabels.selected}`;
+    content += ` ${this.datesLabels.selected}`;
     const contentNoCommas = content.replace(/\,/g, "");
     announce(contentNoCommas, "polite");
   }
@@ -564,13 +564,13 @@ export class InclusiveDates {
               {this.calendarButtonContent ? (
                 <span innerHTML={this.calendarButtonContent}></span>
               ) : (
-                this.inclusiveDatesLabels.openCalendar
+                this.datesLabels.openCalendar
               )}
             </button>
           )}
         </div>
-        <inclusive-dates-modal
-          label={this.inclusiveDatesLabels.calendar}
+        <tabworthy-dates-modal
+          label={this.datesLabels.calendar}
           ref={(el) => (this.modalRef = el)}
           onOpened={() => {
             if (!this.pickerRef) return;
@@ -584,7 +584,7 @@ export class InclusiveDates {
           }}
           inline={this.inline}
         >
-          <inclusive-dates-calendar
+          <tabworthy-dates-calendar
             range={this.range}
             locale={this.locale}
             onSelectDate={(event) =>
@@ -597,8 +597,8 @@ export class InclusiveDates {
               this.handleYearChange(event.detail as YearChangedEventDetails)
             }
             labels={
-              this.inclusiveDatesCalendarLabels
-                ? this.inclusiveDatesCalendarLabels
+              this.datesCalendarLabels
+                ? this.datesCalendarLabels
                 : undefined
             }
             ref={(el) => (this.pickerRef = el)}
@@ -616,7 +616,7 @@ export class InclusiveDates {
             maxDate={this.maxDate}
             inline={this.inline}
           />
-        </inclusive-dates-modal>
+        </tabworthy-dates-modal>
         {this.showQuickButtons &&
           this.quickButtons?.length > 0 &&
           this.chronoSupportedLocale && (

@@ -15,7 +15,14 @@
     "jsx": "react",
     "jsxFactory": "h",
     "jsxFragmentFactory": "h",
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["shared/*"]
+    },
+    "types": [
+      "@types/jest"
+    ]
   },
   "include": ["src"],
-  "exclude": ["node_modules", "**/*.stories.ts", "**/*.stories.tsx", "**/*.mdx"]
+  "exclude": ["node_modules", "*.mdx"]
 }

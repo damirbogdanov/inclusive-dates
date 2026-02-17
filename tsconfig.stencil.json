@@ -16,7 +16,7 @@
     "jsx": "react",
     "jsxFactory": "h",
     "jsxFragmentFactory": "h",
-    "skipLibCheck": true
+    "skipLibCheck": true,
   },
   "exclude": ["node_modules", "**/*.stories.ts", "**/*.stories.tsx", "**/*.mdx", "**/*.spec.ts", "**/*.spec.tsx"]
 }

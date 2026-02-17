@@ -17,8 +17,8 @@ import { hideOthers } from "aria-hidden";
  */
 @Component({
   shadow: true,
-  styleUrl: "inclusive-dates-modal.css",
-  tag: "inclusive-dates-modal"
+  styleUrl: "tabworthy-dates-modal.css",
+  tag: "tabworthy-dates-modal"
 })
 export class InclusiveDatesModal {
   // Mandatory for accessibility

@@ -3,11 +3,11 @@ import { html } from 'lit-html';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { Components } from '../../components';
 
-const meta: Meta<Components.InclusiveTimes> = {
-  title: 'Components/InclusiveTimes',
+const meta: Meta<Components.TabworthyTimes> = {
+  title: 'Components/TabworthyTimes',
   tags: ['autodocs'],
   render: (args) => html`
-    <inclusive-times
+    <tabworthy-times
       id=${args.id}
       .value=${ifDefined(args.value)}
       label=${ifDefined(args.label)}
@@ -22,24 +22,24 @@ const meta: Meta<Components.InclusiveTimes> = {
       ?range=${args.range}
       ?disabled=${args.disabled}
       ?inline=${args.inline}
-      ?use12HourFormat=${args.use12HourFormat}
+      .use12HourFormat=${args.use12HourFormat}
       ?show-year-stepper=${args.showYearStepper}
       ?show-month-stepper=${args.showMonthStepper}
       ?show-clear-button=${args.showClearButton}
       ?show-today-button=${args.showTodayButton}
       calendar-button-content=${ifDefined(args.calendarButtonContent)}
-    ></inclusive-times>
+    ></tabworthy-times>
   `,
 };
 
 export default meta;
-type Story = StoryObj<Components.InclusiveTimes>;
+type Story = StoryObj<Components.TabworthyTimes>;
 
 export const Default: Story = {
   args: {
     id: 'datetime-default',
     label: 'Choose a date and time',
-    placeholder: 'Try "tomorrow at 3pm"',
+    placeholder: 'Select date and time',
     locale: 'en-US',
     format: 'YYYY-MM-DDTHH:mm:ss',
     use12HourFormat: true,
@@ -65,15 +65,6 @@ export const TwentyFourHourFormat: Story = {
     id: 'datetime-24h',
     use12HourFormat: false,
     value: '2024-03-15T14:30:00',
-  },
-};
-
-export const RangeMode: Story = {
-  args: {
-    ...Default.args,
-    id: 'datetime-range',
-    range: true,
-    label: 'Choose a date and time range',
   },
 };
 

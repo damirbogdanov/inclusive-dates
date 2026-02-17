@@ -11,20 +11,20 @@ import {
   Watch
 } from "@stencil/core";
 import moment from "moment";
-import { TimeValue } from "../inclusive-times-picker/inclusive-times-picker";
-import { InclusiveDatesLabels } from "../inclusive-dates/inclusive-dates";
+import { TimeValue } from "../tabworthy-times-picker/tabworthy-times-picker";
+import { DatesLabels } from "../tabworthy-dates/tabworthy-dates";
 import {
-  InclusiveDatesCalendarLabels,
+  DatesCalendarLabels,
   MonthChangedEventDetails,
   YearChangedEventDetails
-} from "../inclusive-dates-calendar/inclusive-dates-calendar";
-import { getISODateString, removeTimezoneOffset } from "../../utils/utils";
+} from "../tabworthy-dates-calendar/tabworthy-dates-calendar";
+import { getISODateString, removeTimezoneOffset } from "@shared/utils/utils";
 
-export interface InclusiveTimesLabels extends InclusiveDatesLabels {
+export interface TimesLabels extends DatesLabels {
   timeLabel: string;
 }
 
-const defaultLabels: InclusiveTimesLabels = {
+const defaultLabels: TimesLabels = {
   selected: "selected",
   openCalendar: "Open date and time picker",
   calendar: "date and time picker",
@@ -41,7 +41,7 @@ const defaultLabels: InclusiveTimesLabels = {
 @Component({
   scoped: true,
   shadow: false,
-  tag: "inclusive-times"
+  tag: "tabworthy-times"
 })
 export class InclusiveTimes {
   @Element() el!: HTMLElement;
@@ -59,7 +59,7 @@ export class InclusiveTimes {
   @Prop() label: string = "Choose a date and time";
 
   // A placeholder for the text field
-  @Prop() placeholder: string = "Try \"tomorrow at 3pm\"";
+  @Prop() placeholder = "";
 
   // Locale used for internal translations and date parsing
   @Prop() locale: string = navigator?.language || "en-US";
@@ -83,9 +83,8 @@ export class InclusiveTimes {
   @Prop() use12HourFormat: boolean = true;
 
   // Labels used for internal translations
-  @Prop() inclusiveTimesLabels: InclusiveTimesLabels = defaultLabels;
-
-  @Prop() inclusiveDatesCalendarLabels?: InclusiveDatesCalendarLabels;
+  @Prop() timesLabels: TimesLabels = defaultLabels;
+  @Prop() datesCalendarLabels?: DatesCalendarLabels;
 
   // Prevent hiding the calendar
   @Prop() inline: boolean = false;
@@ -112,7 +111,7 @@ export class InclusiveTimes {
   @Prop() disableDate: (date: Date) => boolean = () => false;
 
   // Component name used to generate CSS classes
-  @Prop() elementClassName?: string = "inclusive-times";
+  @Prop() elementClassName?: string = "tabworthy-times";
 
   // Which day that should start the week (0 is sunday, 1 is monday)
   @Prop() firstDayOfWeek?: number = 1;
@@ -131,10 +130,10 @@ export class InclusiveTimes {
   @Event() changeYear?: EventEmitter<YearChangedEventDetails>;
   @Event() componentReady!: EventEmitter<void>;
 
-  private modalRef?: HTMLInclusiveDatesModalElement;
+  private modalRef?: HTMLTabworthyDatesModalElement;
   private inputRef!: HTMLInputElement;
   private calendarButtonRef?: HTMLButtonElement;
-  private pickerRef?: HTMLInclusiveDatesCalendarElement;
+  private pickerRef?: HTMLTabworthyDatesCalendarElement;
   private errorMessage = "";
 
   @Watch("value")
@@ -157,7 +156,7 @@ export class InclusiveTimes {
     this.componentReady.emit();
     if (!this.id) {
       console.error(
-        'inclusive-times: The "id" prop is required for accessibility'
+        'tabworthy-times: The "id" prop is required for accessibility'
       );
     }
   }
@@ -286,7 +285,7 @@ export class InclusiveTimes {
       // Format range
       const formatted = this.internalValue
         .map((v) => moment(v, this.format).format("lll"))
-        .join(` ${this.inclusiveTimesLabels.to} `);
+        .join(` ${this.timesLabels.to} `);
       this.inputRef.value = formatted;
     } else {
       // Format single datetime
@@ -328,7 +327,7 @@ export class InclusiveTimes {
         <div class={this.getClassName("input-container")}>
           <input
             id={`${this.id}-input`}
-            ref={(r) => (this.inputRef = r)}
+            ref={(r) => (this.inputRef = r!)}
             type="text"
             class={this.getClassName("input")}
             placeholder={this.placeholder}
@@ -350,14 +349,14 @@ export class InclusiveTimes {
               {this.calendarButtonContent ? (
                 <span innerHTML={this.calendarButtonContent}></span>
               ) : (
-                this.inclusiveTimesLabels.openCalendar
+                this.timesLabels.openCalendar
               )}
             </button>
           )}
         </div>
 
-        <inclusive-dates-modal
-          label={this.inclusiveTimesLabels.calendar}
+        <tabworthy-dates-modal
+          label={this.timesLabels.calendar}
           ref={(el) => (this.modalRef = el)}
           onOpened={() => {
             if (this.pickerRef) {
@@ -372,7 +371,7 @@ export class InclusiveTimes {
           inline={this.inline}
         >
           <div class={this.getClassName("picker-container")}>
-            <inclusive-dates-calendar
+            <tabworthy-dates-calendar
               range={this.range}
               locale={this.locale}
               onSelectDate={(event) =>
@@ -384,7 +383,7 @@ export class InclusiveTimes {
               onChangeYear={(event) =>
                 this.handleYearChange(event.detail as YearChangedEventDetails)
               }
-              labels={this.inclusiveDatesCalendarLabels}
+              labels={this.datesCalendarLabels}
               ref={(el) => (this.pickerRef = el)}
               startDate={this.startDate}
               firstDayOfWeek={this.firstDayOfWeek}
@@ -400,7 +399,7 @@ export class InclusiveTimes {
               inline={this.inline}
             >
               <div slot="after-calendar" class={this.getClassName("time-section")}>
-                <inclusive-times-picker
+                <tabworthy-times-picker
                   hours={this.selectedHours}
                   minutes={this.selectedMinutes}
                   use12HourFormat={this.use12HourFormat}
@@ -408,9 +407,9 @@ export class InclusiveTimes {
                   onTimeChanged={this.handleTimeChange}
                 />
               </div>
-            </inclusive-dates-calendar>
+            </tabworthy-dates-calendar>
           </div>
-        </inclusive-dates-modal>
+        </tabworthy-dates-modal>
 
         {this.errorState && (
           <div

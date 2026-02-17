@@ -1,7 +1,7 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { InclusiveTimes } from './inclusive-times';
+import { InclusiveTimes } from './tabworthy-times';
 
-describe('inclusive-times', () => {
+describe('tabworthy-times', () => {
   const originalError = console.error;
 
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('inclusive-times', () => {
     console.error = originalError;
   });
 
-  const createPage = async (html = `<inclusive-times id="time-test"></inclusive-times>`) => {
+  const createPage = async (html = `<tabworthy-times id="time-test"></tabworthy-times>`) => {
     return newSpecPage({
       components: [InclusiveTimes],
       html,
@@ -21,13 +21,13 @@ describe('inclusive-times', () => {
   };
 
   it('renders and validates required id', async () => {
-    const page = await createPage('<inclusive-times></inclusive-times>');
+    const page = await createPage('<tabworthy-times></tabworthy-times>');
     expect(page.root).toBeTruthy();
-    expect(console.error).toHaveBeenCalledWith('inclusive-times: The "id" prop is required for accessibility');
+    expect(console.error).toHaveBeenCalledWith('tabworthy-times: The "id" prop is required for accessibility');
   });
 
   it('syncs initial value and parses selected time', async () => {
-    const page = await createPage('<inclusive-times id="time" value="2024-03-15T14:30:00"></inclusive-times>');
+    const page = await createPage('<tabworthy-times id="time" value="2024-03-15T14:30:00"></tabworthy-times>');
     const instance = page.rootInstance as any;
 
     expect(instance.internalValue).toBe('2024-03-15T14:30:00');
@@ -37,7 +37,7 @@ describe('inclusive-times', () => {
   });
 
   it('watchers update disabled and error states and resync value', async () => {
-    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const page = await createPage('<tabworthy-times id="time"></tabworthy-times>');
     const instance = page.rootInstance as any;
 
     instance.watchDisabled(true);
@@ -52,7 +52,7 @@ describe('inclusive-times', () => {
   });
 
   it('updateValue formats and emits for single values', async () => {
-    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const page = await createPage('<tabworthy-times id="time"></tabworthy-times>');
     const instance = page.rootInstance as any;
 
     instance.inputRef = { value: '' } as HTMLInputElement;
@@ -69,7 +69,7 @@ describe('inclusive-times', () => {
   });
 
   it('updateValue formats and emits for ranges', async () => {
-    const page = await createPage('<inclusive-times id="time" range></inclusive-times>');
+    const page = await createPage('<tabworthy-times id="time" range></tabworthy-times>');
     const instance = page.rootInstance as any;
 
     instance.inputRef = { value: '' } as HTMLInputElement;
@@ -86,7 +86,7 @@ describe('inclusive-times', () => {
   });
 
   it('handles picker selection for single and range', async () => {
-    const page = await createPage('<inclusive-times id="time" range></inclusive-times>');
+    const page = await createPage('<tabworthy-times id="time" range></tabworthy-times>');
     const instance = page.rootInstance as any;
 
     instance.inputRef = { value: '' } as HTMLInputElement;
@@ -101,7 +101,7 @@ describe('inclusive-times', () => {
   });
 
   it('updates selected time via time picker events', async () => {
-    const page = await createPage('<inclusive-times id="time" value="2024-03-15T14:30:00"></inclusive-times>');
+    const page = await createPage('<tabworthy-times id="time" value="2024-03-15T14:30:00"></tabworthy-times>');
     const instance = page.rootInstance as any;
 
     const emitSpy = jest.spyOn(instance.selectDateTime, 'emit');
@@ -113,7 +113,7 @@ describe('inclusive-times', () => {
   });
 
   it('opens modal from calendar button click', async () => {
-    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const page = await createPage('<tabworthy-times id="time"></tabworthy-times>');
     const instance = page.rootInstance as any;
 
     const setTriggerElement = jest.fn();
@@ -131,7 +131,7 @@ describe('inclusive-times', () => {
   });
 
   it('handles year change event emission', async () => {
-    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const page = await createPage('<tabworthy-times id="time"></tabworthy-times>');
     const instance = page.rootInstance as any;
 
     const emitSpy = jest.fn();
@@ -148,7 +148,7 @@ describe('inclusive-times', () => {
   });
 
   it('parses valid input changes and formats output', async () => {
-    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const page = await createPage('<tabworthy-times id="time"></tabworthy-times>');
     const instance = page.rootInstance as any;
 
     instance.inputRef = { value: '' } as HTMLInputElement;
@@ -167,7 +167,7 @@ describe('inclusive-times', () => {
   });
 
   it('formats range and single values in the input', async () => {
-    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const page = await createPage('<tabworthy-times id="time"></tabworthy-times>');
     const instance = page.rootInstance as any;
 
     instance.inputRef = { value: '' } as HTMLInputElement;
@@ -178,7 +178,7 @@ describe('inclusive-times', () => {
 
     instance.internalValue = ['2024-03-15T09:00:00', '2024-03-16T17:00:00'];
     instance.formatInput();
-    expect(instance.inputRef.value).toContain(instance.inclusiveTimesLabels.to);
+    expect(instance.inputRef.value).toContain(instance.timesLabels.to);
 
     instance.internalValue = null;
     const previous = instance.inputRef.value;
@@ -187,7 +187,7 @@ describe('inclusive-times', () => {
   });
 
   it('clears value, picker, and input via clearValue', async () => {
-    const page = await createPage('<inclusive-times id="time" value="2024-03-15T14:30:00"></inclusive-times>');
+    const page = await createPage('<tabworthy-times id="time" value="2024-03-15T14:30:00"></tabworthy-times>');
     const instance = page.rootInstance as any;
 
     instance.inputRef = { value: 'something' } as HTMLInputElement;
@@ -205,35 +205,35 @@ describe('inclusive-times', () => {
   });
 
   it('renders calendar button, custom content, and error message', async () => {
-    const page = await createPage('<inclusive-times id="time" calendar-button-content="<span>📅</span>"></inclusive-times>');
+    const page = await createPage('<tabworthy-times id="time" calendar-button-content="<span>📅</span>"></tabworthy-times>');
     const instance = page.rootInstance as any;
 
     instance.errorState = true;
     instance.errorMessage = 'Bad datetime';
     await page.waitForChanges();
 
-    expect(page.root?.querySelector('.inclusive-times__calendar-button')).toBeTruthy();
-    expect(page.root?.querySelector('.inclusive-times__input-error')?.textContent).toContain('Bad datetime');
+    expect(page.root?.querySelector('.tabworthy-times__calendar-button')).toBeTruthy();
+    expect(page.root?.querySelector('.tabworthy-times__input-error')?.textContent).toContain('Bad datetime');
 
     instance.inline = true;
     await page.waitForChanges();
-    expect(page.root?.querySelector('.inclusive-times__calendar-button')).toBeFalsy();
+    expect(page.root?.querySelector('.tabworthy-times__calendar-button')).toBeFalsy();
   });
 
   it('wires modal and calendar event handlers from render', async () => {
-    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const page = await createPage('<tabworthy-times id="time"></tabworthy-times>');
     const instance = page.rootInstance as any;
     const yearSpy = jest.fn();
     instance.changeYear = { emit: yearSpy };
     instance.pickerRef = { modalIsOpen: false };
 
-    const modal = page.root?.querySelector('inclusive-dates-modal') as HTMLElement;
+    const modal = page.root?.querySelector('tabworthy-dates-modal') as HTMLElement;
     modal.dispatchEvent(new CustomEvent('opened'));
     expect(instance.pickerRef.modalIsOpen).toBe(true);
     modal.dispatchEvent(new CustomEvent('closed'));
     expect(instance.pickerRef.modalIsOpen).toBe(false);
 
-    const calendar = page.root?.querySelector('inclusive-dates-calendar') as HTMLElement;
+    const calendar = page.root?.querySelector('tabworthy-dates-calendar') as HTMLElement;
     instance.handlePickerSelection = jest.fn();
     calendar.dispatchEvent(new CustomEvent('selectDate', { detail: '2026-04-08' }));
     calendar.dispatchEvent(new CustomEvent('changeMonth', { detail: { month: 4, year: 2026 } }));
@@ -244,13 +244,13 @@ describe('inclusive-times', () => {
   });
 
   it('renders error block without id attribute when id is missing', async () => {
-    const page = await createPage('<inclusive-times></inclusive-times>');
+    const page = await createPage('<tabworthy-times></tabworthy-times>');
     const instance = page.rootInstance as any;
     instance.errorState = true;
     instance.errorMessage = 'err';
     await page.waitForChanges();
 
-    const error = page.root?.querySelector('.inclusive-times__input-error');
+    const error = page.root?.querySelector('.tabworthy-times__input-error');
     expect(error?.textContent).toContain('err');
     expect(error?.id).toBe('');
   });

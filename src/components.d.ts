@@ -5,31 +5,36 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { InclusiveDatesLabels } from "./components/inclusive-dates/inclusive-dates";
-import { InclusiveDatesCalendarLabels, YearChangedEventDetails } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
-import { ChronoOptions, ChronoParsedDateString } from "./utils/chrono-parser/chrono-parser.type";
-import { InclusiveDatesCalendarLabels as InclusiveDatesCalendarLabels1, MonthChangedEventDetails, YearChangedEventDetails as YearChangedEventDetails1 } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
-import { InclusiveTimesLabels } from "./components/inclusive-times/inclusive-times";
-import { InclusivekTimesPickerLabels, TimeValue } from "./components/inclusive-times-picker/inclusive-times-picker";
-export { InclusiveDatesLabels } from "./components/inclusive-dates/inclusive-dates";
-export { InclusiveDatesCalendarLabels, YearChangedEventDetails } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
-export { ChronoOptions, ChronoParsedDateString } from "./utils/chrono-parser/chrono-parser.type";
-export { InclusiveDatesCalendarLabels as InclusiveDatesCalendarLabels1, MonthChangedEventDetails, YearChangedEventDetails as YearChangedEventDetails1 } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
-export { InclusiveTimesLabels } from "./components/inclusive-times/inclusive-times";
-export { InclusivekTimesPickerLabels, TimeValue } from "./components/inclusive-times-picker/inclusive-times-picker";
+import { DatesLabels } from "./components/tabworthy-dates/tabworthy-dates";
+import { DatesCalendarLabels, YearChangedEventDetails } from "./components/tabworthy-dates-calendar/tabworthy-dates-calendar";
+import { ChronoOptions, ChronoParsedDateString } from "../shared/utils/chrono-parser/chrono-parser.type";
+import { DatesCalendarLabels as DatesCalendarLabels1, MonthChangedEventDetails, YearChangedEventDetails as YearChangedEventDetails1 } from "./components/tabworthy-dates-calendar/tabworthy-dates-calendar";
+import { TimesLabels } from "./components/tabworthy-times/tabworthy-times";
+import { InclusivekTimesPickerLabels, TimeValue } from "./components/tabworthy-times-picker/tabworthy-times-picker";
+export { DatesLabels } from "./components/tabworthy-dates/tabworthy-dates";
+export { DatesCalendarLabels, YearChangedEventDetails } from "./components/tabworthy-dates-calendar/tabworthy-dates-calendar";
+export { ChronoOptions, ChronoParsedDateString } from "../shared/utils/chrono-parser/chrono-parser.type";
+export { DatesCalendarLabels as DatesCalendarLabels1, MonthChangedEventDetails, YearChangedEventDetails as YearChangedEventDetails1 } from "./components/tabworthy-dates-calendar/tabworthy-dates-calendar";
+export { TimesLabels } from "./components/tabworthy-times/tabworthy-times";
+export { InclusivekTimesPickerLabels, TimeValue } from "./components/tabworthy-times-picker/tabworthy-times-picker";
 export namespace Components {
-    interface InclusiveDates {
+    interface TabworthyDates {
         "calendarButtonContent"?: string;
+        "datesCalendarLabels"?: DatesCalendarLabels;
+        /**
+          * @default defaultLabels
+         */
+        "datesLabels": DatesLabels;
         /**
           * @default () =>     false
          */
-        "disableDate": HTMLInclusiveDatesCalendarElement["disableDate"];
+        "disableDate": HTMLTabworthyDatesCalendarElement["disableDate"];
         /**
           * @default false
          */
         "disabled": boolean;
         /**
-          * @default "inclusive-dates"
+          * @default "tabworthy-dates"
          */
         "elementClassName"?: string;
         /**
@@ -49,11 +54,6 @@ export namespace Components {
          */
         "hasError": boolean;
         "id": string;
-        "inclusiveDatesCalendarLabels"?: InclusiveDatesCalendarLabels;
-        /**
-          * @default defaultLabels
-         */
-        "inclusiveDatesLabels": InclusiveDatesLabels;
         /**
           * @default false
          */
@@ -122,7 +122,7 @@ export namespace Components {
         "useStrictDateParsing": boolean;
         "value"?: string | string[];
     }
-    interface InclusiveDatesCalendar {
+    interface TabworthyDatesCalendar {
         "clearButtonContent"?: string;
         /**
           * @default () => false
@@ -133,7 +133,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * @default "inclusive-dates-calendar"
+          * @default "tabworthy-dates-calendar"
          */
         "elementClassName": string;
         /**
@@ -147,7 +147,7 @@ export namespace Components {
         /**
           * @default defaultLabels
          */
-        "labels": InclusiveDatesCalendarLabels1;
+        "labels": DatesCalendarLabels1;
         /**
           * @default navigator?.language || "en-US"
          */
@@ -197,7 +197,7 @@ export namespace Components {
         "todayButtonContent"?: string;
         "value"?: Date | Date[] | null;
     }
-    interface InclusiveDatesModal {
+    interface TabworthyDatesModal {
         /**
           * Close the dialog.
          */
@@ -214,9 +214,10 @@ export namespace Components {
         "open": () => Promise<void>;
         "setTriggerElement": (element: HTMLElement) => Promise<void>;
     }
-    interface InclusiveTimes {
+    interface TabworthyTimes {
         "calendarButtonContent"?: string;
         "clearValue": () => Promise<void>;
+        "datesCalendarLabels"?: DatesCalendarLabels;
         /**
           * @default () => false
          */
@@ -226,7 +227,7 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
-          * @default "inclusive-times"
+          * @default "tabworthy-times"
          */
         "elementClassName"?: string;
         /**
@@ -242,11 +243,6 @@ export namespace Components {
          */
         "hasError": boolean;
         "id": string;
-        "inclusiveDatesCalendarLabels"?: InclusiveDatesCalendarLabels;
-        /**
-          * @default defaultLabels
-         */
-        "inclusiveTimesLabels": InclusiveTimesLabels;
         /**
           * @default false
          */
@@ -262,7 +258,7 @@ export namespace Components {
         "maxDate"?: string;
         "minDate"?: string;
         /**
-          * @default "Try \"tomorrow at 3pm\""
+          * @default ""
          */
         "placeholder": string;
         /**
@@ -294,18 +290,22 @@ export namespace Components {
          */
         "startDate": string;
         /**
+          * @default defaultLabels
+         */
+        "timesLabels": TimesLabels;
+        /**
           * @default true
          */
         "use12HourFormat": boolean;
         "value"?: string | string[];
     }
-    interface InclusiveTimesPicker {
+    interface TabworthyTimesPicker {
         /**
           * @default false
          */
         "disabled": boolean;
         /**
-          * @default "inclusive-times-picker"
+          * @default "tabworthy-times-picker"
          */
         "elementClassName": string;
         /**
@@ -330,142 +330,147 @@ export namespace Components {
         "use12HourFormat": boolean;
     }
 }
-export interface InclusiveDatesCustomEvent<T> extends CustomEvent<T> {
+export interface TabworthyDatesCustomEvent<T> extends CustomEvent<T> {
     detail: T;
-    target: HTMLInclusiveDatesElement;
+    target: HTMLTabworthyDatesElement;
 }
-export interface InclusiveDatesCalendarCustomEvent<T> extends CustomEvent<T> {
+export interface TabworthyDatesCalendarCustomEvent<T> extends CustomEvent<T> {
     detail: T;
-    target: HTMLInclusiveDatesCalendarElement;
+    target: HTMLTabworthyDatesCalendarElement;
 }
-export interface InclusiveDatesModalCustomEvent<T> extends CustomEvent<T> {
+export interface TabworthyDatesModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
-    target: HTMLInclusiveDatesModalElement;
+    target: HTMLTabworthyDatesModalElement;
 }
-export interface InclusiveTimesCustomEvent<T> extends CustomEvent<T> {
+export interface TabworthyTimesCustomEvent<T> extends CustomEvent<T> {
     detail: T;
-    target: HTMLInclusiveTimesElement;
+    target: HTMLTabworthyTimesElement;
 }
-export interface InclusiveTimesPickerCustomEvent<T> extends CustomEvent<T> {
+export interface TabworthyTimesPickerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
-    target: HTMLInclusiveTimesPickerElement;
+    target: HTMLTabworthyTimesPickerElement;
 }
 declare global {
-    interface HTMLInclusiveDatesElementEventMap {
+    interface HTMLTabworthyDatesElementEventMap {
         "selectDate": string | string[] | undefined;
         "changeYear": YearChangedEventDetails;
         "componentReady": void;
     }
-    interface HTMLInclusiveDatesElement extends Components.InclusiveDates, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLInclusiveDatesElementEventMap>(type: K, listener: (this: HTMLInclusiveDatesElement, ev: InclusiveDatesCustomEvent<HTMLInclusiveDatesElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+    interface HTMLTabworthyDatesElement extends Components.TabworthyDates, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTabworthyDatesElementEventMap>(type: K, listener: (this: HTMLTabworthyDatesElement, ev: TabworthyDatesCustomEvent<HTMLTabworthyDatesElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLInclusiveDatesElementEventMap>(type: K, listener: (this: HTMLInclusiveDatesElement, ev: InclusiveDatesCustomEvent<HTMLInclusiveDatesElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTabworthyDatesElementEventMap>(type: K, listener: (this: HTMLTabworthyDatesElement, ev: TabworthyDatesCustomEvent<HTMLTabworthyDatesElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
-    var HTMLInclusiveDatesElement: {
-        prototype: HTMLInclusiveDatesElement;
-        new (): HTMLInclusiveDatesElement;
+    var HTMLTabworthyDatesElement: {
+        prototype: HTMLTabworthyDatesElement;
+        new (): HTMLTabworthyDatesElement;
     };
-    interface HTMLInclusiveDatesCalendarElementEventMap {
+    interface HTMLTabworthyDatesCalendarElementEventMap {
         "selectDate": string | string[] | undefined;
         "changeMonth": MonthChangedEventDetails;
         "changeYear": YearChangedEventDetails1;
     }
-    interface HTMLInclusiveDatesCalendarElement extends Components.InclusiveDatesCalendar, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLInclusiveDatesCalendarElementEventMap>(type: K, listener: (this: HTMLInclusiveDatesCalendarElement, ev: InclusiveDatesCalendarCustomEvent<HTMLInclusiveDatesCalendarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+    interface HTMLTabworthyDatesCalendarElement extends Components.TabworthyDatesCalendar, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTabworthyDatesCalendarElementEventMap>(type: K, listener: (this: HTMLTabworthyDatesCalendarElement, ev: TabworthyDatesCalendarCustomEvent<HTMLTabworthyDatesCalendarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLInclusiveDatesCalendarElementEventMap>(type: K, listener: (this: HTMLInclusiveDatesCalendarElement, ev: InclusiveDatesCalendarCustomEvent<HTMLInclusiveDatesCalendarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTabworthyDatesCalendarElementEventMap>(type: K, listener: (this: HTMLTabworthyDatesCalendarElement, ev: TabworthyDatesCalendarCustomEvent<HTMLTabworthyDatesCalendarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
-    var HTMLInclusiveDatesCalendarElement: {
-        prototype: HTMLInclusiveDatesCalendarElement;
-        new (): HTMLInclusiveDatesCalendarElement;
+    var HTMLTabworthyDatesCalendarElement: {
+        prototype: HTMLTabworthyDatesCalendarElement;
+        new (): HTMLTabworthyDatesCalendarElement;
     };
-    interface HTMLInclusiveDatesModalElementEventMap {
+    interface HTMLTabworthyDatesModalElementEventMap {
         "opened": any;
         "closed": any;
     }
-    interface HTMLInclusiveDatesModalElement extends Components.InclusiveDatesModal, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLInclusiveDatesModalElementEventMap>(type: K, listener: (this: HTMLInclusiveDatesModalElement, ev: InclusiveDatesModalCustomEvent<HTMLInclusiveDatesModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+    interface HTMLTabworthyDatesModalElement extends Components.TabworthyDatesModal, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTabworthyDatesModalElementEventMap>(type: K, listener: (this: HTMLTabworthyDatesModalElement, ev: TabworthyDatesModalCustomEvent<HTMLTabworthyDatesModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLInclusiveDatesModalElementEventMap>(type: K, listener: (this: HTMLInclusiveDatesModalElement, ev: InclusiveDatesModalCustomEvent<HTMLInclusiveDatesModalElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTabworthyDatesModalElementEventMap>(type: K, listener: (this: HTMLTabworthyDatesModalElement, ev: TabworthyDatesModalCustomEvent<HTMLTabworthyDatesModalElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
-    var HTMLInclusiveDatesModalElement: {
-        prototype: HTMLInclusiveDatesModalElement;
-        new (): HTMLInclusiveDatesModalElement;
+    var HTMLTabworthyDatesModalElement: {
+        prototype: HTMLTabworthyDatesModalElement;
+        new (): HTMLTabworthyDatesModalElement;
     };
-    interface HTMLInclusiveTimesElementEventMap {
+    interface HTMLTabworthyTimesElementEventMap {
         "selectDateTime": string | string[] | undefined;
         "changeYear": YearChangedEventDetails;
         "componentReady": void;
     }
-    interface HTMLInclusiveTimesElement extends Components.InclusiveTimes, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLInclusiveTimesElementEventMap>(type: K, listener: (this: HTMLInclusiveTimesElement, ev: InclusiveTimesCustomEvent<HTMLInclusiveTimesElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+    interface HTMLTabworthyTimesElement extends Components.TabworthyTimes, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTabworthyTimesElementEventMap>(type: K, listener: (this: HTMLTabworthyTimesElement, ev: TabworthyTimesCustomEvent<HTMLTabworthyTimesElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLInclusiveTimesElementEventMap>(type: K, listener: (this: HTMLInclusiveTimesElement, ev: InclusiveTimesCustomEvent<HTMLInclusiveTimesElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTabworthyTimesElementEventMap>(type: K, listener: (this: HTMLTabworthyTimesElement, ev: TabworthyTimesCustomEvent<HTMLTabworthyTimesElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
-    var HTMLInclusiveTimesElement: {
-        prototype: HTMLInclusiveTimesElement;
-        new (): HTMLInclusiveTimesElement;
+    var HTMLTabworthyTimesElement: {
+        prototype: HTMLTabworthyTimesElement;
+        new (): HTMLTabworthyTimesElement;
     };
-    interface HTMLInclusiveTimesPickerElementEventMap {
+    interface HTMLTabworthyTimesPickerElementEventMap {
         "timeChanged": TimeValue;
     }
-    interface HTMLInclusiveTimesPickerElement extends Components.InclusiveTimesPicker, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLInclusiveTimesPickerElementEventMap>(type: K, listener: (this: HTMLInclusiveTimesPickerElement, ev: InclusiveTimesPickerCustomEvent<HTMLInclusiveTimesPickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+    interface HTMLTabworthyTimesPickerElement extends Components.TabworthyTimesPicker, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLTabworthyTimesPickerElementEventMap>(type: K, listener: (this: HTMLTabworthyTimesPickerElement, ev: TabworthyTimesPickerCustomEvent<HTMLTabworthyTimesPickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLInclusiveTimesPickerElementEventMap>(type: K, listener: (this: HTMLInclusiveTimesPickerElement, ev: InclusiveTimesPickerCustomEvent<HTMLInclusiveTimesPickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLTabworthyTimesPickerElementEventMap>(type: K, listener: (this: HTMLTabworthyTimesPickerElement, ev: TabworthyTimesPickerCustomEvent<HTMLTabworthyTimesPickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
         removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
-    var HTMLInclusiveTimesPickerElement: {
-        prototype: HTMLInclusiveTimesPickerElement;
-        new (): HTMLInclusiveTimesPickerElement;
+    var HTMLTabworthyTimesPickerElement: {
+        prototype: HTMLTabworthyTimesPickerElement;
+        new (): HTMLTabworthyTimesPickerElement;
     };
     interface HTMLElementTagNameMap {
-        "inclusive-dates": HTMLInclusiveDatesElement;
-        "inclusive-dates-calendar": HTMLInclusiveDatesCalendarElement;
-        "inclusive-dates-modal": HTMLInclusiveDatesModalElement;
-        "inclusive-times": HTMLInclusiveTimesElement;
-        "inclusive-times-picker": HTMLInclusiveTimesPickerElement;
+        "tabworthy-dates": HTMLTabworthyDatesElement;
+        "tabworthy-dates-calendar": HTMLTabworthyDatesCalendarElement;
+        "tabworthy-dates-modal": HTMLTabworthyDatesModalElement;
+        "tabworthy-times": HTMLTabworthyTimesElement;
+        "tabworthy-times-picker": HTMLTabworthyTimesPickerElement;
     }
 }
 declare namespace LocalJSX {
     type OneOf<K extends string, PropT, AttrT = PropT> = { [P in K]: PropT } & { [P in `attr:${K}` | `prop:${K}`]?: never } | { [P in `attr:${K}`]: AttrT } & { [P in K | `prop:${K}`]?: never } | { [P in `prop:${K}`]: PropT } & { [P in K | `attr:${K}`]?: never };
 
-    interface InclusiveDates {
+    interface TabworthyDates {
         "calendarButtonContent"?: string;
+        "datesCalendarLabels"?: DatesCalendarLabels;
+        /**
+          * @default defaultLabels
+         */
+        "datesLabels"?: DatesLabels;
         /**
           * @default () =>     false
          */
-        "disableDate"?: HTMLInclusiveDatesCalendarElement["disableDate"];
+        "disableDate"?: HTMLTabworthyDatesCalendarElement["disableDate"];
         /**
           * @default false
          */
         "disabled"?: boolean;
         /**
-          * @default "inclusive-dates"
+          * @default "tabworthy-dates"
          */
         "elementClassName"?: string;
         /**
@@ -485,11 +490,6 @@ declare namespace LocalJSX {
          */
         "hasError"?: boolean;
         "id": string;
-        "inclusiveDatesCalendarLabels"?: InclusiveDatesCalendarLabels;
-        /**
-          * @default defaultLabels
-         */
-        "inclusiveDatesLabels"?: InclusiveDatesLabels;
         /**
           * @default false
          */
@@ -506,9 +506,9 @@ declare namespace LocalJSX {
         "minDate"?: string;
         "nextMonthButtonContent"?: string;
         "nextYearButtonContent"?: string;
-        "onChangeYear"?: (event: InclusiveDatesCustomEvent<YearChangedEventDetails>) => void;
-        "onComponentReady"?: (event: InclusiveDatesCustomEvent<void>) => void;
-        "onSelectDate"?: (event: InclusiveDatesCustomEvent<string | string[] | undefined>) => void;
+        "onChangeYear"?: (event: TabworthyDatesCustomEvent<YearChangedEventDetails>) => void;
+        "onComponentReady"?: (event: TabworthyDatesCustomEvent<void>) => void;
+        "onSelectDate"?: (event: TabworthyDatesCustomEvent<string | string[] | undefined>) => void;
         /**
           * @default this.range     ? `Try "June 8 to 12"`     : `Try "tomorrrow" or "in ten days"`
          */
@@ -560,7 +560,7 @@ declare namespace LocalJSX {
         "useStrictDateParsing"?: boolean;
         "value"?: string | string[];
     }
-    interface InclusiveDatesCalendar {
+    interface TabworthyDatesCalendar {
         "clearButtonContent"?: string;
         /**
           * @default () => false
@@ -571,7 +571,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * @default "inclusive-dates-calendar"
+          * @default "tabworthy-dates-calendar"
          */
         "elementClassName"?: string;
         /**
@@ -585,7 +585,7 @@ declare namespace LocalJSX {
         /**
           * @default defaultLabels
          */
-        "labels"?: InclusiveDatesCalendarLabels1;
+        "labels"?: DatesCalendarLabels1;
         /**
           * @default navigator?.language || "en-US"
          */
@@ -598,9 +598,9 @@ declare namespace LocalJSX {
         "modalIsOpen"?: boolean;
         "nextMonthButtonContent"?: string;
         "nextYearButtonContent"?: string;
-        "onChangeMonth"?: (event: InclusiveDatesCalendarCustomEvent<MonthChangedEventDetails>) => void;
-        "onChangeYear"?: (event: InclusiveDatesCalendarCustomEvent<YearChangedEventDetails1>) => void;
-        "onSelectDate"?: (event: InclusiveDatesCalendarCustomEvent<string | string[] | undefined>) => void;
+        "onChangeMonth"?: (event: TabworthyDatesCalendarCustomEvent<MonthChangedEventDetails>) => void;
+        "onChangeYear"?: (event: TabworthyDatesCalendarCustomEvent<YearChangedEventDetails1>) => void;
+        "onSelectDate"?: (event: TabworthyDatesCalendarCustomEvent<string | string[] | undefined>) => void;
         "previousMonthButtonContent"?: string;
         "previousYearButtonContent"?: string;
         /**
@@ -638,17 +638,18 @@ declare namespace LocalJSX {
         "todayButtonContent"?: string;
         "value"?: Date | Date[] | null;
     }
-    interface InclusiveDatesModal {
+    interface TabworthyDatesModal {
         /**
           * @default false
          */
         "inline"?: boolean;
         "label": string;
-        "onClosed"?: (event: InclusiveDatesModalCustomEvent<any>) => void;
-        "onOpened"?: (event: InclusiveDatesModalCustomEvent<any>) => void;
+        "onClosed"?: (event: TabworthyDatesModalCustomEvent<any>) => void;
+        "onOpened"?: (event: TabworthyDatesModalCustomEvent<any>) => void;
     }
-    interface InclusiveTimes {
+    interface TabworthyTimes {
         "calendarButtonContent"?: string;
+        "datesCalendarLabels"?: DatesCalendarLabels;
         /**
           * @default () => false
          */
@@ -658,7 +659,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
-          * @default "inclusive-times"
+          * @default "tabworthy-times"
          */
         "elementClassName"?: string;
         /**
@@ -674,11 +675,6 @@ declare namespace LocalJSX {
          */
         "hasError"?: boolean;
         "id": string;
-        "inclusiveDatesCalendarLabels"?: InclusiveDatesCalendarLabels;
-        /**
-          * @default defaultLabels
-         */
-        "inclusiveTimesLabels"?: InclusiveTimesLabels;
         /**
           * @default false
          */
@@ -693,11 +689,11 @@ declare namespace LocalJSX {
         "locale"?: string;
         "maxDate"?: string;
         "minDate"?: string;
-        "onChangeYear"?: (event: InclusiveTimesCustomEvent<YearChangedEventDetails>) => void;
-        "onComponentReady"?: (event: InclusiveTimesCustomEvent<void>) => void;
-        "onSelectDateTime"?: (event: InclusiveTimesCustomEvent<string | string[] | undefined>) => void;
+        "onChangeYear"?: (event: TabworthyTimesCustomEvent<YearChangedEventDetails>) => void;
+        "onComponentReady"?: (event: TabworthyTimesCustomEvent<void>) => void;
+        "onSelectDateTime"?: (event: TabworthyTimesCustomEvent<string | string[] | undefined>) => void;
         /**
-          * @default "Try \"tomorrow at 3pm\""
+          * @default ""
          */
         "placeholder"?: string;
         /**
@@ -729,18 +725,22 @@ declare namespace LocalJSX {
          */
         "startDate"?: string;
         /**
+          * @default defaultLabels
+         */
+        "timesLabels"?: TimesLabels;
+        /**
           * @default true
          */
         "use12HourFormat"?: boolean;
         "value"?: string | string[];
     }
-    interface InclusiveTimesPicker {
+    interface TabworthyTimesPicker {
         /**
           * @default false
          */
         "disabled"?: boolean;
         /**
-          * @default "inclusive-times-picker"
+          * @default "tabworthy-times-picker"
          */
         "elementClassName"?: string;
         /**
@@ -759,14 +759,14 @@ declare namespace LocalJSX {
           * @default 0
          */
         "minutes"?: number;
-        "onTimeChanged"?: (event: InclusiveTimesPickerCustomEvent<TimeValue>) => void;
+        "onTimeChanged"?: (event: TabworthyTimesPickerCustomEvent<TimeValue>) => void;
         /**
           * @default false
          */
         "use12HourFormat"?: boolean;
     }
 
-    interface InclusiveDatesAttributes {
+    interface TabworthyDatesAttributes {
         "id": string;
         "value": string | string[];
         "range": boolean;
@@ -796,7 +796,7 @@ declare namespace LocalJSX {
         "calendarButtonContent": string;
         "showQuickButtons": boolean;
     }
-    interface InclusiveDatesCalendarAttributes {
+    interface TabworthyDatesCalendarAttributes {
         "clearButtonContent": string;
         "disabled": boolean;
         "modalIsOpen": boolean;
@@ -820,11 +820,11 @@ declare namespace LocalJSX {
         "startDate": string;
         "todayButtonContent": string;
     }
-    interface InclusiveDatesModalAttributes {
+    interface TabworthyDatesModalAttributes {
         "label": string;
         "inline": boolean;
     }
-    interface InclusiveTimesAttributes {
+    interface TabworthyTimesAttributes {
         "id": string;
         "value": string | string[];
         "range": boolean;
@@ -848,7 +848,7 @@ declare namespace LocalJSX {
         "firstDayOfWeek": number;
         "format": string;
     }
-    interface InclusiveTimesPickerAttributes {
+    interface TabworthyTimesPickerAttributes {
         "hours": number;
         "minutes": number;
         "use12HourFormat": boolean;
@@ -858,22 +858,22 @@ declare namespace LocalJSX {
     }
 
     interface IntrinsicElements {
-        "inclusive-dates": Omit<InclusiveDates, keyof InclusiveDatesAttributes> & { [K in keyof InclusiveDates & keyof InclusiveDatesAttributes]?: InclusiveDates[K] } & { [K in keyof InclusiveDates & keyof InclusiveDatesAttributes as `attr:${K}`]?: InclusiveDatesAttributes[K] } & { [K in keyof InclusiveDates & keyof InclusiveDatesAttributes as `prop:${K}`]?: InclusiveDates[K] } & OneOf<"id", InclusiveDates["id"], InclusiveDatesAttributes["id"]>;
-        "inclusive-dates-calendar": Omit<InclusiveDatesCalendar, keyof InclusiveDatesCalendarAttributes> & { [K in keyof InclusiveDatesCalendar & keyof InclusiveDatesCalendarAttributes]?: InclusiveDatesCalendar[K] } & { [K in keyof InclusiveDatesCalendar & keyof InclusiveDatesCalendarAttributes as `attr:${K}`]?: InclusiveDatesCalendarAttributes[K] } & { [K in keyof InclusiveDatesCalendar & keyof InclusiveDatesCalendarAttributes as `prop:${K}`]?: InclusiveDatesCalendar[K] };
-        "inclusive-dates-modal": Omit<InclusiveDatesModal, keyof InclusiveDatesModalAttributes> & { [K in keyof InclusiveDatesModal & keyof InclusiveDatesModalAttributes]?: InclusiveDatesModal[K] } & { [K in keyof InclusiveDatesModal & keyof InclusiveDatesModalAttributes as `attr:${K}`]?: InclusiveDatesModalAttributes[K] } & { [K in keyof InclusiveDatesModal & keyof InclusiveDatesModalAttributes as `prop:${K}`]?: InclusiveDatesModal[K] } & OneOf<"label", InclusiveDatesModal["label"], InclusiveDatesModalAttributes["label"]>;
-        "inclusive-times": Omit<InclusiveTimes, keyof InclusiveTimesAttributes> & { [K in keyof InclusiveTimes & keyof InclusiveTimesAttributes]?: InclusiveTimes[K] } & { [K in keyof InclusiveTimes & keyof InclusiveTimesAttributes as `attr:${K}`]?: InclusiveTimesAttributes[K] } & { [K in keyof InclusiveTimes & keyof InclusiveTimesAttributes as `prop:${K}`]?: InclusiveTimes[K] } & OneOf<"id", InclusiveTimes["id"], InclusiveTimesAttributes["id"]>;
-        "inclusive-times-picker": Omit<InclusiveTimesPicker, keyof InclusiveTimesPickerAttributes> & { [K in keyof InclusiveTimesPicker & keyof InclusiveTimesPickerAttributes]?: InclusiveTimesPicker[K] } & { [K in keyof InclusiveTimesPicker & keyof InclusiveTimesPickerAttributes as `attr:${K}`]?: InclusiveTimesPickerAttributes[K] } & { [K in keyof InclusiveTimesPicker & keyof InclusiveTimesPickerAttributes as `prop:${K}`]?: InclusiveTimesPicker[K] };
+        "tabworthy-dates": Omit<TabworthyDates, keyof TabworthyDatesAttributes> & { [K in keyof TabworthyDates & keyof TabworthyDatesAttributes]?: TabworthyDates[K] } & { [K in keyof TabworthyDates & keyof TabworthyDatesAttributes as `attr:${K}`]?: TabworthyDatesAttributes[K] } & { [K in keyof TabworthyDates & keyof TabworthyDatesAttributes as `prop:${K}`]?: TabworthyDates[K] } & OneOf<"id", TabworthyDates["id"], TabworthyDatesAttributes["id"]>;
+        "tabworthy-dates-calendar": Omit<TabworthyDatesCalendar, keyof TabworthyDatesCalendarAttributes> & { [K in keyof TabworthyDatesCalendar & keyof TabworthyDatesCalendarAttributes]?: TabworthyDatesCalendar[K] } & { [K in keyof TabworthyDatesCalendar & keyof TabworthyDatesCalendarAttributes as `attr:${K}`]?: TabworthyDatesCalendarAttributes[K] } & { [K in keyof TabworthyDatesCalendar & keyof TabworthyDatesCalendarAttributes as `prop:${K}`]?: TabworthyDatesCalendar[K] };
+        "tabworthy-dates-modal": Omit<TabworthyDatesModal, keyof TabworthyDatesModalAttributes> & { [K in keyof TabworthyDatesModal & keyof TabworthyDatesModalAttributes]?: TabworthyDatesModal[K] } & { [K in keyof TabworthyDatesModal & keyof TabworthyDatesModalAttributes as `attr:${K}`]?: TabworthyDatesModalAttributes[K] } & { [K in keyof TabworthyDatesModal & keyof TabworthyDatesModalAttributes as `prop:${K}`]?: TabworthyDatesModal[K] } & OneOf<"label", TabworthyDatesModal["label"], TabworthyDatesModalAttributes["label"]>;
+        "tabworthy-times": Omit<TabworthyTimes, keyof TabworthyTimesAttributes> & { [K in keyof TabworthyTimes & keyof TabworthyTimesAttributes]?: TabworthyTimes[K] } & { [K in keyof TabworthyTimes & keyof TabworthyTimesAttributes as `attr:${K}`]?: TabworthyTimesAttributes[K] } & { [K in keyof TabworthyTimes & keyof TabworthyTimesAttributes as `prop:${K}`]?: TabworthyTimes[K] } & OneOf<"id", TabworthyTimes["id"], TabworthyTimesAttributes["id"]>;
+        "tabworthy-times-picker": Omit<TabworthyTimesPicker, keyof TabworthyTimesPickerAttributes> & { [K in keyof TabworthyTimesPicker & keyof TabworthyTimesPickerAttributes]?: TabworthyTimesPicker[K] } & { [K in keyof TabworthyTimesPicker & keyof TabworthyTimesPickerAttributes as `attr:${K}`]?: TabworthyTimesPickerAttributes[K] } & { [K in keyof TabworthyTimesPicker & keyof TabworthyTimesPickerAttributes as `prop:${K}`]?: TabworthyTimesPicker[K] };
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "inclusive-dates": LocalJSX.IntrinsicElements["inclusive-dates"] & JSXBase.HTMLAttributes<HTMLInclusiveDatesElement>;
-            "inclusive-dates-calendar": LocalJSX.IntrinsicElements["inclusive-dates-calendar"] & JSXBase.HTMLAttributes<HTMLInclusiveDatesCalendarElement>;
-            "inclusive-dates-modal": LocalJSX.IntrinsicElements["inclusive-dates-modal"] & JSXBase.HTMLAttributes<HTMLInclusiveDatesModalElement>;
-            "inclusive-times": LocalJSX.IntrinsicElements["inclusive-times"] & JSXBase.HTMLAttributes<HTMLInclusiveTimesElement>;
-            "inclusive-times-picker": LocalJSX.IntrinsicElements["inclusive-times-picker"] & JSXBase.HTMLAttributes<HTMLInclusiveTimesPickerElement>;
+            "tabworthy-dates": LocalJSX.IntrinsicElements["tabworthy-dates"] & JSXBase.HTMLAttributes<HTMLTabworthyDatesElement>;
+            "tabworthy-dates-calendar": LocalJSX.IntrinsicElements["tabworthy-dates-calendar"] & JSXBase.HTMLAttributes<HTMLTabworthyDatesCalendarElement>;
+            "tabworthy-dates-modal": LocalJSX.IntrinsicElements["tabworthy-dates-modal"] & JSXBase.HTMLAttributes<HTMLTabworthyDatesModalElement>;
+            "tabworthy-times": LocalJSX.IntrinsicElements["tabworthy-times"] & JSXBase.HTMLAttributes<HTMLTabworthyTimesElement>;
+            "tabworthy-times-picker": LocalJSX.IntrinsicElements["tabworthy-times-picker"] & JSXBase.HTMLAttributes<HTMLTabworthyTimesPickerElement>;
         }
     }
 }

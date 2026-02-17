@@ -4,7 +4,7 @@ import autoprefixer from "autoprefixer";
 import postcssNested from "postcss-nested";
 
 export const config: Config = {
-  namespace: "inclusive-dates",
+  namespace: "tabworthy-components",
   tsconfig: "tsconfig.stencil.json",
   testing: {
     browserHeadless: "shell",
@@ -17,12 +17,12 @@ export const config: Config = {
     coverageReporters: ['text', 'html', 'lcov', 'json'],
     collectCoverageFrom: [
       'src/components/**/*.{ts,tsx}',
-      'src/utils/**/*.{ts,tsx}',
-      '!src/**/*.stories.ts',
-      '!src/**/*.spec.tsx',
-      '!src/**/*.e2e.ts',
-      '!src/**/*.d.ts',
-      '!src/index.ts',
+      'shared/**/*.{ts,tsx}',
+      '!{src,shared}/**/*.stories.ts',
+      '!{src,shared}/**/*.spec.tsx',
+      '!{src,shared}/**/*.e2e.ts',
+      '!{src,shared}/**/*.d.ts',
+      '!{src,shared}/index.ts',
     ],
   },
   outputTargets: [

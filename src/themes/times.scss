@@ -1,4 +1,4 @@
-.inclusive-times {
+.tabworthy-times {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -42,7 +42,7 @@
     }
   }
 
-  &[has-error] .inclusive-times__input {
+  &[has-error] .tabworthy-times__input {
     border-color: var(--error-color);
   }
 
@@ -106,7 +106,7 @@
     font-weight: 700;
   }
 
-  &[inline] .inclusive-times__calendar-button {
+  &[inline] .tabworthy-times__calendar-button {
     display: none;
   }
 
@@ -117,7 +117,7 @@
 
 }
 
-.inclusive-times-picker {
+.tabworthy-times-picker {
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -268,7 +268,7 @@
       outline: 0.25rem solid var(--focus-color);
     }
 
-    &:hover:not(:disabled):not(.inclusive-times-picker__period-button--active) {
+    &:hover:not(:disabled):not(.tabworthy-times-picker__period-button--active) {
       background-color: var(--hover-color);
       opacity: 0.8;
     }
@@ -276,7 +276,7 @@
 }
 
 @media (max-width: 768px) {
-  .inclusive-times__picker-container {
+  .tabworthy-times__picker-container {
     flex-direction: column;
   }
 }

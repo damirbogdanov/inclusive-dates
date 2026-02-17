@@ -32,10 +32,10 @@ import {
   monthIsDisabled,
   removeTimezoneOffset,
   subDays
-} from "../../utils/utils";
-import { dateIsWithinBounds } from "../../utils/utils";
+} from "@shared/utils/utils";
+import { dateIsWithinBounds } from "@shared/utils/utils";
 
-export type InclusiveDatesCalendarLabels = {
+export type DatesCalendarLabels = {
   clearButton: string;
   monthSelect: string;
   nextMonthButton: string;
@@ -51,7 +51,7 @@ export type InclusiveDatesCalendarLabels = {
   chooseAsEndDate: string;
 };
 
-const defaultLabels: InclusiveDatesCalendarLabels = {
+const defaultLabels: DatesCalendarLabels = {
   clearButton: "Clear value",
   monthSelect: "Select month",
   nextMonthButton: "Next month",
@@ -79,8 +79,8 @@ export interface YearChangedEventDetails {
 @Component({
   scoped: true,
   shadow: false,
-  styleUrl: "inclusive-dates-calendar.css",
-  tag: "inclusive-dates-calendar"
+  styleUrl: "tabworthy-dates-calendar.css",
+  tag: "tabworthy-dates-calendar"
 })
 export class InclusiveDatesCalendar {
   @Element() el!: HTMLElement;
@@ -90,10 +90,10 @@ export class InclusiveDatesCalendar {
   @Prop() modalIsOpen?: boolean = false;
 
   @Prop() disableDate: (date: Date) => boolean = () => false;
-  @Prop() elementClassName: string = "inclusive-dates-calendar";
+  @Prop() elementClassName: string = "tabworthy-dates-calendar";
   @Prop() firstDayOfWeek: number = 0;
   @Prop() range?: boolean = false;
-  @Prop() labels: InclusiveDatesCalendarLabels = defaultLabels;
+  @Prop() labels: DatesCalendarLabels = defaultLabels;
   @Prop() locale?: string = navigator?.language || "en-US";
   @Prop() nextMonthButtonContent?: string;
   @Prop() nextYearButtonContent?: string;
@@ -465,12 +465,13 @@ export class InclusiveDatesCalendar {
         <div
           class={{
             [`${this.getClassName()}-wrapper`]: true,
+            [`${this.getClassName()}-wrapper--inline`]: this.inline
           }}>
           <div
             class={{
               [this.getClassName()]: true,
               [`${this.getClassName()}--disabled`]: this.disabled,
-              [this.getClassName("inline")]: this.inline
+
             }}
           >
             <div class={this.getClassName("header")}>

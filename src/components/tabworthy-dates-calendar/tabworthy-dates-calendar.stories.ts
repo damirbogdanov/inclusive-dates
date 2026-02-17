@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit-html';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { Components } from '../../components';
-import { getISODateString } from '../../utils/utils';
+import { getISODateString } from '@shared/utils/utils';
 
-const meta: Meta<Components.InclusiveDatesCalendar> = {
-  title: 'Components/InclusiveDatesCalendar',
+const meta: Meta<Components.TabworthyDatesCalendar> = {
+  title: 'Components/TabworthyDatesCalendar',
   tags: ['autodocs'],
   render: (args) => html`
-    <inclusive-dates-calendar
+    <tabworthy-dates-calendar
       .value=${ifDefined(args.value)}
       ?range=${args.range}
       locale=${ifDefined(args.locale)}
@@ -25,12 +25,12 @@ const meta: Meta<Components.InclusiveDatesCalendar> = {
       ?disabled=${args.disabled}
       .disableDate=${args.disableDate}
       ?inline=${args.inline}
-    ></inclusive-dates-calendar>
+    ></tabworthy-dates-calendar>
   `,
 };
 
 export default meta;
-type Story = StoryObj<Components.InclusiveDatesCalendar>;
+type Story = StoryObj<Components.TabworthyDatesCalendar>;
 
 export const Default: Story = {
   args: {

@@ -1,12 +1,12 @@
 import { newSpecPage } from '@stencil/core/testing';
-import * as chronoParser from '../../utils/chrono-parser/chrono-parser';
-import { InclusiveDates } from './inclusive-dates';
+import * as chronoParser from '@shared/utils/chrono-parser/chrono-parser';
+import { TabworthyDates } from './tabworthy-dates';
 
 jest.mock('@react-aria/live-announcer', () => ({
   announce: jest.fn(),
 }));
 
-describe('inclusive-dates', () => {
+describe('tabworthy-dates', () => {
   const originalWarn = console.warn;
   const originalError = console.error;
 
@@ -21,17 +21,17 @@ describe('inclusive-dates', () => {
     console.error = originalError;
   });
 
-  const createPage = async (html = `<inclusive-dates id="test"></inclusive-dates>`) => {
+  const createPage = async (html = `<tabworthy-dates id="test"></tabworthy-dates>`) => {
     return newSpecPage({
-      components: [InclusiveDates],
+      components: [TabworthyDates],
       html,
     });
   };
 
   it('renders and validates required id on load', async () => {
-    await createPage('<inclusive-dates></inclusive-dates>');
+    await createPage('<tabworthy-dates></tabworthy-dates>');
     expect(console.error).toHaveBeenCalledWith(
-      'inclusive-dates: The "id" prop is required for accessibility',
+      'tabworthy-dates: The "id" prop is required for accessibility',
     );
   });
 
@@ -44,7 +44,7 @@ describe('inclusive-dates', () => {
     instance.componentDidLoad();
 
     expect(console.warn).toHaveBeenCalledWith(
-      expect.stringContaining('inclusive-dates: The chosen locale "sv-SE" is not supported by Chrono.js'),
+      expect.stringContaining('tabworthy-dates: The chosen locale "sv-SE" is not supported by Chrono.js'),
     );
   });
 
@@ -126,7 +126,7 @@ describe('inclusive-dates', () => {
   });
 
   it('handleQuickButtonClick parses range quick buttons', async () => {
-    const page = await createPage('<inclusive-dates id="test" range></inclusive-dates>');
+    const page = await createPage('<tabworthy-dates id="test" range></tabworthy-dates>');
     const instance = page.rootInstance as any;
 
     instance.inputRef = { value: '' } as HTMLInputElement;
@@ -168,11 +168,11 @@ describe('inclusive-dates', () => {
     await instance.handleChange({ target: { value: 'June 8 2023' } } as any);
 
     expect(instance.errorState).toBe(true);
-    expect(instance.errorMessage).toBe(instance.inclusiveDatesLabels.disabledDateError);
+    expect(instance.errorMessage).toBe(instance.datesLabels.disabledDateError);
   });
 
   it('handleChange sets min/max/invalid errors for single mode', async () => {
-    const page = await createPage('<inclusive-dates id="test" min-date="1988-12-30" max-date="2034-11-02"></inclusive-dates>');
+    const page = await createPage('<tabworthy-dates id="test" min-date="1988-12-30" max-date="2034-11-02"></tabworthy-dates>');
     const instance = page.rootInstance as any;
 
     const parseSpy = jest.spyOn(chronoParser, 'chronoParseDate');
@@ -188,11 +188,11 @@ describe('inclusive-dates', () => {
 
     parseSpy.mockResolvedValueOnce({ value: null, reason: 'invalid' } as any);
     await instance.handleChange({ target: { value: 'bad input' } } as any);
-    expect(instance.errorMessage).toBe(instance.inclusiveDatesLabels.invalidDateError);
+    expect(instance.errorMessage).toBe(instance.datesLabels.invalidDateError);
   });
 
   it('handleChange updates range and handles range errors', async () => {
-    const page = await createPage('<inclusive-dates id="test" range></inclusive-dates>');
+    const page = await createPage('<tabworthy-dates id="test" range></tabworthy-dates>');
     const instance = page.rootInstance as any;
 
     instance.inputRef = { value: '' } as HTMLInputElement;
@@ -207,11 +207,11 @@ describe('inclusive-dates', () => {
     parseSpy.mockResolvedValueOnce({ value: null, reason: 'rangeOutOfBounds' } as any);
     await instance.handleChange({ target: { value: 'bad range' } } as any);
     expect(instance.errorState).toBe(true);
-    expect(instance.errorMessage).toBe(instance.inclusiveDatesLabels.rangeOutOfBoundsError);
+    expect(instance.errorMessage).toBe(instance.datesLabels.rangeOutOfBoundsError);
   });
 
   it('handles range input clear and emits empty value', async () => {
-    const page = await createPage('<inclusive-dates id="test" range></inclusive-dates>');
+    const page = await createPage('<tabworthy-dates id="test" range></tabworthy-dates>');
     const instance = page.rootInstance as any;
     instance.pickerRef = { value: [new Date('2023-06-08'), new Date('2023-06-12')] };
     const emitSpy = jest.spyOn(instance.selectDate, 'emit');
@@ -267,7 +267,7 @@ describe('inclusive-dates', () => {
   });
 
   it('handlePickerSelection updates single and range selections', async () => {
-    const page = await createPage('<inclusive-dates id="test" range></inclusive-dates>');
+    const page = await createPage('<tabworthy-dates id="test" range></tabworthy-dates>');
     const instance = page.rootInstance as any;
 
     instance.inputRef = { value: '' } as HTMLInputElement;
@@ -293,7 +293,7 @@ describe('inclusive-dates', () => {
   });
 
   it('watchers and syncFromValueProp update state and picker/input refs', async () => {
-    const page = await createPage('<inclusive-dates id="test" format="DD/MM/YYYY" value="15/03/2026"></inclusive-dates>');
+    const page = await createPage('<tabworthy-dates id="test" format="DD/MM/YYYY" value="15/03/2026"></tabworthy-dates>');
     const instance = page.rootInstance as any;
 
     instance.inputRef = { value: '' } as HTMLInputElement;
@@ -324,7 +324,7 @@ describe('inclusive-dates', () => {
   });
 
   it('renders quick buttons and error block based on state', async () => {
-    const page = await createPage('<inclusive-dates id="test" show-quick-buttons></inclusive-dates>');
+    const page = await createPage('<tabworthy-dates id="test" show-quick-buttons></tabworthy-dates>');
     const instance = page.rootInstance as any;
 
     instance.quickButtons = ['Today'];
@@ -333,8 +333,8 @@ describe('inclusive-dates', () => {
     instance.errorMessage = 'Boom';
     await page.waitForChanges();
 
-    expect(page.root?.querySelector('.inclusive-dates__quick-group')).toBeTruthy();
-    expect(page.root?.querySelector('.inclusive-dates__input-error')?.textContent).toContain('Boom');
+    expect(page.root?.querySelector('.tabworthy-dates__quick-group')).toBeTruthy();
+    expect(page.root?.querySelector('.tabworthy-dates__input-error')?.textContent).toContain('Boom');
   });
 
   it('wires focus/blur and modal/calendar event handlers from render', async () => {
@@ -351,14 +351,14 @@ describe('inclusive-dates', () => {
     expect(formatSpy).toHaveBeenCalledWith(false);
     expect(formatSpy).toHaveBeenCalledWith(true, false);
 
-    const modal = page.root?.querySelector('inclusive-dates-modal') as HTMLElement;
+    const modal = page.root?.querySelector('tabworthy-dates-modal') as HTMLElement;
     instance.pickerRef = { modalIsOpen: false };
     modal.dispatchEvent(new CustomEvent('opened'));
     expect(instance.pickerRef.modalIsOpen).toBe(true);
     modal.dispatchEvent(new CustomEvent('closed'));
     expect(instance.pickerRef.modalIsOpen).toBe(false);
 
-    const calendar = page.root?.querySelector('inclusive-dates-calendar') as HTMLElement;
+    const calendar = page.root?.querySelector('tabworthy-dates-calendar') as HTMLElement;
     instance.handlePickerSelection = jest.fn();
     calendar.dispatchEvent(new CustomEvent('selectDate', { detail: '2026-04-11' }));
     calendar.dispatchEvent(new CustomEvent('changeMonth', { detail: { month: 4, year: 2026 } }));
@@ -374,7 +374,7 @@ describe('inclusive-dates', () => {
   });
 
   it('covers additional render and formatting edge branches', async () => {
-    const page = await createPage('<inclusive-dates></inclusive-dates>');
+    const page = await createPage('<tabworthy-dates></tabworthy-dates>');
     const instance = page.rootInstance as any;
 
     instance.inputRef = { value: 'September 10 2023' } as HTMLInputElement;
@@ -395,9 +395,9 @@ describe('inclusive-dates', () => {
     instance.errorState = true;
     instance.errorMessage = 'edge';
     await page.waitForChanges();
-    expect(page.root?.querySelector('.inclusive-dates__quick-group')).toBeFalsy();
+    expect(page.root?.querySelector('.tabworthy-dates__quick-group')).toBeFalsy();
 
-    const error = page.root?.querySelector('.inclusive-dates__input-error');
+    const error = page.root?.querySelector('.tabworthy-dates__input-error');
     expect(error?.id).toBe('');
 
     instance.changeYear = undefined;

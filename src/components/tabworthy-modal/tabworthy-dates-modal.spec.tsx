@@ -5,17 +5,17 @@ jest.mock('aria-hidden', () => ({
 }));
 
 import { newSpecPage } from '@stencil/core/testing';
-import { InclusiveDatesModal } from './inclusive-dates-modal';
+import { InclusiveDatesModal } from './tabworthy-dates-modal';
 import { hideOthers } from 'aria-hidden';
 
 /**
  * Component tests for InclusiveDatesModal
  */
-describe('inclusive-dates-modal', () => {
+describe('tabworthy-dates-modal', () => {
   it('should render with default props', async () => {
     const page = await newSpecPage({
       components: [InclusiveDatesModal],
-      html: `<inclusive-dates-modal label="Test modal"></inclusive-dates-modal>`,
+      html: `<tabworthy-dates-modal label="Test modal"></tabworthy-dates-modal>`,
     });
 
     expect(page.root).toBeTruthy();
@@ -25,7 +25,7 @@ describe('inclusive-dates-modal', () => {
   it('should open when open method is called', async () => {
     const page = await newSpecPage({
       components: [InclusiveDatesModal],
-      html: `<inclusive-dates-modal label="Test modal"></inclusive-dates-modal>`,
+      html: `<tabworthy-dates-modal label="Test modal"></tabworthy-dates-modal>`,
     });
 
     await page.rootInstance.open();
@@ -38,7 +38,7 @@ describe('inclusive-dates-modal', () => {
   it('should be closed by default', async () => {
     const page = await newSpecPage({
       components: [InclusiveDatesModal],
-      html: `<inclusive-dates-modal label="Test modal"></inclusive-dates-modal>`,
+      html: `<tabworthy-dates-modal label="Test modal"></tabworthy-dates-modal>`,
     });
 
     const state = await page.rootInstance.getState();
@@ -48,7 +48,7 @@ describe('inclusive-dates-modal', () => {
   it('should handle label prop', async () => {
     const page = await newSpecPage({
       components: [InclusiveDatesModal],
-      html: `<inclusive-dates-modal label="Select Dates"></inclusive-dates-modal>`,
+      html: `<tabworthy-dates-modal label="Select Dates"></tabworthy-dates-modal>`,
     });
 
     expect(page.rootInstance.label).toBe('Select Dates');
@@ -57,7 +57,7 @@ describe('inclusive-dates-modal', () => {
   it('should toggle state with open and close methods', async () => {
     const page = await newSpecPage({
       components: [InclusiveDatesModal],
-      html: `<inclusive-dates-modal label="Test modal"></inclusive-dates-modal>`,
+      html: `<tabworthy-dates-modal label="Test modal"></tabworthy-dates-modal>`,
     });
 
     let state = await page.rootInstance.getState();
@@ -77,7 +77,7 @@ describe('inclusive-dates-modal', () => {
   it('should support inline mode', async () => {
     const page = await newSpecPage({
       components: [InclusiveDatesModal],
-      html: `<inclusive-dates-modal label="Test modal" inline></inclusive-dates-modal>`,
+      html: `<tabworthy-dates-modal label="Test modal" inline></tabworthy-dates-modal>`,
     });
 
     expect(page.rootInstance.inline).toBe(true);
@@ -92,7 +92,7 @@ describe('inclusive-dates-modal', () => {
   it('should set trigger element and focus it when closing', async () => {
     const page = await newSpecPage({
       components: [InclusiveDatesModal],
-      html: `<inclusive-dates-modal label="Test modal"></inclusive-dates-modal>`,
+      html: `<tabworthy-dates-modal label="Test modal"></tabworthy-dates-modal>`,
     });
 
     const trigger = document.createElement('button');
@@ -108,7 +108,7 @@ describe('inclusive-dates-modal', () => {
   it('closes on escape key and outside click', async () => {
     const page = await newSpecPage({
       components: [InclusiveDatesModal],
-      html: `<inclusive-dates-modal label="Test modal"><div class="inside"></div></inclusive-dates-modal>`,
+      html: `<tabworthy-dates-modal label="Test modal"><div class="inside"></div></tabworthy-dates-modal>`,
     });
 
     const closeSpy = jest.spyOn(page.rootInstance, 'close');
@@ -118,18 +118,18 @@ describe('inclusive-dates-modal', () => {
     expect(closeSpy).toHaveBeenCalledTimes(1);
 
     await page.rootInstance.open();
-    page.rootInstance.handleClick({ target: document.body } as MouseEvent);
+    page.rootInstance.handleClick({ target: document.body });
     expect(closeSpy).toHaveBeenCalledTimes(2);
 
     const inside = page.root?.querySelector('.inside') as HTMLElement;
-    page.rootInstance.handleClick({ target: inside } as MouseEvent);
+    page.rootInstance.handleClick({ target: inside });
     expect(closeSpy).toHaveBeenCalledTimes(2);
   });
 
   it('calls aria-hidden undo function after opening', async () => {
     const page = await newSpecPage({
       components: [InclusiveDatesModal],
-      html: `<inclusive-dates-modal label="Test modal"></inclusive-dates-modal>`,
+      html: `<tabworthy-dates-modal label="Test modal"></tabworthy-dates-modal>`,
     });
 
     const undo = jest.fn();

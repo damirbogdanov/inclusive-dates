@@ -14,11 +14,11 @@ const defaultLabels = {
   decrementMinutes: 'Decrement minutes',
 };
 
-const meta: Meta<Components.InclusiveTimesPicker> = {
-  title: 'Components/InclusiveTimesPicker',
+const meta: Meta<Components.TabworthyTimesPicker> = {
+  title: 'Components/TabworthyTimesPicker',
   tags: ['autodocs'],
   render: (args) => html`
-    <inclusive-times-picker
+    <tabworthy-times-picker
       .hours=${args.hours}
       .minutes=${args.minutes}
       .use12HourFormat=${args.use12HourFormat}
@@ -26,12 +26,12 @@ const meta: Meta<Components.InclusiveTimesPicker> = {
       .labelsSrOnly=${args.labelsSrOnly}
       .disabled=${args.disabled}
       .elementClassName=${args.elementClassName}
-    ></inclusive-times-picker>
+    ></tabworthy-times-picker>
   `,
 };
 
 export default meta;
-type Story = StoryObj<Components.InclusiveTimesPicker>;
+type Story = StoryObj<Components.TabworthyTimesPicker>;
 
 export const Default: Story = {
   args: {
@@ -41,7 +41,7 @@ export const Default: Story = {
     disabled: false,
     labels: defaultLabels,
     labelsSrOnly: true,
-    elementClassName: 'inclusive-times-picker',
+    elementClassName: 'tabworthy-times-picker',
   },
 };
 

@@ -3,11 +3,11 @@ import { html } from 'lit-html';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { Components } from '../../components';
 
-const meta: Meta<Components.InclusiveDates> = {
-  title: 'Components/InclusiveDates',
+const meta: Meta<Components.TabworthyDates> = {
+  title: 'Components/TabworthyDates',
   tags: ['autodocs'],
   render: (args) => html`
-    <inclusive-dates
+    <tabworthy-dates
       id=${args.id}
       .value=${ifDefined(args.value)}
       label=${ifDefined(args.label)}
@@ -26,17 +26,17 @@ const meta: Meta<Components.InclusiveDates> = {
       ?inline=${args.inline}
       ?show-year-stepper=${args.showYearStepper}
       ?show-month-stepper=${args.showMonthStepper}
-      ?show-clear-button=${args.showClearButton}
-      ?show-today-button=${args.showTodayButton}
+      show-clear-button=${args.showClearButton}
+      show-today-button=${args.showTodayButton}
       ?show-keyboard-hint=${args.showKeyboardHint}
       ?input-should-format=${args.formatInputOnAccept}
       calendar-button-content=${ifDefined(args.calendarButtonContent)}
-    ></inclusive-dates>
+    ></tabworthy-dates>
   `,
 };
 
 export default meta;
-type Story = StoryObj<Components.InclusiveDates>;
+type Story = StoryObj<Components.TabworthyDates>;
 
 export const Default: Story = {
   args: {
@@ -120,5 +120,6 @@ export const MinimalUI: Story = {
     showClearButton: false,
     showTodayButton: false,
     formatInputOnAccept: false,
+    quickButtons: [],
   },
 };

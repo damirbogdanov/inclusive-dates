@@ -1,5 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { InclusiveTimesPicker } from './inclusive-times-picker';
+import { InclusiveTimesPicker } from './tabworthy-times-picker';
 
 type TimeChangedDetail = {
   hours: number;
@@ -7,8 +7,8 @@ type TimeChangedDetail = {
   period?: 'AM' | 'PM';
 };
 
-describe('inclusive-times-picker', () => {
-  const createPage = async (html = `<inclusive-times-picker></inclusive-times-picker>`) => {
+describe('tabworthy-times-picker', () => {
+  const createPage = async (html = `<tabworthy-times-picker></tabworthy-times-picker>`) => {
     return newSpecPage({
       components: [InclusiveTimesPicker],
       html,
@@ -30,7 +30,7 @@ describe('inclusive-times-picker', () => {
     await page.waitForChanges();
 
     expect(page.rootInstance.use12HourFormat).toBe(true);
-    expect(page.root?.querySelector('.inclusive-times-picker__period')).toBeTruthy();
+    expect(page.root?.querySelector('.tabworthy-times-picker__period')).toBeTruthy();
   });
 
   it('respects disabled and labelsSrOnly props', async () => {
@@ -40,18 +40,18 @@ describe('inclusive-times-picker', () => {
     await page.waitForChanges();
 
     const labels = page.root?.querySelectorAll('label') ?? [];
-    const hourInput = page.root?.querySelector('#inclusive-times-picker-hours') as HTMLInputElement;
-    const minuteInput = page.root?.querySelector('#inclusive-times-picker-minutes') as HTMLInputElement;
+    const hourInput = page.root?.querySelector('#tabworthy-times-picker-hours') as HTMLInputElement;
+    const minuteInput = page.root?.querySelector('#tabworthy-times-picker-minutes') as HTMLInputElement;
 
     expect(page.rootInstance.disabled).toBe(true);
     expect(page.rootInstance.labelsSrOnly).toBe(false);
     expect(hourInput.disabled).toBe(true);
     expect(minuteInput.disabled).toBe(true);
-    expect(Array.from(labels).every((label) => !label.classList.contains('inclusive-times-picker__label--sr-only'))).toBe(true);
+    expect(Array.from(labels).every((label) => !label.classList.contains('tabworthy-times-picker__label--sr-only'))).toBe(true);
   });
 
   it('supports custom labels and class name', async () => {
-    const page = await createPage(`<inclusive-times-picker element-class-name="custom-picker"></inclusive-times-picker>`);
+    const page = await createPage(`<tabworthy-times-picker element-class-name="custom-picker"></tabworthy-times-picker>`);
     page.rootInstance.labels = {
       hours: 'Horas',
       minutes: 'Minutos',
@@ -72,7 +72,7 @@ describe('inclusive-times-picker', () => {
   });
 
   it('emits hour increment/decrement events in 12-hour mode', async () => {
-    const page = await createPage(`<inclusive-times-picker hours="11" minutes="30"></inclusive-times-picker>`);
+    const page = await createPage(`<tabworthy-times-picker hours="11" minutes="30"></tabworthy-times-picker>`);
     page.rootInstance.use12HourFormat = true;
     await page.waitForChanges();
     const handler = jest.fn();
@@ -91,7 +91,7 @@ describe('inclusive-times-picker', () => {
   });
 
   it('emits minute increment/decrement events in 24-hour mode', async () => {
-    const page = await createPage(`<inclusive-times-picker hours="10" minutes="59"></inclusive-times-picker>`);
+    const page = await createPage(`<tabworthy-times-picker hours="10" minutes="59"></tabworthy-times-picker>`);
     const handler = jest.fn();
     page.root?.addEventListener('timeChanged', ((event: CustomEvent<TimeChangedDetail>) => handler(event.detail)) as EventListener);
 
@@ -108,7 +108,7 @@ describe('inclusive-times-picker', () => {
   });
 
   it('toggles AM/PM and does not emit for no-op toggle', async () => {
-    const page = await createPage(`<inclusive-times-picker hours="10" minutes="30"></inclusive-times-picker>`);
+    const page = await createPage(`<tabworthy-times-picker hours="10" minutes="30"></tabworthy-times-picker>`);
     page.rootInstance.use12HourFormat = true;
     await page.waitForChanges();
     const handler = jest.fn();
@@ -132,13 +132,13 @@ describe('inclusive-times-picker', () => {
   });
 
   it('handles hour input in 12-hour mode', async () => {
-    const page = await createPage(`<inclusive-times-picker hours="10" minutes="30"></inclusive-times-picker>`);
+    const page = await createPage(`<tabworthy-times-picker hours="10" minutes="30"></tabworthy-times-picker>`);
     page.rootInstance.use12HourFormat = true;
     await page.waitForChanges();
     const handler = jest.fn();
     page.root?.addEventListener('timeChanged', ((event: CustomEvent<TimeChangedDetail>) => handler(event.detail)) as EventListener);
 
-    const hourInput = page.root?.querySelector('#inclusive-times-picker-hours') as HTMLInputElement;
+    const hourInput = page.root?.querySelector('#tabworthy-times-picker-hours') as HTMLInputElement;
     const pmButton = page.root?.querySelector('[aria-label="PM"]') as HTMLButtonElement;
 
     hourInput.value = '12';
@@ -156,7 +156,7 @@ describe('inclusive-times-picker', () => {
   });
 
   it('handles edge transitions in 12-hour mode', async () => {
-    const page = await createPage(`<inclusive-times-picker hours="0" minutes="0"></inclusive-times-picker>`);
+    const page = await createPage(`<tabworthy-times-picker hours="0" minutes="0"></tabworthy-times-picker>`);
     page.rootInstance.use12HourFormat = true;
     await page.waitForChanges();
     const handler = jest.fn();
@@ -184,7 +184,7 @@ describe('inclusive-times-picker', () => {
   });
 
   it('increments PM hours in 12-hour mode', async () => {
-    const page = await createPage(`<inclusive-times-picker hours="13" minutes="0"></inclusive-times-picker>`);
+    const page = await createPage(`<tabworthy-times-picker hours="13" minutes="0"></tabworthy-times-picker>`);
     page.rootInstance.use12HourFormat = true;
     await page.waitForChanges();
     const handler = jest.fn();
@@ -198,14 +198,14 @@ describe('inclusive-times-picker', () => {
   });
 
   it('handles 24-hour rollovers and direct inputs', async () => {
-    const page = await createPage(`<inclusive-times-picker hours="23" minutes="59"></inclusive-times-picker>`);
+    const page = await createPage(`<tabworthy-times-picker hours="23" minutes="59"></tabworthy-times-picker>`);
     const handler = jest.fn();
     page.root?.addEventListener('timeChanged', ((event: CustomEvent<TimeChangedDetail>) => handler(event.detail)) as EventListener);
 
     const incrementHour = page.root?.querySelector('[aria-label="Increment hours"]') as HTMLButtonElement;
     const decrementHour = page.root?.querySelector('[aria-label="Decrement hours"]') as HTMLButtonElement;
-    const minuteInput = page.root?.querySelector('#inclusive-times-picker-minutes') as HTMLInputElement;
-    const hourInput = page.root?.querySelector('#inclusive-times-picker-hours') as HTMLInputElement;
+    const minuteInput = page.root?.querySelector('#tabworthy-times-picker-minutes') as HTMLInputElement;
+    const hourInput = page.root?.querySelector('#tabworthy-times-picker-hours') as HTMLInputElement;
 
     incrementHour.click();
     await page.waitForChanges();
@@ -227,7 +227,7 @@ describe('inclusive-times-picker', () => {
   });
 
   it('reacts to watched hour/minute prop changes', async () => {
-    const page = await createPage(`<inclusive-times-picker hours="10" minutes="0"></inclusive-times-picker>`);
+    const page = await createPage(`<tabworthy-times-picker hours="10" minutes="0"></tabworthy-times-picker>`);
     page.rootInstance.use12HourFormat = true;
     await page.waitForChanges();
 
@@ -235,9 +235,9 @@ describe('inclusive-times-picker', () => {
     page.rootInstance.minutes = 45;
     await page.waitForChanges();
 
-    const hourInput = page.root?.querySelector('#inclusive-times-picker-hours') as HTMLInputElement;
-    const minuteInput = page.root?.querySelector('#inclusive-times-picker-minutes') as HTMLInputElement;
-    const pmButton = page.root?.querySelector('.inclusive-times-picker__period-button--active[aria-label="PM"]');
+    const hourInput = page.root?.querySelector('#tabworthy-times-picker-hours') as HTMLInputElement;
+    const minuteInput = page.root?.querySelector('#tabworthy-times-picker-minutes') as HTMLInputElement;
+    const pmButton = page.root?.querySelector('.tabworthy-times-picker__period-button--active[aria-label="PM"]');
 
     expect(hourInput.value).toBe('03');
     expect(minuteInput.value).toBe('45');
