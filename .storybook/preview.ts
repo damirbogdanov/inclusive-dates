@@ -2,9 +2,6 @@ import type { Preview } from "@storybook/web-components-vite";
 import { defineCustomElements } from "../dist/esm/loader";
 import { spyOn } from "@storybook/test";
 
-import "../src/themes/light.scss";
-import "../src/themes/dark.scss";
-
 defineCustomElements();
 
 function applyTheme(ctx: any) {

@@ -14,7 +14,7 @@ const config: StorybookConfig = {
     options: {},
   },
 
-  staticDirs: ['../dist', '../src/themes']
+  staticDirs: ['../dist']
 };
 
 export default config;

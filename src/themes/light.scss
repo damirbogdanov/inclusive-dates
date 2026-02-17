@@ -1,14 +1,14 @@
+@use "base";
+
 :root[data-theme="light"] {
   --text-color: #111;
   --secondary-color: #767676;
   --border-color: #949494;
   --bg-color: #fff;
   --disabled-color: #959595;
-  --hover-color: #f2f3f5;
+  --hover-color: #e5e7eb;
   --bg2-color: #f2f3f5;
   --focus-color: #0000ff;
   --error-color: #d4351c;
-  --active-color: #008000;
+  --active-color: #0000ff;
 }
-
-@import "base.scss";

@@ -1,16 +1,18 @@
+@use "base";
+
+
 :root[data-theme="dark"] {
   --text-color: #fff;
   --secondary-color: #bcbcbcff;
   --border-color: #595959;
   --bg-color: #14171e;
   --disabled-color: #616161;
-  --hover-color: #2b2d37;
+  --hover-color: #3a3d4a;
   --bg2-color: #2b2d37;
   --focus-color: #ffbf00;
   --error-color: #f16c57;
   --active-color: #ffbf00;
 }
-@import "base.scss";
 
 .inclusive-dates__input {
   color: var(--text-color);
