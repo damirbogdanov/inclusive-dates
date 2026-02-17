@@ -1,0 +1,257 @@
+import { newSpecPage } from '@stencil/core/testing';
+import { InclusiveTimes } from './inclusive-times';
+
+describe('inclusive-times', () => {
+  const originalError = console.error;
+
+  beforeEach(() => {
+    jest.restoreAllMocks();
+    console.error = jest.fn();
+  });
+
+  afterAll(() => {
+    console.error = originalError;
+  });
+
+  const createPage = async (html = `<inclusive-times id="time-test"></inclusive-times>`) => {
+    return newSpecPage({
+      components: [InclusiveTimes],
+      html,
+    });
+  };
+
+  it('renders and validates required id', async () => {
+    const page = await createPage('<inclusive-times></inclusive-times>');
+    expect(page.root).toBeTruthy();
+    expect(console.error).toHaveBeenCalledWith('inclusive-times: The "id" prop is required for accessibility');
+  });
+
+  it('syncs initial value and parses selected time', async () => {
+    const page = await createPage('<inclusive-times id="time" value="2024-03-15T14:30:00"></inclusive-times>');
+    const instance = page.rootInstance as any;
+
+    expect(instance.internalValue).toBe('2024-03-15T14:30:00');
+    expect(instance.selectedDate).toBeInstanceOf(Date);
+    expect(instance.selectedHours).toBe(14);
+    expect(instance.selectedMinutes).toBe(30);
+  });
+
+  it('watchers update disabled and error states and resync value', async () => {
+    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const instance = page.rootInstance as any;
+
+    instance.watchDisabled(true);
+    expect(instance.disabledState).toBe(true);
+
+    instance.watchHasError(true);
+    expect(instance.errorState).toBe(true);
+
+    instance.value = '2024-03-16T12:00:00';
+    instance.watchValue(instance.value);
+    expect(instance.internalValue).toBe('2024-03-16T12:00:00');
+  });
+
+  it('updateValue formats and emits for single values', async () => {
+    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const instance = page.rootInstance as any;
+
+    instance.inputRef = { value: '' } as HTMLInputElement;
+    const emitSpy = jest.spyOn(instance.selectDateTime, 'emit');
+
+    instance.selectedHours = 9;
+    instance.selectedMinutes = 45;
+    instance.updateValue(new Date('2024-03-15'));
+
+    expect(instance.internalValue).toContain('2024-03-15T09:45:00');
+    expect(instance.value).toContain('2024-03-15T09:45:00');
+    expect(emitSpy).toHaveBeenCalled();
+    expect(instance.errorState).toBe(false);
+  });
+
+  it('updateValue formats and emits for ranges', async () => {
+    const page = await createPage('<inclusive-times id="time" range></inclusive-times>');
+    const instance = page.rootInstance as any;
+
+    instance.inputRef = { value: '' } as HTMLInputElement;
+    const emitSpy = jest.spyOn(instance.selectDateTime, 'emit');
+
+    instance.selectedHours = 17;
+    instance.selectedMinutes = 0;
+    instance.updateValue([new Date('2024-03-15'), new Date('2024-03-16')]);
+
+    expect(Array.isArray(instance.internalValue)).toBe(true);
+    expect(instance.internalValue[0]).toContain('2024-03-15T17:00:00');
+    expect(instance.internalValue[1]).toContain('2024-03-16T17:00:00');
+    expect(emitSpy).toHaveBeenCalled();
+  });
+
+  it('handles picker selection for single and range', async () => {
+    const page = await createPage('<inclusive-times id="time" range></inclusive-times>');
+    const instance = page.rootInstance as any;
+
+    instance.inputRef = { value: '' } as HTMLInputElement;
+    instance.pickerRef = { value: null };
+
+    await instance.handlePickerSelection('2024-03-15,2024-03-16');
+    expect(instance.pickerRef.value).toHaveLength(2);
+
+    instance.range = false;
+    await instance.handlePickerSelection('2024-03-17');
+    expect(instance.pickerRef.value).toBeInstanceOf(Date);
+  });
+
+  it('updates selected time via time picker events', async () => {
+    const page = await createPage('<inclusive-times id="time" value="2024-03-15T14:30:00"></inclusive-times>');
+    const instance = page.rootInstance as any;
+
+    const emitSpy = jest.spyOn(instance.selectDateTime, 'emit');
+    instance.handleTimeChange({ detail: { hours: 20, minutes: 15 } });
+
+    expect(instance.selectedHours).toBe(20);
+    expect(instance.selectedMinutes).toBe(15);
+    expect(emitSpy).toHaveBeenCalled();
+  });
+
+  it('opens modal from calendar button click', async () => {
+    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const instance = page.rootInstance as any;
+
+    const setTriggerElement = jest.fn();
+    const open = jest.fn();
+    instance.calendarButtonRef = {} as HTMLButtonElement;
+    instance.modalRef = {
+      setTriggerElement: async (...args: any[]) => setTriggerElement(...args),
+      open: async () => open(),
+    };
+
+    await instance.handleCalendarButtonClick();
+
+    expect(setTriggerElement).toHaveBeenCalled();
+    expect(open).toHaveBeenCalled();
+  });
+
+  it('handles year change event emission', async () => {
+    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const instance = page.rootInstance as any;
+
+    const emitSpy = jest.fn();
+    instance.changeYear = { emit: emitSpy };
+
+    instance.handleYearChange({ year: 2025 });
+    expect(emitSpy).toHaveBeenCalledWith({ year: 2025 });
+
+    instance.changeYear = undefined;
+    instance.handleYearChange({ year: 2026 });
+    expect(emitSpy).toHaveBeenCalledTimes(1);
+
+    instance.handleChangedMonths({ month: 3, year: 2026 });
+  });
+
+  it('parses valid input changes and formats output', async () => {
+    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const instance = page.rootInstance as any;
+
+    instance.inputRef = { value: '' } as HTMLInputElement;
+    instance.handleInputChange({ target: { value: '2024-03-15 10:30' } } as any);
+
+    expect(instance.selectedHours).toBe(10);
+    expect(instance.selectedMinutes).toBe(30);
+    expect(instance.internalValue).toContain('2024-03-15T10:30:00');
+
+    const before = instance.internalValue;
+    instance.handleInputChange({ target: { value: 'not a datetime' } } as any);
+    expect(instance.internalValue).toBe(before);
+
+    instance.handleInputBlur();
+    expect(instance.inputRef.value).toBeTruthy();
+  });
+
+  it('formats range and single values in the input', async () => {
+    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const instance = page.rootInstance as any;
+
+    instance.inputRef = { value: '' } as HTMLInputElement;
+
+    instance.internalValue = '2024-03-15T14:30:00';
+    instance.formatInput();
+    expect(instance.inputRef.value).toContain('Mar');
+
+    instance.internalValue = ['2024-03-15T09:00:00', '2024-03-16T17:00:00'];
+    instance.formatInput();
+    expect(instance.inputRef.value).toContain(instance.inclusiveTimesLabels.to);
+
+    instance.internalValue = null;
+    const previous = instance.inputRef.value;
+    instance.formatInput();
+    expect(instance.inputRef.value).toBe(previous);
+  });
+
+  it('clears value, picker, and input via clearValue', async () => {
+    const page = await createPage('<inclusive-times id="time" value="2024-03-15T14:30:00"></inclusive-times>');
+    const instance = page.rootInstance as any;
+
+    instance.inputRef = { value: 'something' } as HTMLInputElement;
+    instance.pickerRef = { value: new Date('2024-03-15') };
+    const emitSpy = jest.spyOn(instance.selectDateTime, 'emit');
+
+    await instance.clearValue();
+
+    expect(instance.internalValue).toBeNull();
+    expect(instance.value).toBeUndefined();
+    expect(instance.selectedDate).toBeUndefined();
+    expect(instance.inputRef.value).toBe('');
+    expect(instance.pickerRef.value).toBeNull();
+    expect(emitSpy).toHaveBeenCalledWith(undefined);
+  });
+
+  it('renders calendar button, custom content, and error message', async () => {
+    const page = await createPage('<inclusive-times id="time" calendar-button-content="<span>📅</span>"></inclusive-times>');
+    const instance = page.rootInstance as any;
+
+    instance.errorState = true;
+    instance.errorMessage = 'Bad datetime';
+    await page.waitForChanges();
+
+    expect(page.root?.querySelector('.inclusive-times__calendar-button')).toBeTruthy();
+    expect(page.root?.querySelector('.inclusive-times__input-error')?.textContent).toContain('Bad datetime');
+
+    instance.inline = true;
+    await page.waitForChanges();
+    expect(page.root?.querySelector('.inclusive-times__calendar-button')).toBeFalsy();
+  });
+
+  it('wires modal and calendar event handlers from render', async () => {
+    const page = await createPage('<inclusive-times id="time"></inclusive-times>');
+    const instance = page.rootInstance as any;
+    const yearSpy = jest.fn();
+    instance.changeYear = { emit: yearSpy };
+    instance.pickerRef = { modalIsOpen: false };
+
+    const modal = page.root?.querySelector('inclusive-dates-modal') as HTMLElement;
+    modal.dispatchEvent(new CustomEvent('opened'));
+    expect(instance.pickerRef.modalIsOpen).toBe(true);
+    modal.dispatchEvent(new CustomEvent('closed'));
+    expect(instance.pickerRef.modalIsOpen).toBe(false);
+
+    const calendar = page.root?.querySelector('inclusive-dates-calendar') as HTMLElement;
+    instance.handlePickerSelection = jest.fn();
+    calendar.dispatchEvent(new CustomEvent('selectDate', { detail: '2026-04-08' }));
+    calendar.dispatchEvent(new CustomEvent('changeMonth', { detail: { month: 4, year: 2026 } }));
+    calendar.dispatchEvent(new CustomEvent('changeYear', { detail: { year: 2030 } }));
+
+    expect(instance.handlePickerSelection).toHaveBeenCalledWith('2026-04-08');
+    expect(yearSpy).toHaveBeenCalledWith({ year: 2030 });
+  });
+
+  it('renders error block without id attribute when id is missing', async () => {
+    const page = await createPage('<inclusive-times></inclusive-times>');
+    const instance = page.rootInstance as any;
+    instance.errorState = true;
+    instance.errorMessage = 'err';
+    await page.waitForChanges();
+
+    const error = page.root?.querySelector('.inclusive-times__input-error');
+    expect(error?.textContent).toContain('err');
+    expect(error?.id).toBe('');
+  });
+});

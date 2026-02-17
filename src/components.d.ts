@@ -9,10 +9,14 @@ import { InclusiveDatesLabels } from "./components/inclusive-dates/inclusive-dat
 import { InclusiveDatesCalendarLabels, YearChangedEventDetails } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
 import { ChronoOptions, ChronoParsedDateString } from "./utils/chrono-parser/chrono-parser.type";
 import { InclusiveDatesCalendarLabels as InclusiveDatesCalendarLabels1, MonthChangedEventDetails, YearChangedEventDetails as YearChangedEventDetails1 } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
+import { InclusiveTimesLabels } from "./components/inclusive-times/inclusive-times";
+import { InclusivekTimesPickerLabels, TimeValue } from "./components/inclusive-times-picker/inclusive-times-picker";
 export { InclusiveDatesLabels } from "./components/inclusive-dates/inclusive-dates";
 export { InclusiveDatesCalendarLabels, YearChangedEventDetails } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
 export { ChronoOptions, ChronoParsedDateString } from "./utils/chrono-parser/chrono-parser.type";
 export { InclusiveDatesCalendarLabels as InclusiveDatesCalendarLabels1, MonthChangedEventDetails, YearChangedEventDetails as YearChangedEventDetails1 } from "./components/inclusive-dates-calendar/inclusive-dates-calendar";
+export { InclusiveTimesLabels } from "./components/inclusive-times/inclusive-times";
+export { InclusivekTimesPickerLabels, TimeValue } from "./components/inclusive-times-picker/inclusive-times-picker";
 export namespace Components {
     interface InclusiveDates {
         "calendarButtonContent"?: string;
@@ -210,6 +214,121 @@ export namespace Components {
         "open": () => Promise<void>;
         "setTriggerElement": (element: HTMLElement) => Promise<void>;
     }
+    interface InclusiveTimes {
+        "calendarButtonContent"?: string;
+        "clearValue": () => Promise<void>;
+        /**
+          * @default () => false
+         */
+        "disableDate": (date: Date) => boolean;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default "inclusive-times"
+         */
+        "elementClassName"?: string;
+        /**
+          * @default 1
+         */
+        "firstDayOfWeek"?: number;
+        /**
+          * @default "YYYY-MM-DDTHH:mm:ss"
+         */
+        "format": string;
+        /**
+          * @default false
+         */
+        "hasError": boolean;
+        "id": string;
+        "inclusiveDatesCalendarLabels"?: InclusiveDatesCalendarLabels;
+        /**
+          * @default defaultLabels
+         */
+        "inclusiveTimesLabels": InclusiveTimesLabels;
+        /**
+          * @default false
+         */
+        "inline": boolean;
+        /**
+          * @default "Choose a date and time"
+         */
+        "label": string;
+        /**
+          * @default navigator?.language || "en-US"
+         */
+        "locale": string;
+        "maxDate"?: string;
+        "minDate"?: string;
+        /**
+          * @default "Try \"tomorrow at 3pm\""
+         */
+        "placeholder": string;
+        /**
+          * @default false
+         */
+        "range"?: boolean;
+        /**
+          * @default getISODateString(new Date())
+         */
+        "referenceDate": string;
+        /**
+          * @default true
+         */
+        "showClearButton": boolean;
+        /**
+          * @default true
+         */
+        "showMonthStepper": boolean;
+        /**
+          * @default true
+         */
+        "showTodayButton": boolean;
+        /**
+          * @default false
+         */
+        "showYearStepper": boolean;
+        /**
+          * @default getISODateString(new Date())
+         */
+        "startDate": string;
+        /**
+          * @default true
+         */
+        "use12HourFormat": boolean;
+        "value"?: string | string[];
+    }
+    interface InclusiveTimesPicker {
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default "inclusive-times-picker"
+         */
+        "elementClassName": string;
+        /**
+          * @default 12
+         */
+        "hours": number;
+        /**
+          * @default defaultLabels
+         */
+        "labels": InclusivekTimesPickerLabels;
+        /**
+          * @default true
+         */
+        "labelsSrOnly": boolean;
+        /**
+          * @default 0
+         */
+        "minutes": number;
+        /**
+          * @default false
+         */
+        "use12HourFormat": boolean;
+    }
 }
 export interface InclusiveDatesCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -222,6 +341,14 @@ export interface InclusiveDatesCalendarCustomEvent<T> extends CustomEvent<T> {
 export interface InclusiveDatesModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLInclusiveDatesModalElement;
+}
+export interface InclusiveTimesCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLInclusiveTimesElement;
+}
+export interface InclusiveTimesPickerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLInclusiveTimesPickerElement;
 }
 declare global {
     interface HTMLInclusiveDatesElementEventMap {
@@ -280,10 +407,48 @@ declare global {
         prototype: HTMLInclusiveDatesModalElement;
         new (): HTMLInclusiveDatesModalElement;
     };
+    interface HTMLInclusiveTimesElementEventMap {
+        "selectDateTime": string | string[] | undefined;
+        "changeYear": YearChangedEventDetails;
+        "componentReady": void;
+    }
+    interface HTMLInclusiveTimesElement extends Components.InclusiveTimes, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLInclusiveTimesElementEventMap>(type: K, listener: (this: HTMLInclusiveTimesElement, ev: InclusiveTimesCustomEvent<HTMLInclusiveTimesElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLInclusiveTimesElementEventMap>(type: K, listener: (this: HTMLInclusiveTimesElement, ev: InclusiveTimesCustomEvent<HTMLInclusiveTimesElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLInclusiveTimesElement: {
+        prototype: HTMLInclusiveTimesElement;
+        new (): HTMLInclusiveTimesElement;
+    };
+    interface HTMLInclusiveTimesPickerElementEventMap {
+        "timeChanged": TimeValue;
+    }
+    interface HTMLInclusiveTimesPickerElement extends Components.InclusiveTimesPicker, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLInclusiveTimesPickerElementEventMap>(type: K, listener: (this: HTMLInclusiveTimesPickerElement, ev: InclusiveTimesPickerCustomEvent<HTMLInclusiveTimesPickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLInclusiveTimesPickerElementEventMap>(type: K, listener: (this: HTMLInclusiveTimesPickerElement, ev: InclusiveTimesPickerCustomEvent<HTMLInclusiveTimesPickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLInclusiveTimesPickerElement: {
+        prototype: HTMLInclusiveTimesPickerElement;
+        new (): HTMLInclusiveTimesPickerElement;
+    };
     interface HTMLElementTagNameMap {
         "inclusive-dates": HTMLInclusiveDatesElement;
         "inclusive-dates-calendar": HTMLInclusiveDatesCalendarElement;
         "inclusive-dates-modal": HTMLInclusiveDatesModalElement;
+        "inclusive-times": HTMLInclusiveTimesElement;
+        "inclusive-times-picker": HTMLInclusiveTimesPickerElement;
     }
 }
 declare namespace LocalJSX {
@@ -482,6 +647,124 @@ declare namespace LocalJSX {
         "onClosed"?: (event: InclusiveDatesModalCustomEvent<any>) => void;
         "onOpened"?: (event: InclusiveDatesModalCustomEvent<any>) => void;
     }
+    interface InclusiveTimes {
+        "calendarButtonContent"?: string;
+        /**
+          * @default () => false
+         */
+        "disableDate"?: (date: Date) => boolean;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default "inclusive-times"
+         */
+        "elementClassName"?: string;
+        /**
+          * @default 1
+         */
+        "firstDayOfWeek"?: number;
+        /**
+          * @default "YYYY-MM-DDTHH:mm:ss"
+         */
+        "format"?: string;
+        /**
+          * @default false
+         */
+        "hasError"?: boolean;
+        "id": string;
+        "inclusiveDatesCalendarLabels"?: InclusiveDatesCalendarLabels;
+        /**
+          * @default defaultLabels
+         */
+        "inclusiveTimesLabels"?: InclusiveTimesLabels;
+        /**
+          * @default false
+         */
+        "inline"?: boolean;
+        /**
+          * @default "Choose a date and time"
+         */
+        "label"?: string;
+        /**
+          * @default navigator?.language || "en-US"
+         */
+        "locale"?: string;
+        "maxDate"?: string;
+        "minDate"?: string;
+        "onChangeYear"?: (event: InclusiveTimesCustomEvent<YearChangedEventDetails>) => void;
+        "onComponentReady"?: (event: InclusiveTimesCustomEvent<void>) => void;
+        "onSelectDateTime"?: (event: InclusiveTimesCustomEvent<string | string[] | undefined>) => void;
+        /**
+          * @default "Try \"tomorrow at 3pm\""
+         */
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "range"?: boolean;
+        /**
+          * @default getISODateString(new Date())
+         */
+        "referenceDate"?: string;
+        /**
+          * @default true
+         */
+        "showClearButton"?: boolean;
+        /**
+          * @default true
+         */
+        "showMonthStepper"?: boolean;
+        /**
+          * @default true
+         */
+        "showTodayButton"?: boolean;
+        /**
+          * @default false
+         */
+        "showYearStepper"?: boolean;
+        /**
+          * @default getISODateString(new Date())
+         */
+        "startDate"?: string;
+        /**
+          * @default true
+         */
+        "use12HourFormat"?: boolean;
+        "value"?: string | string[];
+    }
+    interface InclusiveTimesPicker {
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default "inclusive-times-picker"
+         */
+        "elementClassName"?: string;
+        /**
+          * @default 12
+         */
+        "hours"?: number;
+        /**
+          * @default defaultLabels
+         */
+        "labels"?: InclusivekTimesPickerLabels;
+        /**
+          * @default true
+         */
+        "labelsSrOnly"?: boolean;
+        /**
+          * @default 0
+         */
+        "minutes"?: number;
+        "onTimeChanged"?: (event: InclusiveTimesPickerCustomEvent<TimeValue>) => void;
+        /**
+          * @default false
+         */
+        "use12HourFormat"?: boolean;
+    }
 
     interface InclusiveDatesAttributes {
         "id": string;
@@ -541,11 +824,45 @@ declare namespace LocalJSX {
         "label": string;
         "inline": boolean;
     }
+    interface InclusiveTimesAttributes {
+        "id": string;
+        "value": string | string[];
+        "range": boolean;
+        "label": string;
+        "placeholder": string;
+        "locale": string;
+        "disabled": boolean;
+        "minDate": string;
+        "maxDate": string;
+        "startDate": string;
+        "referenceDate": string;
+        "use12HourFormat": boolean;
+        "inline": boolean;
+        "hasError": boolean;
+        "showYearStepper": boolean;
+        "showMonthStepper": boolean;
+        "showClearButton": boolean;
+        "showTodayButton": boolean;
+        "calendarButtonContent": string;
+        "elementClassName": string;
+        "firstDayOfWeek": number;
+        "format": string;
+    }
+    interface InclusiveTimesPickerAttributes {
+        "hours": number;
+        "minutes": number;
+        "use12HourFormat": boolean;
+        "labelsSrOnly": boolean;
+        "disabled": boolean;
+        "elementClassName": string;
+    }
 
     interface IntrinsicElements {
         "inclusive-dates": Omit<InclusiveDates, keyof InclusiveDatesAttributes> & { [K in keyof InclusiveDates & keyof InclusiveDatesAttributes]?: InclusiveDates[K] } & { [K in keyof InclusiveDates & keyof InclusiveDatesAttributes as `attr:${K}`]?: InclusiveDatesAttributes[K] } & { [K in keyof InclusiveDates & keyof InclusiveDatesAttributes as `prop:${K}`]?: InclusiveDates[K] } & OneOf<"id", InclusiveDates["id"], InclusiveDatesAttributes["id"]>;
         "inclusive-dates-calendar": Omit<InclusiveDatesCalendar, keyof InclusiveDatesCalendarAttributes> & { [K in keyof InclusiveDatesCalendar & keyof InclusiveDatesCalendarAttributes]?: InclusiveDatesCalendar[K] } & { [K in keyof InclusiveDatesCalendar & keyof InclusiveDatesCalendarAttributes as `attr:${K}`]?: InclusiveDatesCalendarAttributes[K] } & { [K in keyof InclusiveDatesCalendar & keyof InclusiveDatesCalendarAttributes as `prop:${K}`]?: InclusiveDatesCalendar[K] };
         "inclusive-dates-modal": Omit<InclusiveDatesModal, keyof InclusiveDatesModalAttributes> & { [K in keyof InclusiveDatesModal & keyof InclusiveDatesModalAttributes]?: InclusiveDatesModal[K] } & { [K in keyof InclusiveDatesModal & keyof InclusiveDatesModalAttributes as `attr:${K}`]?: InclusiveDatesModalAttributes[K] } & { [K in keyof InclusiveDatesModal & keyof InclusiveDatesModalAttributes as `prop:${K}`]?: InclusiveDatesModal[K] } & OneOf<"label", InclusiveDatesModal["label"], InclusiveDatesModalAttributes["label"]>;
+        "inclusive-times": Omit<InclusiveTimes, keyof InclusiveTimesAttributes> & { [K in keyof InclusiveTimes & keyof InclusiveTimesAttributes]?: InclusiveTimes[K] } & { [K in keyof InclusiveTimes & keyof InclusiveTimesAttributes as `attr:${K}`]?: InclusiveTimesAttributes[K] } & { [K in keyof InclusiveTimes & keyof InclusiveTimesAttributes as `prop:${K}`]?: InclusiveTimes[K] } & OneOf<"id", InclusiveTimes["id"], InclusiveTimesAttributes["id"]>;
+        "inclusive-times-picker": Omit<InclusiveTimesPicker, keyof InclusiveTimesPickerAttributes> & { [K in keyof InclusiveTimesPicker & keyof InclusiveTimesPickerAttributes]?: InclusiveTimesPicker[K] } & { [K in keyof InclusiveTimesPicker & keyof InclusiveTimesPickerAttributes as `attr:${K}`]?: InclusiveTimesPickerAttributes[K] } & { [K in keyof InclusiveTimesPicker & keyof InclusiveTimesPickerAttributes as `prop:${K}`]?: InclusiveTimesPicker[K] };
     }
 }
 export { LocalJSX as JSX };
@@ -555,6 +872,8 @@ declare module "@stencil/core" {
             "inclusive-dates": LocalJSX.IntrinsicElements["inclusive-dates"] & JSXBase.HTMLAttributes<HTMLInclusiveDatesElement>;
             "inclusive-dates-calendar": LocalJSX.IntrinsicElements["inclusive-dates-calendar"] & JSXBase.HTMLAttributes<HTMLInclusiveDatesCalendarElement>;
             "inclusive-dates-modal": LocalJSX.IntrinsicElements["inclusive-dates-modal"] & JSXBase.HTMLAttributes<HTMLInclusiveDatesModalElement>;
+            "inclusive-times": LocalJSX.IntrinsicElements["inclusive-times"] & JSXBase.HTMLAttributes<HTMLInclusiveTimesElement>;
+            "inclusive-times-picker": LocalJSX.IntrinsicElements["inclusive-times-picker"] & JSXBase.HTMLAttributes<HTMLInclusiveTimesPickerElement>;
         }
     }
 }
