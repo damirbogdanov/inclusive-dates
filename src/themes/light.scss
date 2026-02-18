@@ -1,14 +1,14 @@
 @use "base";
 
-:root[data-theme="light"] {
-  --text-color: #111;
-  --secondary-color: #767676;
-  --border-color: #949494;
-  --bg-color: #fff;
-  --disabled-color: #959595;
-  --hover-color: #e5e7eb;
-  --bg2-color: #f2f3f5;
-  --focus-color: #0000ff;
-  --error-color: #d4351c;
-  --active-color: #0000ff;
+:root {
+  --tw-dates-text-color: #111;
+  --tw-dates-secondary-color: #767676;
+  --tw-dates-border-color: #949494;
+  --tw-dates-bg-color: #fff;
+  --tw-dates-disabled-color: #959595;
+  --tw-dates-hover-color: #e5e7eb;
+  --tw-dates-bg2-color: #f2f3f5;
+  --tw-dates-focus-color: #0000ff;
+  --tw-dates-error-color: #d4351c;
+  --tw-dates-active-color: #0000ff;
 }

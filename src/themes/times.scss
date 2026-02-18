@@ -25,15 +25,15 @@
     justify-content: center;
     align-items: center;
     border-radius: 0.25rem;
-    color: var(--text-color);
-    background: var(--bg2-color);
+    color: var(--tw-dates-text-color);
+    background: var(--tw-dates-bg2-color);
     line-height: 1;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--tw-dates-border-color);
     font-size: 1rem;
     flex-grow: 1;
 
     &:focus {
-      outline: 0.25rem solid var(--focus-color);
+      outline: 0.25rem solid var(--tw-dates-focus-color);
     }
 
     &:disabled {
@@ -43,7 +43,7 @@
   }
 
   &[has-error] .tabworthy-times__input {
-    border-color: var(--error-color);
+    border-color: var(--tw-dates-error-color);
   }
 
   &__calendar-button {
@@ -55,15 +55,15 @@
     align-items: center;
     border: none;
     border-radius: 0.25rem;
-    color: var(--text-color);
-    background-color: var(--bg2-color);
+    color: var(--tw-dates-text-color);
+    background-color: var(--tw-dates-bg2-color);
     font: inherit;
     line-height: 1;
     cursor: pointer;
     margin-left: 0.5rem;
 
     &:hover:not(:disabled) {
-      background-color: var(--hover-color);
+      background-color: var(--tw-dates-hover-color);
     }
 
     &:disabled {
@@ -72,7 +72,7 @@
     }
 
     &:focus-visible {
-      outline: 0.25rem solid var(--focus-color);
+      outline: 0.25rem solid var(--tw-dates-focus-color);
     }
   }
 
@@ -85,8 +85,8 @@
   &__time-section {
     display: flex;
     flex-direction: column;
-    padding: 0 0.75rem 0.75rem 0.75rem!important;
-    background-color: var(--bg-color);
+    padding: 0 0.75rem 0.75rem 0.75rem !important;
+    background-color: var(--tw-dates-bg-color);
     align-self: center;
     height: 100%;
     justify-content: center;
@@ -96,13 +96,13 @@
     margin: 0 0 0.75rem 0;
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--text-color);
+    color: var(--tw-dates-text-color);
   }
 
   &__input-error {
     display: flex;
     padding: 0.5rem;
-    color: var(--error-color);
+    color: var(--tw-dates-error-color);
     font-weight: 700;
   }
 
@@ -114,7 +114,6 @@
     opacity: 0.6;
     pointer-events: none;
   }
-
 }
 
 .tabworthy-times-picker {
@@ -140,11 +139,11 @@
   &__label {
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--text-color);
+    color: var(--tw-dates-text-color);
     text-transform: uppercase;
     letter-spacing: 0.05em;
 
-    &--sr-only {
+    &--tw-dates-sr-only {
       position: absolute;
       width: 1px;
       height: 1px;
@@ -173,23 +172,23 @@
     align-items: center;
     border: none;
     border-radius: 0.25rem;
-    color: var(--text-color);
-    background-color: var(--bg2-color);
+    color: var(--tw-dates-text-color);
+    background-color: var(--tw-dates-bg2-color);
     cursor: pointer;
     transition: background-color 0.2s ease;
 
     &:hover:not(:disabled) {
-      background-color: var(--hover-color);
+      background-color: var(--tw-dates-hover-color);
     }
 
     &:disabled {
       cursor: not-allowed;
       opacity: 0.5;
-      color: var(--disabled-color);
+      color: var(--tw-dates-disabled-color);
     }
 
     &:focus-visible {
-      outline: 0.25rem solid var(--focus-color);
+      outline: 0.25rem solid var(--tw-dates-focus-color);
     }
   }
 
@@ -199,14 +198,14 @@
     text-align: center;
     font-size: 1.25rem;
     font-weight: 600;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--tw-dates-border-color);
     border-radius: 0.25rem;
-    background-color: var(--bg2-color);
-    color: var(--text-color);
+    background-color: var(--tw-dates-bg2-color);
+    color: var(--tw-dates-text-color);
     padding: 0.25rem;
 
     &:focus {
-      outline: 0.25rem solid var(--focus-color);
+      outline: 0.25rem solid var(--tw-dates-focus-color);
     }
 
     &:disabled {
@@ -228,7 +227,7 @@
   &__separator {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--text-color);
+    color: var(--tw-dates-text-color);
   }
 
   &__period {
@@ -246,16 +245,16 @@
     align-items: center;
     justify-content: center;
     border: none;
-    background-color: var(--bg2-color);
-    color: var(--text-color);
+    background-color: var(--tw-dates-bg2-color);
+    color: var(--tw-dates-text-color);
     cursor: pointer;
     border-radius: 0.25rem;
     font-size: 0.875rem;
     font-weight: 500;
     transition: background-color 0.2s ease;
 
-    &--active {
-      background-color: var(--hover-color);
+    &--tw-dates-active {
+      background-color: var(--tw-dates-hover-color);
       font-weight: 600;
     }
 
@@ -265,11 +264,13 @@
     }
 
     &:focus-visible {
-      outline: 0.25rem solid var(--focus-color);
+      outline: 0.25rem solid var(--tw-dates-focus-color);
     }
 
-    &:hover:not(:disabled):not(.tabworthy-times-picker__period-button--active) {
-      background-color: var(--hover-color);
+    &:hover:not(:disabled):not(
+        .tabworthy-times-picker__period-button--tw-dates-active
+      ) {
+      background-color: var(--tw-dates-hover-color);
       opacity: 0.8;
     }
   }
