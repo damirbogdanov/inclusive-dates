@@ -1,0 +1,1 @@
+import{I as t,d as o}from"./tabworthy-times-picker2.js";const r=t,s=o;export{r as TabworthyTimesPicker,s as defineCustomElement}

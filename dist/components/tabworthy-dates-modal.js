@@ -1,0 +1,1 @@
+import{I as o,d as t}from"./tabworthy-dates-modal2.js";const a=o,s=t;export{a as TabworthyDatesModal,s as defineCustomElement}

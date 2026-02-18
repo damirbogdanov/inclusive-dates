@@ -1,0 +1,16 @@
+{
+  "entries": [
+    "components/tabworthy-dates-calendar/tabworthy-dates-calendar.js",
+    "components/tabworthy-dates/tabworthy-dates.js",
+    "components/tabworthy-times-picker/tabworthy-times-picker.js",
+    "components/tabworthy-times/tabworthy-times.js",
+    "components/tabworthy-modal/tabworthy-dates-modal.js"
+  ],
+  "compiler": {
+    "name": "@stencil/core",
+    "version": "4.42.1",
+    "typescriptVersion": "5.8.3"
+  },
+  "collections": [],
+  "bundles": []
+}

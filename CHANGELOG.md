@@ -1,7 +1,7 @@
 # tabworthy-components
 
-## 0.1.0
+## 0.2.0
 
-### Patch Changes
+### Minor Changes
 
-TODO: document changes from the fork version
+- initial changes after forking the inclusive-dates and introducing tabworthy-times component

@@ -1,6 +1,7 @@
 {
   "name": "@tabworthy/components",
-  "version": "0.1.10",
+  "version": "0.2.0",
+  "private": false,
   "description": "Small, accessible datepicker and datetimepicker Web Components with natural language date input.",
   "repository": {
     "type": "git",
@@ -124,5 +125,8 @@
     "vitest": "^4.0.18"
   },
   "license": "MIT",
-  "packageManager": "yarn@4.12.0"
+  "packageManager": "yarn@4.12.0",
+  "publishConfig": {
+    "access": "public"
+  }
 }
