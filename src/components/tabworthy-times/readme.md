@@ -1,9 +1,6 @@
 # tabworthy-times
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -19,6 +16,7 @@
 | `hasError`              | `has-error`               |             | `boolean`                                                                                                                                                                                                                                                                                                      | `false`                            |
 | `id` _(required)_       | `id`                      |             | `string`                                                                                                                                                                                                                                                                                                       | `undefined`                        |
 | `inline`                | `inline`                  |             | `boolean`                                                                                                                                                                                                                                                                                                      | `false`                            |
+| `inputShouldFormat`     | `input-should-format`     |             | `boolean`                                                                                                                                                                                                                                                                                                      | `true`                             |
 | `label`                 | `label`                   |             | `string`                                                                                                                                                                                                                                                                                                       | `"Choose a date and time"`         |
 | `locale`                | `locale`                  |             | `string`                                                                                                                                                                                                                                                                                                       | `navigator?.language \|\| "en-US"` |
 | `maxDate`               | `max-date`                |             | `string`                                                                                                                                                                                                                                                                                                       | `undefined`                        |
@@ -35,7 +33,6 @@
 | `use12HourFormat`       | `use-1-2-hour-format`     |             | `boolean`                                                                                                                                                                                                                                                                                                      | `true`                             |
 | `value`                 | `value`                   |             | `string \| string[]`                                                                                                                                                                                                                                                                                           | `undefined`                        |
 
-
 ## Events
 
 | Event            | Description | Type                                   |
@@ -44,19 +41,13 @@
 | `componentReady` |             | `CustomEvent<void>`                    |
 | `selectDateTime` |             | `CustomEvent<string \| string[]>`      |
 
-
 ## Methods
 
 ### `clearValue() => Promise<void>`
 
-
-
 #### Returns
 
 Type: `Promise<void>`
-
-
-
 
 ## Dependencies
 
@@ -67,6 +58,7 @@ Type: `Promise<void>`
 - [tabworthy-times-picker](../tabworthy-times-picker)
 
 ### Graph
+
 ```mermaid
 graph TD;
   tabworthy-times --> tabworthy-dates-modal
@@ -75,6 +67,6 @@ graph TD;
   style tabworthy-times fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

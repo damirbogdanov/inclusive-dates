@@ -119,6 +119,9 @@ export class InclusiveTimes {
   // Format for the value prop (input/output format). Defaults to ISO 8601 format.
   @Prop() format: string = "YYYY-MM-DDTHH:mm:ss";
 
+  // If true, format input on blur/accept (like dates)
+  @Prop({ attribute: "input-should-format" }) inputShouldFormat: boolean = true;
+
   @State() internalValue?: string | string[] | null;
   @State() selectedDate?: Date;
   @State() selectedHours: number = 12;
@@ -207,7 +210,9 @@ export class InclusiveTimes {
     }
 
     this.errorState = false;
-    this.formatInput();
+    if (this.inputShouldFormat) {
+      this.formatInput();
+    }
   }
 
   private handlePickerSelection = async (dateString: string) => {
@@ -263,7 +268,9 @@ export class InclusiveTimes {
   };
 
   private handleInputBlur = () => {
-    this.formatInput();
+    if (this.inputShouldFormat) {
+      this.formatInput();
+    }
   };
 
   private handleInputChange = (event: Event) => {
@@ -289,7 +296,9 @@ export class InclusiveTimes {
       this.inputRef.value = formatted;
     } else {
       // Format single datetime
-      this.inputRef.value = moment(this.internalValue, this.format).format("lll");
+      this.inputRef.value = moment(this.internalValue, this.format).format(
+        "lll"
+      );
     }
   }
 
@@ -318,10 +327,7 @@ export class InclusiveTimes {
         has-error={this.errorState}
         disabled={this.disabledState}
       >
-        <label
-          htmlFor={`${this.id}-input`}
-          class={this.getClassName("label")}
-        >
+        <label htmlFor={`${this.id}-input`} class={this.getClassName("label")}>
           {this.label}
         </label>
         <div class={this.getClassName("input-container")}>
@@ -378,7 +384,9 @@ export class InclusiveTimes {
                 this.handlePickerSelection(event.detail as string)
               }
               onChangeMonth={(event) =>
-                this.handleChangedMonths(event.detail as MonthChangedEventDetails)
+                this.handleChangedMonths(
+                  event.detail as MonthChangedEventDetails
+                )
               }
               onChangeYear={(event) =>
                 this.handleYearChange(event.detail as YearChangedEventDetails)
@@ -398,7 +406,10 @@ export class InclusiveTimes {
               maxDate={this.maxDate}
               inline={this.inline}
             >
-              <div slot="after-calendar" class={this.getClassName("time-section")}>
+              <div
+                slot="after-calendar"
+                class={this.getClassName("time-section")}
+              >
                 <tabworthy-times-picker
                   hours={this.selectedHours}
                   minutes={this.selectedMinutes}

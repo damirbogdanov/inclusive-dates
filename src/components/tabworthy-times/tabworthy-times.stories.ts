@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit-html';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { Components } from '../../components';
+import type { Meta, StoryObj } from "@storybook/web-components-vite";
+import { html } from "lit-html";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { Components } from "../../components";
 
 const meta: Meta<Components.TabworthyTimes> = {
-  title: 'Components/TabworthyTimes',
-  tags: ['autodocs'],
+  title: "Components/TabworthyTimes",
+  tags: ["autodocs"],
   render: (args) => html`
     <tabworthy-times
       id=${args.id}
@@ -27,9 +27,10 @@ const meta: Meta<Components.TabworthyTimes> = {
       ?show-month-stepper=${args.showMonthStepper}
       ?show-clear-button=${args.showClearButton}
       ?show-today-button=${args.showTodayButton}
+      input-should-format=${args.inputShouldFormat}
       calendar-button-content=${ifDefined(args.calendarButtonContent)}
     ></tabworthy-times>
-  `,
+  `
 };
 
 export default meta;
@@ -37,61 +38,70 @@ type Story = StoryObj<Components.TabworthyTimes>;
 
 export const Default: Story = {
   args: {
-    id: 'datetime-default',
-    label: 'Choose a date and time',
-    placeholder: 'Select date and time',
-    locale: 'en-US',
-    format: 'YYYY-MM-DDTHH:mm:ss',
+    id: "datetime-default",
+    label: "Choose a date and time",
+    placeholder: "Select date and time",
+    locale: "en-US",
+    format: "YYYY-MM-DDTHH:mm:ss",
     use12HourFormat: true,
     showMonthStepper: true,
     showYearStepper: false,
     showClearButton: true,
     showTodayButton: true,
-    firstDayOfWeek: 1,
-  },
+    firstDayOfWeek: 1
+  }
 };
 
 export const WithInitialValue: Story = {
   args: {
     ...Default.args,
-    id: 'datetime-value',
-    value: '2024-03-15T14:30:00',
-  },
+    id: "datetime-value",
+    value: "2024-03-15T14:30:00"
+  }
 };
 
 export const TwentyFourHourFormat: Story = {
   args: {
     ...Default.args,
-    id: 'datetime-24h',
+    id: "datetime-24h",
     use12HourFormat: false,
-    value: '2024-03-15T14:30:00',
-  },
+    value: "2024-03-15T14:30:00"
+  }
 };
 
 export const WithConstraints: Story = {
   args: {
     ...Default.args,
-    id: 'datetime-constraints',
-    minDate: '2024-01-01',
-    maxDate: '2024-12-31',
-    value: '2024-06-15T10:00:00',
-  },
+    id: "datetime-constraints",
+    minDate: "2024-01-01",
+    maxDate: "2024-12-31",
+    value: "2024-06-15T10:00:00"
+  }
 };
 
 export const Inline: Story = {
   args: {
     ...Default.args,
-    id: 'datetime-inline',
+    id: "datetime-inline",
     inline: true,
-    value: '2024-03-15T14:30:00',
-  },
+    value: "2024-03-15T14:30:00"
+  }
 };
 
 export const Disabled: Story = {
   args: {
     ...Default.args,
-    id: 'datetime-disabled',
+    id: "datetime-disabled",
     disabled: true,
-    value: '2024-03-15T14:30:00',
-  },
+    value: "2024-03-15T14:30:00"
+  }
+};
+
+export const WithoutFormatInputOnAccept: Story = {
+  args: {
+    ...Default.args,
+    id: "datetime-no-format-on-accept",
+    inputShouldFormat: false,
+    value: "2024-03-15T14:30:00"
+  }
 };
