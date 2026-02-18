@@ -1,5 +1,11 @@
 # tabworthy-components
 
+## 0.3.0
+
+### Minor Changes
+
+- use specific CSS variables instead of generic ones
+
 ## 0.2.0
 
 ### Minor Changes
