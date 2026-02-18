@@ -143,7 +143,7 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
 
-    &--tw-dates-sr-only {
+    &--sr-only {
       position: absolute;
       width: 1px;
       height: 1px;
@@ -253,7 +253,7 @@
     font-weight: 500;
     transition: background-color 0.2s ease;
 
-    &--tw-dates-active {
+    &--active {
       background-color: var(--tw-dates-hover-color);
       font-weight: 600;
     }

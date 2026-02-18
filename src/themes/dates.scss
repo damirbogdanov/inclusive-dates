@@ -20,7 +20,7 @@ tabworthy-dates *:focus-visible {
   border-radius: 0.375rem;
   display: flex;
 
-  &--tw-dates-inline {
+  &--inline {
     margin-top: 0.5em;
   }
 }
@@ -50,41 +50,36 @@ tabworthy-dates *:focus-visible {
   }
 }
 
-.tabworthy-dates-calendar--tw-dates-disabled *[aria-disabled] {
+.tabworthy-dates-calendar--disabled *[aria-disabled] {
   opacity: 0.5;
   cursor: default;
 }
 
-.tabworthy-dates-calendar--tw-dates-disabled
-  .tabworthy-dates-calendar__weekday {
+.tabworthy-dates-calendar--disabled .tabworthy-dates-calendar__weekday {
   color: var(--tw-dates-disabled-color);
 }
 
-.tabworthy-dates-calendar--tw-dates-disabled
-  .tabworthy-dates-calendar__date:focus
-  > * {
+.tabworthy-dates-calendar--disabled .tabworthy-dates-calendar__date:focus > * {
   outline: none;
 }
 
-.tabworthy-dates-calendar--tw-dates-disabled .tabworthy-dates-calendar__date {
+.tabworthy-dates-calendar--disabled .tabworthy-dates-calendar__date {
   cursor: default;
   opacity: 0.5;
 }
 
-.tabworthy-dates-calendar--tw-dates-disabled
-  .tabworthy-dates-calendar__date:hover
-  > * {
+.tabworthy-dates-calendar--disabled .tabworthy-dates-calendar__date:hover > * {
   background-color: transparent;
 }
 
-.tabworthy-dates-calendar--tw-dates-disabled
-  .tabworthy-dates-calendar__date--tw-dates-in-range:hover
+.tabworthy-dates-calendar--disabled
+  .tabworthy-dates-calendar__date--in-range:hover
   > * {
   background-color: #f2f3f5;
 }
 
-.tabworthy-dates-calendar--tw-dates-disabled
-  .tabworthy-dates-calendar__date--tw-dates-selected:hover
+.tabworthy-dates-calendar--disabled
+  .tabworthy-dates-calendar__date--selected:hover
   > * {
   color: #fff;
   background-color: var(--tw-dates-hover-color);
@@ -217,22 +212,22 @@ tabworthy-dates *:focus-visible {
   aspect-ratio: 1;
 }
 
-.tabworthy-dates-calendar__date--tw-dates-current {
+.tabworthy-dates-calendar__date--current {
 }
 
-.tabworthy-dates-calendar__date--tw-dates-overflowing {
+.tabworthy-dates-calendar__date--overflowing {
 }
 
-.tabworthy-dates-calendar__date--tw-dates-today > * {
+.tabworthy-dates-calendar__date--today > * {
   font-weight: 700;
   font-style: normal;
   color: var(--tw-dates-active-color);
 }
 
-.tabworthy-dates-calendar__date--tw-dates-selected > *,
-.tabworthy-dates-calendar__date--tw-dates-selected:hover > *,
-.tabworthy-dates-calendar__date--tw-dates-in-range:hover > *,
-.tabworthy-dates-calendar__date--tw-dates-in-range > * {
+.tabworthy-dates-calendar__date--selected > *,
+.tabworthy-dates-calendar__date--selected:hover > *,
+.tabworthy-dates-calendar__date--in-range:hover > *,
+.tabworthy-dates-calendar__date--in-range > * {
   color: var(--tw-dates-bg-color);
   background-color: var(--tw-dates-active-color);
   font-weight: 500;
@@ -242,7 +237,7 @@ tabworthy-dates *:focus-visible {
   }
 }
 
-.tabworthy-dates-calendar__date--tw-dates-disabled {
+.tabworthy-dates-calendar__date--disabled {
   color: var(--tw-dates-disabled-color);
   cursor: default;
   @media screen and (forced-colors: active) {
@@ -261,16 +256,16 @@ tabworthy-dates *:focus-visible {
   }
 }
 
-.tabworthy-dates-calendar__date--tw-dates-disabled:not(
-    .tabworthy-dates-calendar__date--tw-dates-selected
-  ):not(.tabworthy-dates-calendar__date--tw-dates-in-range):hover
+.tabworthy-dates-calendar__date--disabled:not(
+    .tabworthy-dates-calendar__date--selected
+  ):not(.tabworthy-dates-calendar__date--in-range):hover
   > * {
   background-color: transparent;
 }
 
-.tabworthy-dates-calendar__date--tw-dates-disabled.tabworthy-dates-calendar__date--tw-dates-in-range:not(
-    .tabworthy-dates-calendar__date--tw-dates-selected
-  ):not(.tabworthy-dates-calendar__date--tw-dates-in-range)
+.tabworthy-dates-calendar__date--disabled.tabworthy-dates-calendar__date--in-range:not(
+    .tabworthy-dates-calendar__date--selected
+  ):not(.tabworthy-dates-calendar__date--in-range)
   > * {
   background-color: transparent;
 }
