@@ -212,7 +212,9 @@ export class TabworthyDates {
   private updateValue(newValue: Date | Date[]) {
     // Range
     if (Array.isArray(newValue)) {
-      this.internalValue = newValue.map((date) => moment(date).format(this.format));
+      this.internalValue = newValue.map((date) =>
+        moment(date).format(this.format)
+      );
     }
     // Single
     else {
@@ -229,8 +231,10 @@ export class TabworthyDates {
 
   private handleCalendarButtonClick = async () => {
     await customElements.whenDefined("tabworthy-dates-modal");
-    this.calendarButtonRef && await this.modalRef?.setTriggerElement(this.calendarButtonRef);
-    if ((await this.modalRef?.getState()) === false) await this.modalRef?.open();
+    this.calendarButtonRef &&
+      (await this.modalRef?.setTriggerElement(this.calendarButtonRef));
+    if ((await this.modalRef?.getState()) === false)
+      await this.modalRef?.open();
     else if ((await this.modalRef?.getState()) === true)
       await this.modalRef?.close();
   };
@@ -293,12 +297,15 @@ export class TabworthyDates {
 
         return this.selectDate.emit(this.internalValue);
       }
-      const parsedRange = await chronoParseRange((event.target as HTMLInputElement).value, {
-        locale: this.locale.slice(0, 2),
-        minDate: this.minDate,
-        maxDate: this.maxDate,
-        referenceDate: removeTimezoneOffset(new Date(this.referenceDate))
-      });
+      const parsedRange = await chronoParseRange(
+        (event.target as HTMLInputElement).value,
+        {
+          locale: this.locale.slice(0, 2),
+          minDate: this.minDate,
+          maxDate: this.maxDate,
+          referenceDate: removeTimezoneOffset(new Date(this.referenceDate))
+        }
+      );
       const newValue = [];
       if (parsedRange?.value && parsedRange.value.start instanceof Date)
         newValue.push(parsedRange.value.start);
@@ -313,11 +320,10 @@ export class TabworthyDates {
           this.errorMessage = {
             invalid: this.datesLabels.invalidDateError,
             rangeOutOfBounds: this.datesLabels.rangeOutOfBoundsError,
-            minDate: '',
-            maxDate: '',
+            minDate: "",
+            maxDate: ""
           }[parsedRange.reason];
         }
-
       }
     } else {
       this.errorState = false;
@@ -328,12 +334,15 @@ export class TabworthyDates {
         }
         return this.selectDate.emit(this.internalValue);
       }
-      const parsedDate = await chronoParseDate((event.target as HTMLInputElement).value, {
-        locale: this.locale.slice(0, 2),
-        minDate: this.minDate,
-        maxDate: this.maxDate,
-        referenceDate: removeTimezoneOffset(new Date(this.referenceDate))
-      });
+      const parsedDate = await chronoParseDate(
+        (event.target as HTMLInputElement).value,
+        {
+          locale: this.locale.slice(0, 2),
+          minDate: this.minDate,
+          maxDate: this.maxDate,
+          referenceDate: removeTimezoneOffset(new Date(this.referenceDate))
+        }
+      );
       if (parsedDate && parsedDate.value instanceof Date) {
         if (this.disableDate(parsedDate.value)) {
           this.errorState = true;
@@ -363,19 +372,15 @@ export class TabworthyDates {
         if (!!parsedDate.reason) {
           this.errorMessage = parsedDate.reason;
           this.errorMessage = {
-              // TODO: Add locale date formatting to these messages
-              minDate: minDate
-                ? `${this.datesLabels.minDateError} ${getISODateString(
-                    minDate
-                  )}`
-                : "",
-              maxDate: maxDate
-                ? `${this.datesLabels.maxDateError} ${getISODateString(
-                    maxDate
-                  )}`
-                : "",
-              invalid: this.datesLabels.invalidDateError
-            }[parsedDate.reason];
+            // TODO: Add locale date formatting to these messages
+            minDate: minDate
+              ? `${this.datesLabels.minDateError} ${getISODateString(minDate)}`
+              : "",
+            maxDate: maxDate
+              ? `${this.datesLabels.maxDateError} ${getISODateString(maxDate)}`
+              : "",
+            invalid: this.datesLabels.invalidDateError
+          }[parsedDate.reason];
         }
       }
     }
@@ -400,10 +405,16 @@ export class TabworthyDates {
         if (this.internalValue.length === 0) return; // Range date is invalid, leave the text field as is
         let output = "";
         this.internalValue.forEach((value, index) => {
-          const parsedDate = moment(useInputValue ? this.inputRef.value : value, this.format, true);
+          const parsedDate = moment(
+            useInputValue ? this.inputRef.value : value,
+            this.format,
+            true
+          );
           const dateToFormat = parsedDate.isValid()
             ? parsedDate.toDate()
-            : removeTimezoneOffset(new Date(useInputValue ? this.inputRef.value : value));
+            : removeTimezoneOffset(
+                new Date(useInputValue ? this.inputRef.value : value)
+              );
           return (output += `${
             index === 1 ? ` ${this.datesLabels.to} ` : ""
           }${Intl.DateTimeFormat(this.locale, {
@@ -414,10 +425,16 @@ export class TabworthyDates {
         });
         this.inputRef.value = output;
       } else {
-        const parsedDate = moment(useInputValue ? this.inputRef.value : this.internalValue, this.format, true);
+        const parsedDate = moment(
+          useInputValue ? this.inputRef.value : this.internalValue,
+          this.format,
+          true
+        );
         const dateToFormat = parsedDate.isValid()
           ? parsedDate.toDate()
-          : removeTimezoneOffset(new Date(useInputValue ? this.inputRef.value : this.internalValue));
+          : removeTimezoneOffset(
+              new Date(useInputValue ? this.inputRef.value : this.internalValue)
+            );
         this.inputRef.value = Intl.DateTimeFormat(this.locale, {
           weekday: "long",
           day: "numeric",
@@ -525,7 +542,7 @@ export class TabworthyDates {
 
     // update text input (useInputValue=false so it formats from internalValue, not from input's current text)
     if (this.inputRef) {
-      this.formatInput(true, false);
+      this.formatInput(!!this.formatInputOnAccept, false);
     }
   }
 
@@ -597,9 +614,7 @@ export class TabworthyDates {
               this.handleYearChange(event.detail as YearChangedEventDetails)
             }
             labels={
-              this.datesCalendarLabels
-                ? this.datesCalendarLabels
-                : undefined
+              this.datesCalendarLabels ? this.datesCalendarLabels : undefined
             }
             ref={(el) => (this.pickerRef = el)}
             startDate={this.startDate}
