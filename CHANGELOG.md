@@ -1,5 +1,11 @@
 # tabworthy-components
 
+## 0.7.1
+
+### Patch Changes
+
+- fix(dates): format for announceDateChange
+
 ## 0.7.0
 
 ### Minor Changes
