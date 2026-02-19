@@ -38,7 +38,7 @@ export declare class TabworthyDates {
     showMonthStepper: boolean;
     showClearButton: boolean;
     showTodayButton: boolean;
-    formatInputOnAccept?: boolean;
+    inputShouldFormat?: boolean | string;
     showKeyboardHint: boolean;
     disableDate: HTMLTabworthyDatesCalendarElement["disableDate"];
     elementClassName?: string;
@@ -60,6 +60,7 @@ export declare class TabworthyDates {
     private pickerRef?;
     private chronoSupportedLocale;
     private errorMessage;
+    private shouldInputFormat;
     componentDidLoad(): void;
     parseDate(text: string, shouldSetValue?: boolean, chronoOptions?: ChronoOptions | undefined): Promise<ChronoParsedDateString>;
     private isRangeValue;

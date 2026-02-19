@@ -49,7 +49,7 @@ export class InclusiveDatesModal {
         }
     }
     render() {
-        return (h(Host, { key: 'dd44f82a23c471268369362e7f0899d197b6686a', showing: this.showing, ref: (r) => r && (this.el = r) }, !this.inline && this.showing && (h("div", { key: '6c5d845e75737c366defff2434f51ca345a172f3', part: "body", onKeyDown: this.onKeyDown, role: "dialog", tabindex: -1, "aria-hidden": !this.showing, "aria-label": this.label, "aria-modal": this.showing }, h("focus-trap", { key: '56beecf073b790849d2761b3ac135641612744e1' }, h("div", { key: '85aca24946135337732f404ac164553f4374c9ec', part: "content" }, h("slot", { key: 'cb7b7c57ed1012256e3e045f64b40ce8c5d8dd8b' }))))), this.inline && (h("div", { key: '0a6d50757d0c77f1cc781dfe7676a4b3f8e74c22', part: "content" }, h("slot", { key: '17e71b147f00061c3f3f4deb3b66abb465714f8a' })))));
+        return (h(Host, { key: '773d9edf7cf6598394c1210a1fab91af0bcb951e', showing: this.showing, ref: (r) => r && (this.el = r) }, !this.inline && this.showing && (h("div", { key: 'c456932007f7ea9a9c3727d9d08fd8fbea5b8670', part: "body", onKeyDown: this.onKeyDown, role: "dialog", tabindex: -1, "aria-hidden": !this.showing, "aria-label": this.label, "aria-modal": this.showing }, h("focus-trap", { key: 'c1355fe48117067d62ede321afd1f90bf9bf4c22' }, h("div", { key: 'fbd3ec5e0e7069574f1dbd6c38b40e409b837045', part: "content" }, h("slot", { key: 'bad04015cc3945efbb68a52de623ee1f4b584868' }))))), this.inline && (h("div", { key: 'b0577b12dd1bec091de967ccd0ac297451576ad8', part: "content" }, h("slot", { key: '5457a9bd5d08feac90adb2ee061d60fb5fb94657' })))));
     }
     static get is() { return "tabworthy-dates-modal"; }
     static get encapsulation() { return "shadow"; }

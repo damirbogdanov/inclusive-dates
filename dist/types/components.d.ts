@@ -46,10 +46,6 @@ export namespace Components {
          */
         "format": string;
         /**
-          * @default true
-         */
-        "formatInputOnAccept"?: boolean;
-        /**
           * @default false
          */
         "hasError": boolean;
@@ -58,6 +54,11 @@ export namespace Components {
           * @default false
          */
         "inline": boolean;
+        /**
+          * @default true
+         */
+        "inputShouldFormat"?: | boolean
+    | string;
         /**
           * @default this.range     ? "Choose a date range (any way you like)"     : "Choose a date (any way you like)"
          */
@@ -250,7 +251,8 @@ export namespace Components {
         /**
           * @default true
          */
-        "inputShouldFormat": boolean;
+        "inputShouldFormat"?: | boolean
+    | string;
         /**
           * @default "Choose a date and time"
          */
@@ -486,10 +488,6 @@ declare namespace LocalJSX {
          */
         "format"?: string;
         /**
-          * @default true
-         */
-        "formatInputOnAccept"?: boolean;
-        /**
           * @default false
          */
         "hasError"?: boolean;
@@ -498,6 +496,11 @@ declare namespace LocalJSX {
           * @default false
          */
         "inline"?: boolean;
+        /**
+          * @default true
+         */
+        "inputShouldFormat"?: | boolean
+    | string;
         /**
           * @default this.range     ? "Choose a date range (any way you like)"     : "Choose a date (any way you like)"
          */
@@ -686,7 +689,8 @@ declare namespace LocalJSX {
         /**
           * @default true
          */
-        "inputShouldFormat"?: boolean;
+        "inputShouldFormat"?: | boolean
+    | string;
         /**
           * @default "Choose a date and time"
          */
@@ -795,7 +799,7 @@ declare namespace LocalJSX {
         "showMonthStepper": boolean;
         "showClearButton": boolean;
         "showTodayButton": boolean;
-        "formatInputOnAccept": boolean;
+        "inputShouldFormat": string;
         "showKeyboardHint": boolean;
         "elementClassName": string;
         "firstDayOfWeek": number;
@@ -855,7 +859,7 @@ declare namespace LocalJSX {
         "elementClassName": string;
         "firstDayOfWeek": number;
         "format": string;
-        "inputShouldFormat": boolean;
+        "inputShouldFormat": string;
     }
     interface TabworthyTimesPickerAttributes {
         "hours": number;

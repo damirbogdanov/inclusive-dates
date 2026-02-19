@@ -126,7 +126,9 @@ export const chronoParseRange = async (dateString, options) => {
         parsedRange[0].end &&
         parsedRange[0].end.date() instanceof Date)
         endDate = parsedRange[0].end.date();
-    const returnValue = { value: { start: null, end: null } };
+    const returnValue = {
+        value: { start: null, end: null }
+    };
     // TODO: fix this
     // @ts-ignore
     if (startDate instanceof Date || endDate instanceof Date) {

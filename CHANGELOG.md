@@ -1,5 +1,11 @@
 # tabworthy-components
 
+## 0.4.0
+
+### Minor Changes
+
+- Fix: Unify inputShouldFormat across components. Allow direct prop modification as well as configuration via an attribute. Default to true.
+
 ## 0.3.3
 
 ### Patch Changes
