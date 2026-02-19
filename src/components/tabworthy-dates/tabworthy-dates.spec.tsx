@@ -485,6 +485,24 @@ describe("tabworthy-dates", () => {
     expect(instance.internalValue).toBe("02/01/2024");
   });
 
+  it("handlePickerSelection supports DD/MM/YYYY format without throwing and formats input correctly", async () => {
+    const page = await createPage(
+      "<tabworthy-dates id='test' format='DD/MM/YYYY'></tabworthy-dates>"
+    );
+    const instance = page.rootInstance as any;
+    const emitSpy = jest.fn();
+    instance.selectDate = { emit: emitSpy };
+
+    instance.modalRef = { close: jest.fn() };
+    instance.inputShouldFormat = false;
+
+    expect(() => instance.handlePickerSelection("2024-01-02")).not.toThrow();
+    await page.waitForChanges();
+    expect(emitSpy).toHaveBeenCalledWith("02/01/2024");
+    expect(instance.inputRef.value).toBe("02/01/2024");
+    expect(instance.internalValue).toBe("02/01/2024");
+  });
+
   it("disable-freeform-input disables input", async () => {
     const page = await createPage(
       '<tabworthy-dates id="test" disable-freeform-input></tabworthy-dates>'

@@ -486,12 +486,16 @@ export class TabworthyDates {
   }
 
   private announceDateChange(newValue: string | string[]) {
+    const newValueInIsoFormat = Array.isArray(newValue)
+      ? newValue.map((date) => moment(date, this.format).toISOString())
+      : moment(newValue, this.format).toISOString();
+
     let content = "";
-    if (Array.isArray(newValue)) {
-      if (newValue.length === 1) {
+    if (Array.isArray(newValueInIsoFormat)) {
+      if (newValueInIsoFormat.length === 1) {
         content += `${this.datesLabels.startDate} `;
       }
-      newValue.forEach(
+      newValueInIsoFormat.forEach(
         (value, index) =>
           (content += `${
             index === 1 ? ` ${this.datesLabels.to} ` : ""
@@ -508,7 +512,7 @@ export class TabworthyDates {
         day: "numeric",
         month: "long",
         year: "numeric"
-      }).format(removeTimezoneOffset(new Date(newValue)));
+      }).format(removeTimezoneOffset(new Date(newValueInIsoFormat)));
     if (content.length === 0) return;
     content += ` ${this.datesLabels.selected}`;
     const contentNoCommas = content.replace(/\,/g, "");
