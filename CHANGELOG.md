@@ -1,10 +1,16 @@
 # tabworthy-components
 
+## 0.6.1
+
+### Patch Changes
+
+- fix: next/prev year buttons, to emit changeYear event
+
 ## 0.6.0
 
 ### Minor Changes
 
-- remove @stencil/* devDeps from deps
+- remove @stencil/\* devDeps from deps
 
 ## 0.5.1
 
