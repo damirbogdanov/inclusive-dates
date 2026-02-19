@@ -302,7 +302,6 @@ export class TabworthyDates {
       if (this.pickerRef) {
         this.pickerRef.value = null;
       }
-
       return this.selectDate.emit(this.internalValue);
     }
     const parsedRange = await chronoParseRange(value, {
@@ -487,6 +486,7 @@ export class TabworthyDates {
       }
       this.announceDateChange(this.internalValue);
     }
+    this.selectDate.emit(this.internalValue);
   }
 
   private announceDateChange(newValue: string | string[]) {

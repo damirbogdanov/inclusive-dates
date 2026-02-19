@@ -299,7 +299,9 @@ describe("tabworthy-dates", () => {
     const page = await createPage(
       '<tabworthy-dates id="test" range></tabworthy-dates>'
     );
+    const emitSpy = jest.fn();
     const instance = page.rootInstance as any;
+    instance.selectDate = { emit: emitSpy };
 
     instance.inputRef = { value: "" } as HTMLInputElement;
     instance.modalRef = { close: jest.fn() };
@@ -307,10 +309,12 @@ describe("tabworthy-dates", () => {
     instance.handlePickerSelection(["2023-06-08", "2023-06-12"]);
     expect(instance.internalValue).toEqual(["2023-06-08", "2023-06-12"]);
     expect(instance.modalRef.close).toHaveBeenCalled();
+    expect(emitSpy).toHaveBeenCalledWith(["2023-06-08", "2023-06-12"]);
 
     instance.range = false;
     instance.handlePickerSelection("2023-06-08");
     expect(instance.internalValue).toBe("2023-06-08");
+    expect(emitSpy).toHaveBeenCalledWith("2023-06-08");
   });
 
   it("announceDateChange announces selected content", async () => {
