@@ -1,5 +1,11 @@
 # tabworthy-components
 
+## 0.3.2
+
+### Patch Changes
+
+- fix 'inputShouldFormat' prop for times and dates, tiny css fix
+
 ## 0.3.1
 
 ### Patch Changes

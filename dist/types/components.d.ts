@@ -248,6 +248,10 @@ export namespace Components {
          */
         "inline": boolean;
         /**
+          * @default true
+         */
+        "inputShouldFormat": boolean;
+        /**
           * @default "Choose a date and time"
          */
         "label": string;
@@ -680,6 +684,10 @@ declare namespace LocalJSX {
          */
         "inline"?: boolean;
         /**
+          * @default true
+         */
+        "inputShouldFormat"?: boolean;
+        /**
           * @default "Choose a date and time"
          */
         "label"?: string;
@@ -847,6 +855,7 @@ declare namespace LocalJSX {
         "elementClassName": string;
         "firstDayOfWeek": number;
         "format": string;
+        "inputShouldFormat": boolean;
     }
     interface TabworthyTimesPickerAttributes {
         "hours": number;

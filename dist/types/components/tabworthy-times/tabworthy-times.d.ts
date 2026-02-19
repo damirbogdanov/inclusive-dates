@@ -31,6 +31,7 @@ export declare class InclusiveTimes {
     elementClassName?: string;
     firstDayOfWeek?: number;
     format: string;
+    inputShouldFormat: boolean;
     internalValue?: string | string[] | null;
     selectedDate?: Date;
     selectedHours: number;
