@@ -1,5 +1,11 @@
 # tabworthy-components
 
+## 0.6.0
+
+### Minor Changes
+
+- remove @stencil/* devDeps from deps
+
 ## 0.5.1
 
 ### Patch Changes
