@@ -69,6 +69,7 @@ export class TabworthyDates {
             : ["Yesterday", "Today", "Tomorrow", "In 10 days"];
         // Show or hide the quick buttons
         this.showQuickButtons = true;
+        this.disableFreeformInput = false;
         this.errorState = this.hasError;
         this.disabledState = this.disabled;
         this.chronoSupportedLocale = ["en", "ja", "fr", "nl", "ru", "pt"].includes(this.locale.slice(0, 2));
@@ -323,10 +324,6 @@ export class TabworthyDates {
                 }).format(dateToFormat);
             }
         }
-        else if (this.internalValue &&
-            this.internalValue.length > 0 &&
-            this.errorState === false)
-            this.inputRef.value = this.internalValue.toString();
     }
     handlePickerSelection(newValue) {
         var _a, _b;
@@ -353,6 +350,7 @@ export class TabworthyDates {
             }
             this.announceDateChange(this.internalValue);
         }
+        this.selectDate.emit(this.internalValue);
     }
     announceDateChange(newValue) {
         let content = "";
@@ -421,7 +419,7 @@ export class TabworthyDates {
     }
     render() {
         var _a;
-        return (h(Host, { key: 'af18409cc70d00e832941ec2cb0ba6e8de54b4bc' }, h("label", { key: '776ac232cd674198f307511edacfc25ee7ea073b', htmlFor: this.id ? `${this.id}-input` : undefined, class: this.getClassName("label") }, this.label), h("br", { key: '012a806feffe904a5e492c79822575b10e02c47c' }), h("div", { key: '194798eb7f62c065f757dfdb4a4f4087a6321d33', class: this.getClassName("input-container") }, h("input", { key: '89fb2f8b6e669c126ca1b905f054af360880010f', disabled: this.disabledState, id: this.id ? `${this.id}-input` : undefined, type: "text", placeholder: this.placeholder, class: this.getClassName("input"), ref: (r) => (this.inputRef = r), onChange: this.handleChange, onFocus: () => this.formatInput(false), onBlur: () => this.formatInput(true, false), "aria-describedby": this.errorState ? `${this.id}-error` : undefined, "aria-invalid": this.errorState }), !this.inline && (h("button", { key: 'fd20cc4fa19942211058ec32df5c40ab1076f3e4', type: "button", ref: (r) => (this.calendarButtonRef = r), onClick: this.handleCalendarButtonClick, class: this.getClassName("calendar-button"), disabled: this.disabledState }, this.calendarButtonContent ? (h("span", { innerHTML: this.calendarButtonContent })) : (this.datesLabels.openCalendar)))), h("tabworthy-dates-modal", { key: 'ed649175c4b0b9f2fd84fc9ca90657a8fa202dd8', label: this.datesLabels.calendar, ref: (el) => (this.modalRef = el), onOpened: () => {
+        return (h(Host, { key: 'e8042c6411dbded3f86703ee75b43a8e75ddf621' }, h("label", { key: 'ed3a309a7f11a41122badd9549b513ea3f70c491', htmlFor: this.id ? `${this.id}-input` : undefined, class: this.getClassName("label") }, this.label), h("br", { key: '73391914e5e39af0b054cfcbab02b1d18aca452a' }), h("div", { key: '6b3394842bc2813f918f731745307ea798a483b9', class: this.getClassName("input-container") }, h("input", { key: '8a1f1ac45bbe0050cfc98063d723542a37d86ef5', disabled: this.disabledState || this.disableFreeformInput, id: this.id ? `${this.id}-input` : undefined, type: "text", placeholder: this.placeholder, class: this.getClassName("input"), ref: (r) => (this.inputRef = r), onChange: this.handleChange, onFocus: () => this.formatInput(false), onBlur: () => this.formatInput(true, false), "aria-describedby": this.errorState ? `${this.id}-error` : undefined, "aria-invalid": this.errorState }), !this.inline && (h("button", { key: 'bbafef3a62331b26e8d0a0eb9886816d8e819085', type: "button", ref: (r) => (this.calendarButtonRef = r), onClick: this.handleCalendarButtonClick, class: this.getClassName("calendar-button"), disabled: this.disabledState }, this.calendarButtonContent ? (h("span", { innerHTML: this.calendarButtonContent })) : (this.datesLabels.openCalendar)))), h("tabworthy-dates-modal", { key: '68451bf1e8d40dd25f51a370cf745244cf1897eb', label: this.datesLabels.calendar, ref: (el) => (this.modalRef = el), onOpened: () => {
                 if (!this.pickerRef)
                     return;
                 this.pickerRef.modalIsOpen = true;
@@ -429,11 +427,11 @@ export class TabworthyDates {
                 if (!this.pickerRef)
                     return;
                 this.pickerRef.modalIsOpen = false;
-            }, inline: this.inline }, h("tabworthy-dates-calendar", { key: '7f77e44188b8521ad0f8c7a5c4cd91ac8f72d58c', range: this.range, locale: this.locale, onSelectDate: (event) => this.handlePickerSelection(event.detail), onChangeMonth: (event) => this.handleChangedMonths(event.detail), onChangeYear: (event) => this.handleYearChange(event.detail), labels: this.datesCalendarLabels ? this.datesCalendarLabels : undefined, ref: (el) => (this.pickerRef = el), startDate: this.startDate, firstDayOfWeek: this.firstDayOfWeek, showHiddenTitle: true, disabled: this.disabledState, showMonthStepper: this.showMonthStepper, showYearStepper: this.showYearStepper, showClearButton: this.showClearButton, showKeyboardHint: this.showKeyboardHint, showTodayButton: this.showTodayButton, disableDate: this.disableDate, minDate: this.minDate, maxDate: this.maxDate, inline: this.inline })), this.showQuickButtons &&
+            }, inline: this.inline }, h("tabworthy-dates-calendar", { key: '9ba747fc1bbc1481943624634090b7e8a4792d56', range: this.range, locale: this.locale, onSelectDate: (event) => this.handlePickerSelection(event.detail), onChangeMonth: (event) => this.handleChangedMonths(event.detail), onChangeYear: (event) => this.handleYearChange(event.detail), labels: this.datesCalendarLabels ? this.datesCalendarLabels : undefined, ref: (el) => (this.pickerRef = el), startDate: this.startDate, firstDayOfWeek: this.firstDayOfWeek, showHiddenTitle: true, disabled: this.disabledState, showMonthStepper: this.showMonthStepper, showYearStepper: this.showYearStepper, showClearButton: this.showClearButton, showKeyboardHint: this.showKeyboardHint, showTodayButton: this.showTodayButton, disableDate: this.disableDate, minDate: this.minDate, maxDate: this.maxDate, inline: this.inline })), this.showQuickButtons &&
             ((_a = this.quickButtons) === null || _a === void 0 ? void 0 : _a.length) > 0 &&
-            this.chronoSupportedLocale && (h("div", { key: '9ac2426141cfcebc38db079a90b99fe46cb76267', class: this.getClassName("quick-group"), role: "group", "aria-label": "Quick selection" }, this.quickButtons.map((buttonText) => {
+            this.chronoSupportedLocale && (h("div", { key: '302a5aca1e85df7ae68bbc416dcc62f406a46868', class: this.getClassName("quick-group"), role: "group", "aria-label": "Quick selection" }, this.quickButtons.map((buttonText) => {
             return (h("button", { class: this.getClassName("quick-button"), onClick: this.handleQuickButtonClick, disabled: this.disabledState, type: "button" }, buttonText));
-        }))), this.errorState && (h("div", { key: 'e9043f07596f0dea2092593bb2a3966e33a04a78', class: this.getClassName("input-error"), id: this.id ? `${this.id}-error` : undefined, role: "status" }, this.errorMessage))));
+        }))), this.errorState && (h("div", { key: 'c753c27a93017df169b6d603b1f8fb4e6f601a0d', class: this.getClassName("input-error"), id: this.id ? `${this.id}-error` : undefined, role: "status" }, this.errorMessage))));
     }
     static get is() { return "tabworthy-dates"; }
     static get encapsulation() { return "scoped"; }
@@ -1089,6 +1087,26 @@ export class TabworthyDates {
                 "reflect": false,
                 "attribute": "show-quick-buttons",
                 "defaultValue": "true"
+            },
+            "disableFreeformInput": {
+                "type": "boolean",
+                "mutable": false,
+                "complexType": {
+                    "original": "boolean",
+                    "resolved": "boolean",
+                    "references": {}
+                },
+                "required": false,
+                "optional": false,
+                "docs": {
+                    "tags": [],
+                    "text": ""
+                },
+                "getter": false,
+                "setter": false,
+                "reflect": false,
+                "attribute": "disable-freeform-input",
+                "defaultValue": "false"
             }
         };
     }

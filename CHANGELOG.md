@@ -1,5 +1,12 @@
 # tabworthy-components
 
+## 0.5.0
+
+### Minor Changes
+
+- fix(dates): handlePickerSelection should emit selectDate
+  feat(dates, times): disableFreeformInput for complex scenarios when format passed
+
 ## 0.4.0
 
 ### Minor Changes

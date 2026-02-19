@@ -48,6 +48,7 @@ export declare class TabworthyDates {
     todayButtonContent?: string;
     calendarButtonContent?: string;
     showQuickButtons: boolean;
+    disableFreeformInput: boolean;
     internalValue?: string | string[] | null;
     errorState: boolean;
     disabledState: boolean;

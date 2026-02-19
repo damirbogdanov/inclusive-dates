@@ -32,6 +32,10 @@ export namespace Components {
         /**
           * @default false
          */
+        "disableFreeformInput": boolean;
+        /**
+          * @default false
+         */
         "disabled": boolean;
         /**
           * @default "tabworthy-dates"
@@ -223,6 +227,10 @@ export namespace Components {
           * @default () => false
          */
         "disableDate": (date: Date) => boolean;
+        /**
+          * @default false
+         */
+        "disableFreeformInput": boolean;
         /**
           * @default false
          */
@@ -474,6 +482,10 @@ declare namespace LocalJSX {
         /**
           * @default false
          */
+        "disableFreeformInput"?: boolean;
+        /**
+          * @default false
+         */
         "disabled"?: boolean;
         /**
           * @default "tabworthy-dates"
@@ -664,6 +676,10 @@ declare namespace LocalJSX {
         /**
           * @default false
          */
+        "disableFreeformInput"?: boolean;
+        /**
+          * @default false
+         */
         "disabled"?: boolean;
         /**
           * @default "tabworthy-times"
@@ -807,6 +823,7 @@ declare namespace LocalJSX {
         "todayButtonContent": string;
         "calendarButtonContent": string;
         "showQuickButtons": boolean;
+        "disableFreeformInput": boolean;
     }
     interface TabworthyDatesCalendarAttributes {
         "clearButtonContent": string;
@@ -860,6 +877,7 @@ declare namespace LocalJSX {
         "firstDayOfWeek": number;
         "format": string;
         "inputShouldFormat": string;
+        "disableFreeformInput": boolean;
     }
     interface TabworthyTimesPickerAttributes {
         "hours": number;
