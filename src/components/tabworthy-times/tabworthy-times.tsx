@@ -123,6 +123,7 @@ export class InclusiveTimes {
   @Prop({ attribute: "input-should-format" }) inputShouldFormat?:
     | boolean
     | string = true;
+  @Prop() disableFreeformInput: boolean = false;
 
   @State() internalValue?: string | string[] | null;
   @State() selectedDate?: Date;
@@ -346,7 +347,7 @@ export class InclusiveTimes {
             type="text"
             class={this.getClassName("input")}
             placeholder={this.placeholder}
-            disabled={this.disabledState}
+            disabled={this.disabledState || this.disableFreeformInput}
             value={this.internalValue?.toString()}
             onBlur={this.handleInputBlur}
             onChange={this.handleInputChange}

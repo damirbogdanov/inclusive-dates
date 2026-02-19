@@ -356,6 +356,10 @@ tabworthy-dates *:focus-visible {
   &[aria-invalid] {
     border-color: var(--tw-dates-error-color);
   }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
 }
 
 .tabworthy-dates-calendar__keyboard-hint {

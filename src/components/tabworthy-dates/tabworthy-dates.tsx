@@ -138,6 +138,7 @@ export class TabworthyDates {
   @Prop() calendarButtonContent?: string;
   // Show or hide the quick buttons
   @Prop() showQuickButtons: boolean = true;
+  @Prop() disableFreeformInput: boolean = false;
 
   @State() internalValue?: string | string[] | null;
   @State() errorState: boolean = this.hasError;
@@ -576,7 +577,7 @@ export class TabworthyDates {
         <br />
         <div class={this.getClassName("input-container")}>
           <input
-            disabled={this.disabledState}
+            disabled={this.disabledState || this.disableFreeformInput}
             id={this.id ? `${this.id}-input` : undefined}
             type="text"
             placeholder={this.placeholder}

@@ -29,6 +29,7 @@ const meta: Meta<Components.TabworthyTimes> = {
       ?show-today-button=${args.showTodayButton}
       input-should-format=${args.inputShouldFormat}
       calendar-button-content=${ifDefined(args.calendarButtonContent)}
+      ?disable-freeform-input=${args.disableFreeformInput}
     ></tabworthy-times>
   `
 };
@@ -102,6 +103,17 @@ export const WithoutFormatInputOnAccept: Story = {
     ...Default.args,
     id: "datetime-no-format-on-accept",
     inputShouldFormat: false,
+    value: "2024-03-15T14:30:00"
+  }
+};
+
+export const WithoutFreeFormInput: Story = {
+  args: {
+    ...Default.args,
+    id: "datetime-no-freeform",
+    label: "Choose a datetime (picker only)",
+    placeholder: "Select a datetime from the picker",
+    disableFreeformInput: true,
     value: "2024-03-15T14:30:00"
   }
 };

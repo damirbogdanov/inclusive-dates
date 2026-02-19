@@ -31,6 +31,7 @@ const meta: Meta<Components.TabworthyDates> = {
       ?show-keyboard-hint=${args.showKeyboardHint}
       input-should-format=${args.inputShouldFormat}
       calendar-button-content=${ifDefined(args.calendarButtonContent)}
+      ?disable-freeform-input=${args.disableFreeformInput}
     ></tabworthy-dates>
   `
 };
@@ -132,5 +133,17 @@ export const WithoutInputShouldFormat: Story = {
     value: "01/01/2024",
     showQuickButtons: false,
     inputShouldFormat: false
+  }
+};
+
+export const WithoutFreeFormInput: Story = {
+  args: {
+    ...Default.args,
+    id: "datepicker-no-freeform",
+    label: "Choose a date (picker only)",
+    placeholder: "Select a date from the picker",
+    showQuickButtons: false,
+    disableFreeformInput: true,
+    value: "2024-06-15"
   }
 };

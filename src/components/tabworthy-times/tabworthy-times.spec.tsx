@@ -354,4 +354,12 @@ describe("tabworthy-times", () => {
 
     expect(instance.internalValue).toBe("02/01/2024 14:30:00");
   });
+
+  it("disable-freeform-input disables input", async () => {
+    const page = await createPage(
+      '<tabworthy-times id="test" disable-freeform-input></tabworthy-dates>'
+    );
+    const input = page.root?.querySelector("input") as HTMLInputElement;
+    expect(input.disabled).toBe(true);
+  });
 });
