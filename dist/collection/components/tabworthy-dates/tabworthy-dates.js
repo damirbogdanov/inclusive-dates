@@ -123,97 +123,104 @@ export class TabworthyDates {
             var _a;
             (_a = this.changeYear) === null || _a === void 0 ? void 0 : _a.emit(yearDetail);
         };
-        this.handleChange = async (event) => {
-            if (this.range) {
-                this.errorState = false;
-                if (event.target.value.length === 0) {
-                    this.internalValue = "";
-                    if (this.pickerRef) {
-                        this.pickerRef.value = null;
-                    }
-                    return this.selectDate.emit(this.internalValue);
+        this.handleRangeChange = async (value) => {
+            this.errorState = false;
+            if (value.length === 0) {
+                this.internalValue = "";
+                if (this.pickerRef) {
+                    this.pickerRef.value = null;
                 }
-                const parsedRange = await chronoParseRange(event.target.value, {
-                    locale: this.locale.slice(0, 2),
-                    minDate: this.minDate,
-                    maxDate: this.maxDate,
-                    referenceDate: removeTimezoneOffset(new Date(this.referenceDate))
-                });
-                const newValue = [];
-                if ((parsedRange === null || parsedRange === void 0 ? void 0 : parsedRange.value) && parsedRange.value.start instanceof Date)
-                    newValue.push(parsedRange.value.start);
-                if ((parsedRange === null || parsedRange === void 0 ? void 0 : parsedRange.value) && parsedRange.value.end instanceof Date)
-                    newValue.push(parsedRange.value.end);
-                this.updateValue(newValue);
-                this.formatInput(true, false);
-                if (newValue.length === 0) {
-                    this.errorState = true;
-                    if (!!(parsedRange === null || parsedRange === void 0 ? void 0 : parsedRange.reason)) {
-                        this.errorMessage = {
-                            invalid: this.datesLabels.invalidDateError,
-                            rangeOutOfBounds: this.datesLabels.rangeOutOfBoundsError,
-                            minDate: "",
-                            maxDate: ""
-                        }[parsedRange.reason];
-                    }
+                return this.selectDate.emit(this.internalValue);
+            }
+            const parsedRange = await chronoParseRange(value, {
+                locale: this.locale.slice(0, 2),
+                minDate: this.minDate,
+                maxDate: this.maxDate,
+                referenceDate: removeTimezoneOffset(new Date(this.referenceDate))
+            });
+            const newValue = [];
+            if ((parsedRange === null || parsedRange === void 0 ? void 0 : parsedRange.value) && parsedRange.value.start instanceof Date)
+                newValue.push(parsedRange.value.start);
+            if ((parsedRange === null || parsedRange === void 0 ? void 0 : parsedRange.value) && parsedRange.value.end instanceof Date)
+                newValue.push(parsedRange.value.end);
+            this.updateValue(newValue);
+            this.formatInput(true, false);
+            if (newValue.length === 0) {
+                this.errorState = true;
+                if (!!(parsedRange === null || parsedRange === void 0 ? void 0 : parsedRange.reason)) {
+                    this.errorMessage = {
+                        invalid: this.datesLabels.invalidDateError,
+                        rangeOutOfBounds: this.datesLabels.rangeOutOfBoundsError,
+                        minDate: "",
+                        maxDate: ""
+                    }[parsedRange.reason];
                 }
             }
-            else {
-                this.errorState = false;
-                if (event.target.value.length === 0) {
-                    this.internalValue = "";
-                    if (this.pickerRef) {
-                        this.pickerRef.value = null;
-                    }
-                    return this.selectDate.emit(this.internalValue);
+        };
+        this.handleSingleDateChange = async (value) => {
+            this.errorState = false;
+            if (value.length === 0) {
+                this.internalValue = "";
+                if (this.pickerRef) {
+                    this.pickerRef.value = null;
                 }
-                const parsedDate = await chronoParseDate(event.target.value, {
-                    locale: this.locale.slice(0, 2),
-                    minDate: this.minDate,
-                    maxDate: this.maxDate,
-                    referenceDate: removeTimezoneOffset(new Date(this.referenceDate))
-                });
-                if (parsedDate && parsedDate.value instanceof Date) {
-                    if (this.disableDate(parsedDate.value)) {
-                        this.errorState = true;
-                        this.errorMessage = this.datesLabels.disabledDateError;
-                    }
-                    else {
-                        this.updateValue(parsedDate.value);
-                        this.formatInput(true, false);
-                    }
-                }
-                else if (parsedDate) {
+                return this.selectDate.emit(this.internalValue);
+            }
+            const parsedDate = await chronoParseDate(value, {
+                locale: this.locale.slice(0, 2),
+                minDate: this.minDate,
+                maxDate: this.maxDate,
+                referenceDate: removeTimezoneOffset(new Date(this.referenceDate))
+            });
+            if (parsedDate && parsedDate.value instanceof Date) {
+                if (this.disableDate(parsedDate.value)) {
                     this.errorState = true;
-                    this.internalValue = null;
-                    let maxDate = undefined;
-                    let minDate = undefined;
-                    if (this.maxDate) {
-                        maxDate = this.maxDate
-                            ? removeTimezoneOffset(new Date(this.maxDate))
-                            : undefined;
-                        maxDate === null || maxDate === void 0 ? void 0 : maxDate.setDate(maxDate.getDate() + 1);
-                    }
-                    if (this.minDate) {
-                        minDate = this.minDate
-                            ? removeTimezoneOffset(new Date(this.minDate))
-                            : undefined;
-                        minDate === null || minDate === void 0 ? void 0 : minDate.setDate(minDate.getDate() - 1);
-                    }
-                    if (!!parsedDate.reason) {
-                        this.errorMessage = parsedDate.reason;
-                        this.errorMessage = {
-                            // TODO: Add locale date formatting to these messages
-                            minDate: minDate
-                                ? `${this.datesLabels.minDateError} ${getISODateString(minDate)}`
-                                : "",
-                            maxDate: maxDate
-                                ? `${this.datesLabels.maxDateError} ${getISODateString(maxDate)}`
-                                : "",
-                            invalid: this.datesLabels.invalidDateError
-                        }[parsedDate.reason];
-                    }
+                    this.errorMessage = this.datesLabels.disabledDateError;
                 }
+                else {
+                    this.updateValue(parsedDate.value);
+                    this.formatInput(true, false);
+                }
+            }
+            else if (parsedDate) {
+                this.errorState = true;
+                this.internalValue = null;
+                let maxDate = undefined;
+                let minDate = undefined;
+                if (this.maxDate) {
+                    maxDate = this.maxDate
+                        ? removeTimezoneOffset(new Date(this.maxDate))
+                        : undefined;
+                    maxDate === null || maxDate === void 0 ? void 0 : maxDate.setDate(maxDate.getDate() + 1);
+                }
+                if (this.minDate) {
+                    minDate = this.minDate
+                        ? removeTimezoneOffset(new Date(this.minDate))
+                        : undefined;
+                    minDate === null || minDate === void 0 ? void 0 : minDate.setDate(minDate.getDate() - 1);
+                }
+                if (!!parsedDate.reason) {
+                    this.errorMessage = parsedDate.reason;
+                    this.errorMessage = {
+                        // TODO: Add locale date formatting to these messages
+                        minDate: minDate
+                            ? `${this.datesLabels.minDateError} ${getISODateString(minDate)}`
+                            : "",
+                        maxDate: maxDate
+                            ? `${this.datesLabels.maxDateError} ${getISODateString(maxDate)}`
+                            : "",
+                        invalid: this.datesLabels.invalidDateError
+                    }[parsedDate.reason];
+                }
+            }
+        };
+        this.handleChange = async (event) => {
+            const value = event.target.value;
+            if (this.range) {
+                await this.handleRangeChange(value);
+            }
+            else {
+                await this.handleSingleDateChange(value);
             }
         };
     }
@@ -320,7 +327,8 @@ export class TabworthyDates {
         if (this.isRangeValue(newValue)) {
             if (newValue.length === 2)
                 (_a = this.modalRef) === null || _a === void 0 ? void 0 : _a.close();
-            this.internalValue = newValue;
+            // Convert ISO dates to specified format
+            this.internalValue = newValue.map((date) => moment(date).format(this.format));
             this.errorState = false;
             if (document.activeElement !== this.inputRef) {
                 this.formatInput(true, false);
@@ -329,8 +337,10 @@ export class TabworthyDates {
         }
         else {
             (_b = this.modalRef) === null || _b === void 0 ? void 0 : _b.close();
-            this.inputRef.value = newValue;
-            this.internalValue = newValue;
+            // Convert ISO date to specified format
+            const formattedDate = moment(newValue).format(this.format);
+            this.inputRef.value = formattedDate;
+            this.internalValue = formattedDate;
             this.errorState = false;
             if (document.activeElement !== this.inputRef) {
                 this.formatInput(true, false);
@@ -405,7 +415,7 @@ export class TabworthyDates {
     }
     render() {
         var _a;
-        return (h(Host, { key: '161da7818cb74c9641e3012b6b1c32524cc4d395' }, h("label", { key: 'ae99317da0d4986f2c666e202efa98dc4f7f2574', htmlFor: this.id ? `${this.id}-input` : undefined, class: this.getClassName("label") }, this.label), h("br", { key: '1c0690f2c16cafc1256acb5a91375ed078f302b9' }), h("div", { key: '8f869d82ee208a7de309836c3df29f857caf151f', class: this.getClassName("input-container") }, h("input", { key: '14fa0600bc8537229adf19e134583ba26e76dda1', disabled: this.disabledState, id: this.id ? `${this.id}-input` : undefined, type: "text", placeholder: this.placeholder, class: this.getClassName("input"), ref: (r) => (this.inputRef = r), onChange: this.handleChange, onFocus: () => this.formatInput(false), onBlur: () => this.formatInput(true, false), "aria-describedby": this.errorState ? `${this.id}-error` : undefined, "aria-invalid": this.errorState }), !this.inline && (h("button", { key: 'd7f988423b9a50d982c0b8b057145c4948f7d2ef', type: "button", ref: (r) => (this.calendarButtonRef = r), onClick: this.handleCalendarButtonClick, class: this.getClassName("calendar-button"), disabled: this.disabledState }, this.calendarButtonContent ? (h("span", { innerHTML: this.calendarButtonContent })) : (this.datesLabels.openCalendar)))), h("tabworthy-dates-modal", { key: 'a8601ac99e61c734fff0056f8ba4f3e3241e50c5', label: this.datesLabels.calendar, ref: (el) => (this.modalRef = el), onOpened: () => {
+        return (h(Host, { key: 'd319da990a03fea708c0ab347aec215baae3cdf9' }, h("label", { key: '5a050660fa3a264b67c1744d802759c90b973337', htmlFor: this.id ? `${this.id}-input` : undefined, class: this.getClassName("label") }, this.label), h("br", { key: 'ecd9e1bffa8a30f7f4eabbc8a7e51a6ee9fc22ca' }), h("div", { key: '6507ab0f2980e66e72e78b90c00ff43c3ad771ef', class: this.getClassName("input-container") }, h("input", { key: 'f849383904aa92c34008c0c702b8eec19276cc81', disabled: this.disabledState, id: this.id ? `${this.id}-input` : undefined, type: "text", placeholder: this.placeholder, class: this.getClassName("input"), ref: (r) => (this.inputRef = r), onChange: this.handleChange, onFocus: () => this.formatInput(false), onBlur: () => this.formatInput(true, false), "aria-describedby": this.errorState ? `${this.id}-error` : undefined, "aria-invalid": this.errorState }), !this.inline && (h("button", { key: '610862237f6f6bbd6690952b050ef684ed00da94', type: "button", ref: (r) => (this.calendarButtonRef = r), onClick: this.handleCalendarButtonClick, class: this.getClassName("calendar-button"), disabled: this.disabledState }, this.calendarButtonContent ? (h("span", { innerHTML: this.calendarButtonContent })) : (this.datesLabels.openCalendar)))), h("tabworthy-dates-modal", { key: 'b3f242501f41e78aa6772d451c4ffd8123cf4228', label: this.datesLabels.calendar, ref: (el) => (this.modalRef = el), onOpened: () => {
                 if (!this.pickerRef)
                     return;
                 this.pickerRef.modalIsOpen = true;
@@ -413,11 +423,11 @@ export class TabworthyDates {
                 if (!this.pickerRef)
                     return;
                 this.pickerRef.modalIsOpen = false;
-            }, inline: this.inline }, h("tabworthy-dates-calendar", { key: 'a583448ca60f4ea1bb48ff5d33ba561ca627617c', range: this.range, locale: this.locale, onSelectDate: (event) => this.handlePickerSelection(event.detail), onChangeMonth: (event) => this.handleChangedMonths(event.detail), onChangeYear: (event) => this.handleYearChange(event.detail), labels: this.datesCalendarLabels ? this.datesCalendarLabels : undefined, ref: (el) => (this.pickerRef = el), startDate: this.startDate, firstDayOfWeek: this.firstDayOfWeek, showHiddenTitle: true, disabled: this.disabledState, showMonthStepper: this.showMonthStepper, showYearStepper: this.showYearStepper, showClearButton: this.showClearButton, showKeyboardHint: this.showKeyboardHint, showTodayButton: this.showTodayButton, disableDate: this.disableDate, minDate: this.minDate, maxDate: this.maxDate, inline: this.inline })), this.showQuickButtons &&
+            }, inline: this.inline }, h("tabworthy-dates-calendar", { key: '3ea03076e55d69fae6f9a02f0b32b21322afcd78', range: this.range, locale: this.locale, onSelectDate: (event) => this.handlePickerSelection(event.detail), onChangeMonth: (event) => this.handleChangedMonths(event.detail), onChangeYear: (event) => this.handleYearChange(event.detail), labels: this.datesCalendarLabels ? this.datesCalendarLabels : undefined, ref: (el) => (this.pickerRef = el), startDate: this.startDate, firstDayOfWeek: this.firstDayOfWeek, showHiddenTitle: true, disabled: this.disabledState, showMonthStepper: this.showMonthStepper, showYearStepper: this.showYearStepper, showClearButton: this.showClearButton, showKeyboardHint: this.showKeyboardHint, showTodayButton: this.showTodayButton, disableDate: this.disableDate, minDate: this.minDate, maxDate: this.maxDate, inline: this.inline })), this.showQuickButtons &&
             ((_a = this.quickButtons) === null || _a === void 0 ? void 0 : _a.length) > 0 &&
-            this.chronoSupportedLocale && (h("div", { key: 'f9fe7671e933099a0d95b7099ee2d18ab7eb30c5', class: this.getClassName("quick-group"), role: "group", "aria-label": "Quick selection" }, this.quickButtons.map((buttonText) => {
+            this.chronoSupportedLocale && (h("div", { key: '0e0e718a43bbe2f2af69af45af01f8f75f4fe362', class: this.getClassName("quick-group"), role: "group", "aria-label": "Quick selection" }, this.quickButtons.map((buttonText) => {
             return (h("button", { class: this.getClassName("quick-button"), onClick: this.handleQuickButtonClick, disabled: this.disabledState, type: "button" }, buttonText));
-        }))), this.errorState && (h("div", { key: '632b1d3e67b6ab9b0370092b5c8222fe3bdb4d11', class: this.getClassName("input-error"), id: this.id ? `${this.id}-error` : undefined, role: "status" }, this.errorMessage))));
+        }))), this.errorState && (h("div", { key: 'b51d6a07a017bdb7af09098e848c7184944a4631', class: this.getClassName("input-error"), id: this.id ? `${this.id}-error` : undefined, role: "status" }, this.errorMessage))));
     }
     static get is() { return "tabworthy-dates"; }
     static get encapsulation() { return "scoped"; }

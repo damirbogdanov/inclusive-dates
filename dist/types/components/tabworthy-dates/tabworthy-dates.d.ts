@@ -68,6 +68,8 @@ export declare class TabworthyDates {
     private handleQuickButtonClick;
     private handleChangedMonths;
     private handleYearChange;
+    private handleRangeChange;
+    private handleSingleDateChange;
     private handleChange;
     private formatInput;
     private handlePickerSelection;
