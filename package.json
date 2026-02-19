@@ -71,6 +71,7 @@
   "dependencies": {
     "@a11y/focus-trap": "^1.0.5",
     "@react-aria/live-announcer": "^3.1.2",
+    "@stencil/core": "^4",
     "aria-hidden": "^1.2.2",
     "chrono-node": "^2.5.0",
     "moment": "^2.30.1"
@@ -78,7 +79,6 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.2",
     "@changesets/cli": "^2.29.8",
-    "@stencil/core": "^4",
     "@stencil/postcss": "^2.1.0",
     "@stencil/sass": "^3.0.0",
     "@storybook/addon-a11y": "10.2.8",
