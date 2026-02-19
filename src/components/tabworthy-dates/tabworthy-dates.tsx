@@ -455,12 +455,7 @@ export class TabworthyDates {
           year: "numeric"
         }).format(dateToFormat);
       }
-    } else if (
-      this.internalValue &&
-      this.internalValue.length > 0 &&
-      this.errorState === false
-    )
-      this.inputRef.value = this.internalValue.toString();
+    }
   }
 
   private handlePickerSelection(newValue: string | string[]) {
