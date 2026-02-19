@@ -6,6 +6,11 @@ import { Components } from "../../components";
 const meta: Meta<Components.TabworthyDates> = {
   title: "Components/TabworthyDates",
   tags: ["autodocs"],
+  argTypes: {
+    selectDate: { action: "selectDate" },
+    changeYear: { action: "changeYear" },
+    componentReady: { action: "componentReady" }
+  },
   render: (args) => html`
     <tabworthy-dates
       id=${args.id}
@@ -32,6 +37,11 @@ const meta: Meta<Components.TabworthyDates> = {
       input-should-format=${args.inputShouldFormat}
       calendar-button-content=${ifDefined(args.calendarButtonContent)}
       ?disable-freeform-input=${args.disableFreeformInput}
+      @selectDate=${(e: CustomEvent) => {
+        args.selectDate?.(e.detail);
+      }}
+      @changeYear=${(e: CustomEvent) => args.changeYear?.(e.detail)}
+      @componentReady=${(e: CustomEvent) => args.componentReady?.(e.detail)}
     ></tabworthy-dates>
   `
 };

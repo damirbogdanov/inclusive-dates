@@ -17,6 +17,9 @@ const defaultLabels = {
 const meta: Meta<Components.TabworthyTimesPicker> = {
   title: "Components/TabworthyTimesPicker",
   tags: ["autodocs"],
+  argTypes: {
+    timeChanged: { action: "timeChanged" }
+  },
   render: (args) => html`
     <tabworthy-times-picker
       .hours=${args.hours}
@@ -26,6 +29,7 @@ const meta: Meta<Components.TabworthyTimesPicker> = {
       .labelsSrOnly=${args.labelsSrOnly}
       .disabled=${args.disabled}
       .elementClassName=${args.elementClassName}
+      @timeChanged=${(e: CustomEvent) => args.timeChanged?.(e.detail)}
     ></tabworthy-times-picker>
   `
 };

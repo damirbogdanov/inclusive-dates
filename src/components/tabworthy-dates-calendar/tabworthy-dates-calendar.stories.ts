@@ -7,6 +7,11 @@ import { getISODateString } from "@shared/utils/utils";
 const meta: Meta<Components.TabworthyDatesCalendar> = {
   title: "Components/TabworthyDatesCalendar",
   tags: ["autodocs"],
+  argTypes: {
+    selectDate: { action: "selectDate" },
+    changeMonth: { action: "changeMonth" },
+    changeYear: { action: "changeYear" }
+  },
   render: (args) => html`
     <tabworthy-dates-calendar
       .value=${ifDefined(args.value)}
@@ -25,6 +30,9 @@ const meta: Meta<Components.TabworthyDatesCalendar> = {
       ?disabled=${args.disabled}
       .disableDate=${args.disableDate}
       ?inline=${args.inline}
+      @selectDate=${(e: CustomEvent) => args.selectDate?.(e.detail)}
+      @changeMonth=${(e: CustomEvent) => args.changeMonth?.(e.detail)}
+      @changeYear=${(e: CustomEvent) => args.changeYear?.(e.detail)}
     ></tabworthy-dates-calendar>
   `
 };
