@@ -80,10 +80,7 @@ export class InclusiveDatesModal {
 
   render() {
     return (
-      <Host
-        showing={this.showing}
-        ref={(r) => r && (this.el = r)}
-      >
+      <Host showing={this.showing} ref={(r) => r && (this.el = r)}>
         {!this.inline && this.showing && (
           <div
             part="body"

@@ -11,6 +11,7 @@ yarn storybook
 ```
 
 This will:
+
 1. Build the Stencil components
 2. Start the Storybook dev server on http://localhost:6006
 
@@ -48,19 +49,19 @@ Stories are located alongside components in `src/components/*/` with `.stories.t
 Example:
 
 ```typescript
-import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit-html';
+import type { Meta, StoryObj } from "@storybook/web-components-vite";
+import { html } from "lit-html";
 
 const meta: Meta = {
-  title: 'Components/MyComponent',
-  render: (args) => html`<my-component .prop=${args.prop}></my-component>`,
+  title: "Components/MyComponent",
+  render: (args) => html`<my-component .prop=${args.prop}></my-component>`
 };
 
 export default meta;
 export const Default: StoryObj = {
   args: {
-    prop: 'value',
-  },
+    prop: "value"
+  }
 };
 ```
 

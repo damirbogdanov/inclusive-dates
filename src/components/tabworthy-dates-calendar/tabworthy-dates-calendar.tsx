@@ -229,11 +229,12 @@ export class InclusiveDatesCalendar {
   }
 
   private focusDate(date?: Date) {
-    date && this.el
-      .querySelector<HTMLTableCellElement>(
-        `[data-date="${getISODateString(date)}"]`
-      )
-      ?.focus();
+    date &&
+      this.el
+        .querySelector<HTMLTableCellElement>(
+          `[data-date="${getISODateString(date)}"]`
+        )
+        ?.focus();
   }
 
   private updateCurrentDate(date: Date, moveFocus?: boolean) {
@@ -298,7 +299,6 @@ export class InclusiveDatesCalendar {
       this.selectDate?.emit(getISODateString(date));
     }
   }
-
 
   private isRangeValue(_value?: Date | Date[] | null): _value is Date[] {
     return !!this.range;
@@ -438,27 +438,36 @@ export class InclusiveDatesCalendar {
 
     const disabled = {
       year: {
-        prev:  this.disabled || (!!this.minDate && new Date(this.minDate).getFullYear() > getPreviousYear(this.currentDate).getFullYear()),
-        next: this.disabled || (!!this.maxDate && new Date(this.maxDate).getFullYear() < getNextYear(this.currentDate).getFullYear())
+        prev:
+          this.disabled ||
+          (!!this.minDate &&
+            new Date(this.minDate).getFullYear() >
+              getPreviousYear(this.currentDate).getFullYear()),
+        next:
+          this.disabled ||
+          (!!this.maxDate &&
+            new Date(this.maxDate).getFullYear() <
+              getNextYear(this.currentDate).getFullYear())
       },
       month: {
-        prev: this.disabled ||
-              monthIsDisabled(
-                getPreviousMonth(this.currentDate).getMonth(),
-                getPreviousMonth(this.currentDate).getFullYear(),
-                this.minDate,
-                this.maxDate
-              ),
-        next: this.disabled ||
-              monthIsDisabled(
-                getNextMonth(this.currentDate).getMonth(),
-                getNextMonth(this.currentDate).getFullYear(),
-                this.minDate,
-                this.maxDate
-              )
+        prev:
+          this.disabled ||
+          monthIsDisabled(
+            getPreviousMonth(this.currentDate).getMonth(),
+            getPreviousMonth(this.currentDate).getFullYear(),
+            this.minDate,
+            this.maxDate
+          ),
+        next:
+          this.disabled ||
+          monthIsDisabled(
+            getNextMonth(this.currentDate).getMonth(),
+            getNextMonth(this.currentDate).getFullYear(),
+            this.minDate,
+            this.maxDate
+          )
       }
-
-    }
+    };
 
     return (
       <Host>
@@ -466,12 +475,12 @@ export class InclusiveDatesCalendar {
           class={{
             [`${this.getClassName()}-wrapper`]: true,
             [`${this.getClassName()}-wrapper--inline`]: this.inline
-          }}>
+          }}
+        >
           <div
             class={{
               [this.getClassName()]: true,
-              [`${this.getClassName()}--disabled`]: this.disabled,
-
+              [`${this.getClassName()}--disabled`]: this.disabled
             }}
           >
             <div class={this.getClassName("header")}>
@@ -574,9 +583,7 @@ export class InclusiveDatesCalendar {
                 <button
                   aria-label={this.labels.nextMonthButton}
                   class={this.getClassName("next-month-button")}
-                  aria-disabled={
-                    disabled.month.next
-                  }
+                  aria-disabled={disabled.month.next}
                   innerHTML={this.nextMonthButtonContent || undefined}
                   onClick={this.nextMonth}
                   type="button"
@@ -650,7 +657,10 @@ export class InclusiveDatesCalendar {
                     const rowKey = `row-${calendarRow[0].getMonth()}-${calendarRow[0].getDate()}`;
 
                     return (
-                      <tr class={this.getClassName("calendar-row")} key={rowKey}>
+                      <tr
+                        class={this.getClassName("calendar-row")}
+                        key={rowKey}
+                      >
                         {calendarRow.map((day) => {
                           const isCurrent = isSameDay(day, this.currentDate);
 
@@ -669,7 +679,11 @@ export class InclusiveDatesCalendar {
 
                           const isDisabled =
                             this.disableDate(day) ||
-                            !dateIsWithinBounds(day, this.minDate, this.maxDate);
+                            !dateIsWithinBounds(
+                              day,
+                              this.minDate,
+                              this.maxDate
+                            );
 
                           const isInRange = !this.isRangeValue(this.value)
                             ? false
@@ -745,7 +759,8 @@ export class InclusiveDatesCalendar {
                               onMouseLeave={this.onMouseLeave}
                               role="gridcell"
                               tabIndex={
-                                isSameDay(day, this.currentDate) && !this.disabled
+                                isSameDay(day, this.currentDate) &&
+                                !this.disabled
                                   ? 0
                                   : -1
                               }

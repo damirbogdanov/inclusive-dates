@@ -1,22 +1,22 @@
-import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit-html';
-import { Components } from '../../components';
+import type { Meta, StoryObj } from "@storybook/web-components-vite";
+import { html } from "lit-html";
+import { Components } from "../../components";
 
 const defaultLabels = {
-  hours: 'Hours',
-  minutes: 'Minutes',
-  am: 'AM',
-  pm: 'PM',
-  timePicker: 'Time picker',
-  incrementHours: 'Increment hours',
-  decrementHours: 'Decrement hours',
-  incrementMinutes: 'Increment minutes',
-  decrementMinutes: 'Decrement minutes',
+  hours: "Hours",
+  minutes: "Minutes",
+  am: "AM",
+  pm: "PM",
+  timePicker: "Time picker",
+  incrementHours: "Increment hours",
+  decrementHours: "Decrement hours",
+  incrementMinutes: "Increment minutes",
+  decrementMinutes: "Decrement minutes"
 };
 
 const meta: Meta<Components.TabworthyTimesPicker> = {
-  title: 'Components/TabworthyTimesPicker',
-  tags: ['autodocs'],
+  title: "Components/TabworthyTimesPicker",
+  tags: ["autodocs"],
   render: (args) => html`
     <tabworthy-times-picker
       .hours=${args.hours}
@@ -27,7 +27,7 @@ const meta: Meta<Components.TabworthyTimesPicker> = {
       .disabled=${args.disabled}
       .elementClassName=${args.elementClassName}
     ></tabworthy-times-picker>
-  `,
+  `
 };
 
 export default meta;
@@ -41,8 +41,8 @@ export const Default: Story = {
     disabled: false,
     labels: defaultLabels,
     labelsSrOnly: true,
-    elementClassName: 'tabworthy-times-picker',
-  },
+    elementClassName: "tabworthy-times-picker"
+  }
 };
 
 export const TwentyFourHourFormat: Story = {
@@ -50,37 +50,37 @@ export const TwentyFourHourFormat: Story = {
     ...Default.args,
     use12HourFormat: false,
     hours: 14,
-    minutes: 30,
-  },
+    minutes: 30
+  }
 };
 
 export const Morning: Story = {
   args: {
     ...Default.args,
     hours: 9,
-    minutes: 15,
-  },
+    minutes: 15
+  }
 };
 
 export const Evening: Story = {
   args: {
     ...Default.args,
     hours: 18,
-    minutes: 45,
-  },
+    minutes: 45
+  }
 };
 
 export const Midnight: Story = {
   args: {
     ...Default.args,
     hours: 0,
-    minutes: 0,
-  },
+    minutes: 0
+  }
 };
 
 export const Disabled: Story = {
   args: {
     ...Default.args,
-    disabled: true,
-  },
+    disabled: true
+  }
 };

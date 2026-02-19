@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/web-components-vite';
-import { html } from 'lit-html';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { Components } from '../../components';
-import { getISODateString } from '@shared/utils/utils';
+import type { Meta, StoryObj } from "@storybook/web-components-vite";
+import { html } from "lit-html";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { Components } from "../../components";
+import { getISODateString } from "@shared/utils/utils";
 
 const meta: Meta<Components.TabworthyDatesCalendar> = {
-  title: 'Components/TabworthyDatesCalendar',
-  tags: ['autodocs'],
+  title: "Components/TabworthyDatesCalendar",
+  tags: ["autodocs"],
   render: (args) => html`
     <tabworthy-dates-calendar
       .value=${ifDefined(args.value)}
@@ -26,7 +26,7 @@ const meta: Meta<Components.TabworthyDatesCalendar> = {
       .disableDate=${args.disableDate}
       ?inline=${args.inline}
     ></tabworthy-dates-calendar>
-  `,
+  `
 };
 
 export default meta;
@@ -34,65 +34,65 @@ type Story = StoryObj<Components.TabworthyDatesCalendar>;
 
 export const Default: Story = {
   args: {
-    startDate: '2026-02-12',
+    startDate: "2026-02-12",
     firstDayOfWeek: 1,
     showMonthStepper: true,
     showYearStepper: false,
     showClearButton: true,
     showTodayButton: true,
     showHiddenTitle: true,
-    locale: 'en-US',
-  },
+    locale: "en-US"
+  }
 };
 
 export const RangeMode: Story = {
   args: {
     ...Default.args,
-    range: true,
-  },
+    range: true
+  }
 };
 
 export const WithSelectedDate: Story = {
   args: {
     ...Default.args,
-    value: new Date('2026-02-15'),
-  },
+    value: new Date("2026-02-15")
+  }
 };
 
 export const WithSelectedRange: Story = {
   args: {
     ...Default.args,
     range: true,
-    value: [new Date('2026-02-10'), new Date('2026-02-15')],
-  },
+    value: [new Date("2026-02-10"), new Date("2026-02-15")]
+  }
 };
 
 export const WithConstraints: Story = {
   args: {
     ...Default.args,
-    minDate: '2026-02-05',
-    maxDate: '2026-02-25',
-  },
+    minDate: "2026-02-05",
+    maxDate: "2026-02-25"
+  }
 };
 
 export const WithDisabledDates: Story = {
   args: {
     ...Default.args,
-    disableDate: (date: Date) => getISODateString(date).endsWith('-13'),
-  },
+    disableDate: (date: Date) => getISODateString(date).endsWith("-13")
+  }
 };
 
 export const Inline: Story = {
   args: {
     ...Default.args,
     inline: true,
-    showKeyboardHint: true,
-  },
+    showKeyboardHint: true
+  }
 };
 
 export const Disabled: Story = {
   args: {
     ...Default.args,
-    disabled: true,
-  },
+    disabled: true
+  }
 };

@@ -63,7 +63,9 @@ export function getFirstOfMonth(date: Date): Date {
   return firstOfMonth;
 }
 
-function getISODateStringHistoricalImplementation(date: Date): string | undefined {
+function getISODateStringHistoricalImplementation(
+  date: Date
+): string | undefined {
   if (!(date instanceof Date)) {
     return;
   }

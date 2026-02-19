@@ -8,22 +8,18 @@ export const config: Config = {
   tsconfig: "tsconfig.stencil.json",
   testing: {
     browserHeadless: "shell",
-    testPathIgnorePatterns: [
-      '/node_modules/',
-      '/dist/',
-      '/www/',
-    ],
-    coverageDirectory: 'coverage',
-    coverageReporters: ['text', 'html', 'lcov', 'json'],
+    testPathIgnorePatterns: ["/node_modules/", "/dist/", "/www/"],
+    coverageDirectory: "coverage",
+    coverageReporters: ["text", "html", "lcov", "json"],
     collectCoverageFrom: [
-      'src/components/**/*.{ts,tsx}',
-      'shared/**/*.{ts,tsx}',
-      '!{src,shared}/**/*.stories.ts',
-      '!{src,shared}/**/*.spec.tsx',
-      '!{src,shared}/**/*.e2e.ts',
-      '!{src,shared}/**/*.d.ts',
-      '!{src,shared}/index.ts',
-    ],
+      "src/components/**/*.{ts,tsx}",
+      "shared/**/*.{ts,tsx}",
+      "!{src,shared}/**/*.stories.ts",
+      "!{src,shared}/**/*.spec.tsx",
+      "!{src,shared}/**/*.e2e.ts",
+      "!{src,shared}/**/*.d.ts",
+      "!{src,shared}/index.ts"
+    ]
   },
   outputTargets: [
     {
@@ -51,7 +47,7 @@ export const config: Config = {
       type: "www",
       serviceWorker: null
     },
-    { type: "docs-readme" },
+    { type: "docs-readme" }
   ],
   plugins: [
     postcss({

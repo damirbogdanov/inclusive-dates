@@ -1,12 +1,12 @@
-import type { Meta } from '@storybook/web-components-vite';
+import type { Meta } from "@storybook/web-components-vite";
 
 const meta: Meta = {
-  title: 'Getting Started/Introduction',
+  title: "Getting Started/Introduction",
   parameters: {
     docs: {
-      page: () => import('./Introduction.mdx'),
-    },
-  },
+      page: () => import("./Introduction.mdx")
+    }
+  }
 };
 
 export default meta;

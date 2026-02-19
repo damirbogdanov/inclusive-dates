@@ -169,7 +169,8 @@ export class InclusiveTimesPicker {
         this.internalHours = newDisplayHours === 12 ? 12 : newDisplayHours + 12;
       }
     } else {
-      this.internalHours = this.internalHours === 0 ? 23 : this.internalHours - 1;
+      this.internalHours =
+        this.internalHours === 0 ? 23 : this.internalHours - 1;
     }
     this.emitTimeChange();
   };
@@ -180,7 +181,8 @@ export class InclusiveTimesPicker {
   };
 
   private handleMinuteDecrement = () => {
-    this.internalMinutes = this.internalMinutes === 0 ? 59 : this.internalMinutes - 1;
+    this.internalMinutes =
+      this.internalMinutes === 0 ? 59 : this.internalMinutes - 1;
     this.emitTimeChange();
   };
 
@@ -202,10 +204,7 @@ export class InclusiveTimesPicker {
     const minHours = this.use12HourFormat ? 1 : 0;
 
     return (
-      <Host
-        class={this.elementClassName}
-        aria-label={this.labels.timePicker}
-      >
+      <Host class={this.elementClassName} aria-label={this.labels.timePicker}>
         <div class={`${this.elementClassName}__container`}>
           {/* Hours */}
           <div class={`${this.elementClassName}__field`}>
@@ -348,7 +347,8 @@ export class InclusiveTimesPicker {
                 type="button"
                 class={{
                   [`${this.elementClassName}__period-button`]: true,
-                  [`${this.elementClassName}__period-button--active`]: this.period === "AM"
+                  [`${this.elementClassName}__period-button--active`]:
+                    this.period === "AM"
                 }}
                 onClick={() => this.handlePeriodChange("AM")}
                 disabled={this.disabled}
@@ -361,7 +361,8 @@ export class InclusiveTimesPicker {
                 type="button"
                 class={{
                   [`${this.elementClassName}__period-button`]: true,
-                  [`${this.elementClassName}__period-button--active`]: this.period === "PM"
+                  [`${this.elementClassName}__period-button--active`]:
+                    this.period === "PM"
                 }}
                 onClick={() => this.handlePeriodChange("PM")}
                 disabled={this.disabled}

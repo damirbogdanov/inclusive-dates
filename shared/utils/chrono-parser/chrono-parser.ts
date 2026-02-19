@@ -63,7 +63,9 @@ export const chronoParseDate = async (
 
   let parsedDate;
   if (useStrict)
-    parsedDate = await chrono[locale as supportedChronoLocales].strict.parseDate(
+    parsedDate = await chrono[
+      locale as supportedChronoLocales
+    ].strict.parseDate(
       dateString,
       {
         instant: referenceDate,
@@ -196,7 +198,9 @@ export const chronoParseRange = async (
   )
     endDate = parsedRange[0].end.date();
 
-  const returnValue: Partial<ChronoParsedRange> = { value: { start: null, end: null } };
+  const returnValue: Partial<ChronoParsedRange> = {
+    value: { start: null, end: null }
+  };
 
   // TODO: fix this
   // @ts-ignore

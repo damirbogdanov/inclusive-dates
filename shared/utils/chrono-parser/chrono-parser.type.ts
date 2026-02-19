@@ -4,10 +4,13 @@ import { ParsingComponents, ParsingResult } from "chrono-node/dist/results";
 
 export type supportedChronoLocales = "en" | "ja" | "fr" | "nl" | "ru" | "pt";
 
-export type ChronoParsedDate = {
-  value?: Date | null;
-  reason?: "invalid" | "minDate" | "maxDate";
-} | null | undefined;
+export type ChronoParsedDate =
+  | {
+      value?: Date | null;
+      reason?: "invalid" | "minDate" | "maxDate";
+    }
+  | null
+  | undefined;
 
 export type ChronoParsedRange = {
   value?: { start: Date | null; end: Date | undefined | null } | null;

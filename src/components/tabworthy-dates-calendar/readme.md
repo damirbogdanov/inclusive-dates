@@ -1,9 +1,6 @@
 # tabworthy-dates-calendar
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -35,7 +32,6 @@
 | `todayButtonContent`         | `today-button-content`          |             | `string`                                                                                                                                                                                                                                                                                                       | `undefined`                        |
 | `value`                      | --                              |             | `Date \| Date[]`                                                                                                                                                                                                                                                                                               | `undefined`                        |
 
-
 ## Events
 
 | Event         | Description | Type                                    |
@@ -44,15 +40,15 @@
 | `changeYear`  |             | `CustomEvent<YearChangedEventDetails>`  |
 | `selectDate`  |             | `CustomEvent<string \| string[]>`       |
 
-
 ## Dependencies
 
 ### Used by
 
- - [tabworthy-dates](../tabworthy-dates)
- - [tabworthy-times](../tabworthy-times)
+- [tabworthy-dates](../tabworthy-dates)
+- [tabworthy-times](../tabworthy-times)
 
 ### Graph
+
 ```mermaid
 graph TD;
   tabworthy-dates --> tabworthy-dates-calendar
@@ -60,6 +56,6 @@ graph TD;
   style tabworthy-dates-calendar fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

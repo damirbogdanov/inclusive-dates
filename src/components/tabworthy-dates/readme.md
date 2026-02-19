@@ -1,9 +1,6 @@
 # tabworthy-dates
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -42,7 +39,6 @@
 | `useStrictDateParsing`   | `use-strict-date-parsing`   |             | `boolean`                                                                                                                                                                                                                                                                                                      | `false`                                                                                                           |
 | `value`                  | `value`                     |             | `string \| string[]`                                                                                                                                                                                                                                                                                           | `undefined`                                                                                                       |
 
-
 ## Events
 
 | Event            | Description | Type                                   |
@@ -51,12 +47,9 @@
 | `componentReady` |             | `CustomEvent<void>`                    |
 | `selectDate`     |             | `CustomEvent<string \| string[]>`      |
 
-
 ## Methods
 
 ### `parseDate(text: string, shouldSetValue?: boolean, chronoOptions?: ChronoOptions | undefined) => Promise<ChronoParsedDateString>`
-
-
 
 #### Parameters
 
@@ -70,9 +63,6 @@
 
 Type: `Promise<ChronoParsedDateString>`
 
-
-
-
 ## Dependencies
 
 ### Depends on
@@ -81,6 +71,7 @@ Type: `Promise<ChronoParsedDateString>`
 - [tabworthy-dates-calendar](../tabworthy-dates-calendar)
 
 ### Graph
+
 ```mermaid
 graph TD;
   tabworthy-dates --> tabworthy-dates-modal
@@ -88,6 +79,6 @@ graph TD;
   style tabworthy-dates fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_

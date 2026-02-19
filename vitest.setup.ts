@@ -1,4 +1,4 @@
-import { beforeAll } from 'vitest';
+import { beforeAll } from "vitest";
 
 // Define custom elements for testing
 beforeAll(() => {
