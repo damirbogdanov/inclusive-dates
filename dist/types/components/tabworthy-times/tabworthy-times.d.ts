@@ -31,7 +31,7 @@ export declare class InclusiveTimes {
     elementClassName?: string;
     firstDayOfWeek?: number;
     format: string;
-    inputShouldFormat: boolean;
+    inputShouldFormat?: boolean | string;
     internalValue?: string | string[] | null;
     selectedDate?: Date;
     selectedHours: number;
@@ -46,6 +46,7 @@ export declare class InclusiveTimes {
     private calendarButtonRef?;
     private pickerRef?;
     private errorMessage;
+    private shouldInputFormat;
     watchValue(_newValue: string | string[] | undefined): void;
     watchDisabled(newValue: boolean): void;
     watchHasError(newValue: boolean): void;

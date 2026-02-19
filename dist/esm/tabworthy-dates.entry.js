@@ -10521,7 +10521,7 @@ const TabworthyDates = class {
         // Show or hide the today button
         this.showTodayButton = true;
         // Enable or disable input field formatting for accepted dates (eg. "Tuesday May 2, 2021" instead of "2021-05-02")
-        this.formatInputOnAccept = true;
+        this.inputShouldFormat = true;
         // Show or hide the keyboard hints
         this.showKeyboardHint = false;
         // Function to disable individual dates
@@ -10693,6 +10693,12 @@ const TabworthyDates = class {
             }
         };
     }
+    shouldInputFormat() {
+        if (typeof this.inputShouldFormat === "string") {
+            return this.inputShouldFormat === "true";
+        }
+        return !!this.inputShouldFormat;
+    }
     componentDidLoad() {
         this.syncFromValueProp();
         this.componentReady.emit();
@@ -10743,7 +10749,7 @@ const TabworthyDates = class {
         this.announceDateChange(this.internalValue);
     }
     formatInput(enabled, useInputValue = true) {
-        if (this.formatInputOnAccept === false || enabled === false) {
+        if (this.shouldInputFormat() === false || enabled === false) {
             if (this.internalValue) {
                 if (this.internalValue.length === 0)
                     return;
@@ -10754,7 +10760,7 @@ const TabworthyDates = class {
             return;
         }
         if (this.internalValue &&
-            this.formatInputOnAccept === true &&
+            this.shouldInputFormat() === true &&
             this.errorState === false) {
             if (Array.isArray(this.internalValue)) {
                 if (this.internalValue.length === 0)
@@ -10879,12 +10885,12 @@ const TabworthyDates = class {
         }
         // update text input (useInputValue=false so it formats from internalValue, not from input's current text)
         if (this.inputRef) {
-            this.formatInput(!!this.formatInputOnAccept, false);
+            this.formatInput(!!this.shouldInputFormat(), false);
         }
     }
     render() {
         var _a;
-        return (h(Host, { key: 'd319da990a03fea708c0ab347aec215baae3cdf9' }, h("label", { key: '5a050660fa3a264b67c1744d802759c90b973337', htmlFor: this.id ? `${this.id}-input` : undefined, class: this.getClassName("label") }, this.label), h("br", { key: 'ecd9e1bffa8a30f7f4eabbc8a7e51a6ee9fc22ca' }), h("div", { key: '6507ab0f2980e66e72e78b90c00ff43c3ad771ef', class: this.getClassName("input-container") }, h("input", { key: 'f849383904aa92c34008c0c702b8eec19276cc81', disabled: this.disabledState, id: this.id ? `${this.id}-input` : undefined, type: "text", placeholder: this.placeholder, class: this.getClassName("input"), ref: (r) => (this.inputRef = r), onChange: this.handleChange, onFocus: () => this.formatInput(false), onBlur: () => this.formatInput(true, false), "aria-describedby": this.errorState ? `${this.id}-error` : undefined, "aria-invalid": this.errorState }), !this.inline && (h("button", { key: '610862237f6f6bbd6690952b050ef684ed00da94', type: "button", ref: (r) => (this.calendarButtonRef = r), onClick: this.handleCalendarButtonClick, class: this.getClassName("calendar-button"), disabled: this.disabledState }, this.calendarButtonContent ? (h("span", { innerHTML: this.calendarButtonContent })) : (this.datesLabels.openCalendar)))), h("tabworthy-dates-modal", { key: 'b3f242501f41e78aa6772d451c4ffd8123cf4228', label: this.datesLabels.calendar, ref: (el) => (this.modalRef = el), onOpened: () => {
+        return (h(Host, { key: 'af18409cc70d00e832941ec2cb0ba6e8de54b4bc' }, h("label", { key: '776ac232cd674198f307511edacfc25ee7ea073b', htmlFor: this.id ? `${this.id}-input` : undefined, class: this.getClassName("label") }, this.label), h("br", { key: '012a806feffe904a5e492c79822575b10e02c47c' }), h("div", { key: '194798eb7f62c065f757dfdb4a4f4087a6321d33', class: this.getClassName("input-container") }, h("input", { key: '89fb2f8b6e669c126ca1b905f054af360880010f', disabled: this.disabledState, id: this.id ? `${this.id}-input` : undefined, type: "text", placeholder: this.placeholder, class: this.getClassName("input"), ref: (r) => (this.inputRef = r), onChange: this.handleChange, onFocus: () => this.formatInput(false), onBlur: () => this.formatInput(true, false), "aria-describedby": this.errorState ? `${this.id}-error` : undefined, "aria-invalid": this.errorState }), !this.inline && (h("button", { key: 'fd20cc4fa19942211058ec32df5c40ab1076f3e4', type: "button", ref: (r) => (this.calendarButtonRef = r), onClick: this.handleCalendarButtonClick, class: this.getClassName("calendar-button"), disabled: this.disabledState }, this.calendarButtonContent ? (h("span", { innerHTML: this.calendarButtonContent })) : (this.datesLabels.openCalendar)))), h("tabworthy-dates-modal", { key: 'ed649175c4b0b9f2fd84fc9ca90657a8fa202dd8', label: this.datesLabels.calendar, ref: (el) => (this.modalRef = el), onOpened: () => {
                 if (!this.pickerRef)
                     return;
                 this.pickerRef.modalIsOpen = true;
@@ -10892,11 +10898,11 @@ const TabworthyDates = class {
                 if (!this.pickerRef)
                     return;
                 this.pickerRef.modalIsOpen = false;
-            }, inline: this.inline }, h("tabworthy-dates-calendar", { key: '3ea03076e55d69fae6f9a02f0b32b21322afcd78', range: this.range, locale: this.locale, onSelectDate: (event) => this.handlePickerSelection(event.detail), onChangeMonth: (event) => this.handleChangedMonths(event.detail), onChangeYear: (event) => this.handleYearChange(event.detail), labels: this.datesCalendarLabels ? this.datesCalendarLabels : undefined, ref: (el) => (this.pickerRef = el), startDate: this.startDate, firstDayOfWeek: this.firstDayOfWeek, showHiddenTitle: true, disabled: this.disabledState, showMonthStepper: this.showMonthStepper, showYearStepper: this.showYearStepper, showClearButton: this.showClearButton, showKeyboardHint: this.showKeyboardHint, showTodayButton: this.showTodayButton, disableDate: this.disableDate, minDate: this.minDate, maxDate: this.maxDate, inline: this.inline })), this.showQuickButtons &&
+            }, inline: this.inline }, h("tabworthy-dates-calendar", { key: '7f77e44188b8521ad0f8c7a5c4cd91ac8f72d58c', range: this.range, locale: this.locale, onSelectDate: (event) => this.handlePickerSelection(event.detail), onChangeMonth: (event) => this.handleChangedMonths(event.detail), onChangeYear: (event) => this.handleYearChange(event.detail), labels: this.datesCalendarLabels ? this.datesCalendarLabels : undefined, ref: (el) => (this.pickerRef = el), startDate: this.startDate, firstDayOfWeek: this.firstDayOfWeek, showHiddenTitle: true, disabled: this.disabledState, showMonthStepper: this.showMonthStepper, showYearStepper: this.showYearStepper, showClearButton: this.showClearButton, showKeyboardHint: this.showKeyboardHint, showTodayButton: this.showTodayButton, disableDate: this.disableDate, minDate: this.minDate, maxDate: this.maxDate, inline: this.inline })), this.showQuickButtons &&
             ((_a = this.quickButtons) === null || _a === void 0 ? void 0 : _a.length) > 0 &&
-            this.chronoSupportedLocale && (h("div", { key: '0e0e718a43bbe2f2af69af45af01f8f75f4fe362', class: this.getClassName("quick-group"), role: "group", "aria-label": "Quick selection" }, this.quickButtons.map((buttonText) => {
+            this.chronoSupportedLocale && (h("div", { key: '9ac2426141cfcebc38db079a90b99fe46cb76267', class: this.getClassName("quick-group"), role: "group", "aria-label": "Quick selection" }, this.quickButtons.map((buttonText) => {
             return (h("button", { class: this.getClassName("quick-button"), onClick: this.handleQuickButtonClick, disabled: this.disabledState, type: "button" }, buttonText));
-        }))), this.errorState && (h("div", { key: 'b51d6a07a017bdb7af09098e848c7184944a4631', class: this.getClassName("input-error"), id: this.id ? `${this.id}-error` : undefined, role: "status" }, this.errorMessage))));
+        }))), this.errorState && (h("div", { key: 'e9043f07596f0dea2092593bb2a3966e33a04a78', class: this.getClassName("input-error"), id: this.id ? `${this.id}-error` : undefined, role: "status" }, this.errorMessage))));
     }
     get el() { return getElement(this); }
     static get watchers() { return {

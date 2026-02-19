@@ -1,9 +1,6 @@
 # tabworthy-dates
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
@@ -17,10 +14,10 @@
 | `elementClassName`       | `element-class-name`        |             | `string`                                                                                                                                                                                                                                                                                                       | `"tabworthy-dates"`                                                                                               |
 | `firstDayOfWeek`         | `first-day-of-week`         |             | `number`                                                                                                                                                                                                                                                                                                       | `1`                                                                                                               |
 | `format`                 | `format`                    |             | `string`                                                                                                                                                                                                                                                                                                       | `"YYYY-MM-DD"`                                                                                                    |
-| `formatInputOnAccept`    | `input-should-format`       |             | `boolean`                                                                                                                                                                                                                                                                                                      | `true`                                                                                                            |
 | `hasError`               | `has-error`                 |             | `boolean`                                                                                                                                                                                                                                                                                                      | `false`                                                                                                           |
 | `id` _(required)_        | `id`                        |             | `string`                                                                                                                                                                                                                                                                                                       | `undefined`                                                                                                       |
 | `inline`                 | `inline`                    |             | `boolean`                                                                                                                                                                                                                                                                                                      | `false`                                                                                                           |
+| `inputShouldFormat`      | `input-should-format`       |             | `boolean \| string`                                                                                                                                                                                                                                                                                            | `true`                                                                                                            |
 | `label`                  | `label`                     |             | `string`                                                                                                                                                                                                                                                                                                       | `this.range     ? "Choose a date range (any way you like)"     : "Choose a date (any way you like)"`              |
 | `locale`                 | `locale`                    |             | `string`                                                                                                                                                                                                                                                                                                       | `navigator?.language \|\| "en-US"`                                                                                |
 | `maxDate`                | `max-date`                  |             | `string`                                                                                                                                                                                                                                                                                                       | `undefined`                                                                                                       |
@@ -42,7 +39,6 @@
 | `useStrictDateParsing`   | `use-strict-date-parsing`   |             | `boolean`                                                                                                                                                                                                                                                                                                      | `false`                                                                                                           |
 | `value`                  | `value`                     |             | `string \| string[]`                                                                                                                                                                                                                                                                                           | `undefined`                                                                                                       |
 
-
 ## Events
 
 | Event            | Description | Type                                   |
@@ -51,12 +47,9 @@
 | `componentReady` |             | `CustomEvent<void>`                    |
 | `selectDate`     |             | `CustomEvent<string \| string[]>`      |
 
-
 ## Methods
 
 ### `parseDate(text: string, shouldSetValue?: boolean, chronoOptions?: ChronoOptions | undefined) => Promise<ChronoParsedDateString>`
-
-
 
 #### Parameters
 
@@ -70,9 +63,6 @@
 
 Type: `Promise<ChronoParsedDateString>`
 
-
-
-
 ## Dependencies
 
 ### Depends on
@@ -81,6 +71,7 @@ Type: `Promise<ChronoParsedDateString>`
 - [tabworthy-dates-calendar](../tabworthy-dates-calendar)
 
 ### Graph
+
 ```mermaid
 graph TD;
   tabworthy-dates --> tabworthy-dates-modal
@@ -88,6 +79,6 @@ graph TD;
   style tabworthy-dates fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
-----------------------------------------------
+---
 
-*Built with [StencilJS](https://stenciljs.com/)*
+_Built with [StencilJS](https://stenciljs.com/)_
