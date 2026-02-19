@@ -116,9 +116,12 @@ export class InclusiveDatesCalendar {
   @State() hoveredDate?: Date;
   @State() weekdays?: string[][];
 
-  @Event() selectDate?: EventEmitter<string | string[] | undefined>;
-  @Event() changeMonth?: EventEmitter<MonthChangedEventDetails>;
-  @Event() changeYear?: EventEmitter<YearChangedEventDetails>;
+  @Event({ bubbles: false }) selectDate?: EventEmitter<
+    string | string[] | undefined
+  >;
+  @Event({ bubbles: false })
+  changeMonth?: EventEmitter<MonthChangedEventDetails>;
+  @Event({ bubbles: false }) changeYear?: EventEmitter<YearChangedEventDetails>;
 
   private moveFocusAfterMonthChanged?: Boolean;
   private moveFocusOnModalOpen?: Boolean;
