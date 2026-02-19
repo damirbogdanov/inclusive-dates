@@ -1,5 +1,11 @@
 # tabworthy-components
 
+## 0.3.3
+
+### Patch Changes
+
+- 'handlePickerSelection' should mutate 'internalValue' correctly based on specified format
+
 ## 0.3.2
 
 ### Patch Changes
