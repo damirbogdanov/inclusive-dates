@@ -324,10 +324,8 @@ describe("tabworthy-times", () => {
   it("should NOT format input on blur if input-should-format is false", async () => {
     const page = await newSpecPage({
       components: [InclusiveTimes],
-      html: `<tabworthy-times id="test-times" value="2026-02-19T15:30:00" format="YYYY-MM-DDTHH:mm:ss"></tabworthy-times>`
+      html: `<tabworthy-times id="test-times" value="2026-02-19T15:30:00" format="YYYY-MM-DDTHH:mm:ss" input-should-format="false"></tabworthy-times>`
     });
-    const instance = page.rootInstance as any;
-    instance.inputShouldFormat = false;
     const input = page.root?.shadowRoot
       ? page.root.shadowRoot.querySelector("input")
       : page.root?.querySelector("input");
