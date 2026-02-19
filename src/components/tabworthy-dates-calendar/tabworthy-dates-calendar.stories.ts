@@ -96,3 +96,12 @@ export const Disabled: Story = {
     disabled: true
   }
 };
+
+export const MaxUI: Story = {
+  args: {
+    ...Default.args,
+    showMonthStepper: true,
+    showYearStepper: true,
+    showClearButton: true
+  }
+};

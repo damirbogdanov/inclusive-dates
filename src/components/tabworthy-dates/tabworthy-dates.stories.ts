@@ -125,6 +125,16 @@ export const MinimalUI: Story = {
   }
 };
 
+export const MaxUI: Story = {
+  args: {
+    ...Default.args,
+    id: "datepicker-max-ui",
+    showMonthStepper: true,
+    showYearStepper: true,
+    showClearButton: true
+  }
+};
+
 export const WithoutInputShouldFormat: Story = {
   args: {
     ...Default.args,
