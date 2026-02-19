@@ -1,5 +1,11 @@
 # tabworthy-components
 
+## 0.7.0
+
+### Minor Changes
+
+- bundled approach to avoid lazy-loading delay
+
 ## 0.6.1
 
 ### Patch Changes
