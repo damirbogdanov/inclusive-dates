@@ -286,103 +286,108 @@ export class TabworthyDates {
   private handleYearChange = (yearDetail: YearChangedEventDetails) => {
     this.changeYear?.emit(yearDetail);
   };
+
+  private handleRangeChange = async (value: string) => {
+    this.errorState = false;
+    if (value.length === 0) {
+      this.internalValue = "";
+      if (this.pickerRef) {
+        this.pickerRef.value = null;
+      }
+
+      return this.selectDate.emit(this.internalValue);
+    }
+    const parsedRange = await chronoParseRange(value, {
+      locale: this.locale.slice(0, 2),
+      minDate: this.minDate,
+      maxDate: this.maxDate,
+      referenceDate: removeTimezoneOffset(new Date(this.referenceDate))
+    });
+    const newValue = [];
+    if (parsedRange?.value && parsedRange.value.start instanceof Date)
+      newValue.push(parsedRange.value.start);
+    if (parsedRange?.value && parsedRange.value.end instanceof Date)
+      newValue.push(parsedRange.value.end);
+    this.updateValue(newValue);
+    this.formatInput(true, false);
+
+    if (newValue.length === 0) {
+      this.errorState = true;
+      if (!!parsedRange?.reason) {
+        this.errorMessage = {
+          invalid: this.datesLabels.invalidDateError,
+          rangeOutOfBounds: this.datesLabels.rangeOutOfBoundsError,
+          minDate: "",
+          maxDate: ""
+        }[parsedRange.reason];
+      }
+    }
+  };
+
+  private handleSingleDateChange = async (value: string) => {
+    this.errorState = false;
+    if (value.length === 0) {
+      this.internalValue = "";
+      if (this.pickerRef) {
+        this.pickerRef.value = null;
+      }
+      return this.selectDate.emit(this.internalValue);
+    }
+    const parsedDate = await chronoParseDate(value, {
+      locale: this.locale.slice(0, 2),
+      minDate: this.minDate,
+      maxDate: this.maxDate,
+      referenceDate: removeTimezoneOffset(new Date(this.referenceDate))
+    });
+    if (parsedDate && parsedDate.value instanceof Date) {
+      if (this.disableDate(parsedDate.value)) {
+        this.errorState = true;
+        this.errorMessage = this.datesLabels.disabledDateError;
+      } else {
+        this.updateValue(parsedDate.value);
+        this.formatInput(true, false);
+      }
+    } else if (parsedDate) {
+      this.errorState = true;
+      this.internalValue = null;
+      let maxDate = undefined;
+      let minDate = undefined;
+      if (this.maxDate) {
+        maxDate = this.maxDate
+          ? removeTimezoneOffset(new Date(this.maxDate))
+          : undefined;
+        maxDate?.setDate(maxDate.getDate() + 1);
+      }
+      if (this.minDate) {
+        minDate = this.minDate
+          ? removeTimezoneOffset(new Date(this.minDate))
+          : undefined;
+        minDate?.setDate(minDate.getDate() - 1);
+      }
+
+      if (!!parsedDate.reason) {
+        this.errorMessage = parsedDate.reason;
+        this.errorMessage = {
+          // TODO: Add locale date formatting to these messages
+          minDate: minDate
+            ? `${this.datesLabels.minDateError} ${getISODateString(minDate)}`
+            : "",
+          maxDate: maxDate
+            ? `${this.datesLabels.maxDateError} ${getISODateString(maxDate)}`
+            : "",
+          invalid: this.datesLabels.invalidDateError
+        }[parsedDate.reason];
+      }
+    }
+  };
+
   private handleChange = async (event: Event) => {
+    const value = (event.target as HTMLInputElement).value;
+
     if (this.range) {
-      this.errorState = false;
-      if ((event.target as HTMLInputElement).value.length === 0) {
-        this.internalValue = "";
-        if (this.pickerRef) {
-          this.pickerRef.value = null;
-        }
-
-        return this.selectDate.emit(this.internalValue);
-      }
-      const parsedRange = await chronoParseRange(
-        (event.target as HTMLInputElement).value,
-        {
-          locale: this.locale.slice(0, 2),
-          minDate: this.minDate,
-          maxDate: this.maxDate,
-          referenceDate: removeTimezoneOffset(new Date(this.referenceDate))
-        }
-      );
-      const newValue = [];
-      if (parsedRange?.value && parsedRange.value.start instanceof Date)
-        newValue.push(parsedRange.value.start);
-      if (parsedRange?.value && parsedRange.value.end instanceof Date)
-        newValue.push(parsedRange.value.end);
-      this.updateValue(newValue);
-      this.formatInput(true, false);
-
-      if (newValue.length === 0) {
-        this.errorState = true;
-        if (!!parsedRange?.reason) {
-          this.errorMessage = {
-            invalid: this.datesLabels.invalidDateError,
-            rangeOutOfBounds: this.datesLabels.rangeOutOfBoundsError,
-            minDate: "",
-            maxDate: ""
-          }[parsedRange.reason];
-        }
-      }
+      await this.handleRangeChange(value);
     } else {
-      this.errorState = false;
-      if ((event.target as HTMLInputElement).value.length === 0) {
-        this.internalValue = "";
-        if (this.pickerRef) {
-          this.pickerRef.value = null;
-        }
-        return this.selectDate.emit(this.internalValue);
-      }
-      const parsedDate = await chronoParseDate(
-        (event.target as HTMLInputElement).value,
-        {
-          locale: this.locale.slice(0, 2),
-          minDate: this.minDate,
-          maxDate: this.maxDate,
-          referenceDate: removeTimezoneOffset(new Date(this.referenceDate))
-        }
-      );
-      if (parsedDate && parsedDate.value instanceof Date) {
-        if (this.disableDate(parsedDate.value)) {
-          this.errorState = true;
-          this.errorMessage = this.datesLabels.disabledDateError;
-        } else {
-          this.updateValue(parsedDate.value);
-          this.formatInput(true, false);
-        }
-      } else if (parsedDate) {
-        this.errorState = true;
-        this.internalValue = null;
-        let maxDate = undefined;
-        let minDate = undefined;
-        if (this.maxDate) {
-          maxDate = this.maxDate
-            ? removeTimezoneOffset(new Date(this.maxDate))
-            : undefined;
-          maxDate?.setDate(maxDate.getDate() + 1);
-        }
-        if (this.minDate) {
-          minDate = this.minDate
-            ? removeTimezoneOffset(new Date(this.minDate))
-            : undefined;
-          minDate?.setDate(minDate.getDate() - 1);
-        }
-
-        if (!!parsedDate.reason) {
-          this.errorMessage = parsedDate.reason;
-          this.errorMessage = {
-            // TODO: Add locale date formatting to these messages
-            minDate: minDate
-              ? `${this.datesLabels.minDateError} ${getISODateString(minDate)}`
-              : "",
-            maxDate: maxDate
-              ? `${this.datesLabels.maxDateError} ${getISODateString(maxDate)}`
-              : "",
-            invalid: this.datesLabels.invalidDateError
-          }[parsedDate.reason];
-        }
-      }
+      await this.handleSingleDateChange(value);
     }
   };
 
@@ -453,7 +458,10 @@ export class TabworthyDates {
   private handlePickerSelection(newValue: string | string[]) {
     if (this.isRangeValue(newValue)) {
       if (newValue.length === 2) this.modalRef?.close();
-      this.internalValue = newValue;
+      // Convert ISO dates to specified format
+      this.internalValue = newValue.map((date) =>
+        moment(date).format(this.format)
+      );
       this.errorState = false;
       if (document.activeElement !== this.inputRef) {
         this.formatInput(true, false);
@@ -461,8 +469,10 @@ export class TabworthyDates {
       this.announceDateChange(this.internalValue);
     } else {
       this.modalRef?.close();
-      this.inputRef.value = newValue as string;
-      this.internalValue = newValue as string;
+      // Convert ISO date to specified format
+      const formattedDate = moment(newValue as string).format(this.format);
+      this.inputRef.value = formattedDate;
+      this.internalValue = formattedDate;
       this.errorState = false;
       if (document.activeElement !== this.inputRef) {
         this.formatInput(true, false);

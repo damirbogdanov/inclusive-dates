@@ -340,4 +340,18 @@ describe("tabworthy-times", () => {
     // Should remain as entered
     expect(input?.value).toBe("2026-02-19T15:30:00");
   });
+
+  it("handlePickerSelection mutates internalValue correctly based on specified format", async () => {
+    const page = await createPage(
+      "<tabworthy-times id='test' value='01/01/2024 14:30:00' format='DD/MM/YYYY HH:mm:ss'></tabworthy-times>"
+    );
+    const instance = page.rootInstance as any;
+    instance.inputShouldFormat = false;
+    instance.pickerRef = { value: null };
+
+    // Simulate calendar date selection (calendar emits ISO strings)
+    await instance.handlePickerSelection("2024-01-02");
+
+    expect(instance.internalValue).toBe("02/01/2024 14:30:00");
+  });
 });

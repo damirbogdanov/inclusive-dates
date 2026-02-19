@@ -466,4 +466,18 @@ describe("tabworthy-dates", () => {
     instance.changeYear = undefined;
     expect(() => instance.handleYearChange({ year: 2028 })).not.toThrow();
   });
+
+  it("handlePickerSelection mutates internalValue correctly based on specified format", async () => {
+    const page = await createPage(
+      "<tabworthy-dates value='01/01/2024' format='DD/MM/YYYY'></tabworthy-dates>"
+    );
+    const instance = page.rootInstance as any;
+    instance.modalRef = { close: jest.fn() };
+    instance.formatInputOnAccept = false;
+
+    // Simulate calendar date selection (calendar emits ISO strings)
+    instance.handlePickerSelection("2024-01-02");
+
+    expect(instance.internalValue).toBe("02/01/2024");
+  });
 });
