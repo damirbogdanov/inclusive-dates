@@ -275,11 +275,11 @@ describe("tabworthy-dates", () => {
     instance.inputRef = { value: "2023-06-08" } as HTMLInputElement;
     instance.internalValue = "2023-06-08";
 
-    instance.formatInputOnAccept = false;
+    instance.inputShouldFormat = false;
     instance.formatInput(true, false);
     expect(instance.inputRef.value).toContain("2023-06-08");
 
-    instance.formatInputOnAccept = true;
+    instance.inputShouldFormat = true;
     instance.errorState = false;
     instance.formatInput(true, false);
     expect(instance.inputRef.value).toContain("June 8, 2023");
@@ -289,7 +289,7 @@ describe("tabworthy-dates", () => {
     expect(instance.inputRef.value).toContain("Jun 8, 2023 to Jun 12, 2023");
 
     instance.internalValue = "2023-09-18";
-    instance.formatInputOnAccept = undefined;
+    instance.inputShouldFormat = undefined;
     instance.errorState = false;
     instance.formatInput(true, false);
     expect(instance.inputRef.value).toBe("2023-09-18");
@@ -344,13 +344,13 @@ describe("tabworthy-dates", () => {
     expect(Array.isArray(instance.pickerRef.value)).toBe(true);
   });
 
-  it("syncFromValueProp keeps input in provided format when formatInputOnAccept is false", async () => {
+  it("syncFromValueProp keeps input in provided format when inputShouldFormat is false", async () => {
     const page = await createPage(
       '<tabworthy-dates id="test" input-should-format="false" value="01/01/2024" format="DD/MM/YYYY"></tabworthy-dates>'
     );
     const instance = page.rootInstance as any;
 
-    instance.formatInputOnAccept = false;
+    instance.inputShouldFormat = false;
 
     expect(instance.inputRef.value).toBe("01/01/2024");
     expect(instance.inputRef.value).not.toBe("Monday, January 1, 2024");
@@ -441,13 +441,13 @@ describe("tabworthy-dates", () => {
     instance.inputRef = { value: "September 10 2023" } as HTMLInputElement;
     instance.internalValue = ["2023-09-10", "2023-09-12"];
     instance.errorState = false;
-    instance.formatInputOnAccept = true;
+    instance.inputShouldFormat = true;
     instance.formatInput(true, true);
     expect(instance.inputRef.value).toContain("2023");
 
     instance.inputRef.value = "kept";
     instance.internalValue = "";
-    instance.formatInputOnAccept = false;
+    instance.inputShouldFormat = false;
     instance.formatInput(true, false);
     expect(instance.inputRef.value).toBe("kept");
 
@@ -473,7 +473,7 @@ describe("tabworthy-dates", () => {
     );
     const instance = page.rootInstance as any;
     instance.modalRef = { close: jest.fn() };
-    instance.formatInputOnAccept = false;
+    instance.inputShouldFormat = false;
 
     // Simulate calendar date selection (calendar emits ISO strings)
     instance.handlePickerSelection("2024-01-02");

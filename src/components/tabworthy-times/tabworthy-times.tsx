@@ -120,7 +120,9 @@ export class InclusiveTimes {
   @Prop() format: string = "YYYY-MM-DDTHH:mm:ss";
 
   // If true, format input on blur/accept (like dates)
-  @Prop({ attribute: "input-should-format" }) inputShouldFormat: boolean = true;
+  @Prop({ attribute: "input-should-format" }) inputShouldFormat?:
+    | boolean
+    | string = true;
 
   @State() internalValue?: string | string[] | null;
   @State() selectedDate?: Date;
@@ -138,6 +140,13 @@ export class InclusiveTimes {
   private calendarButtonRef?: HTMLButtonElement;
   private pickerRef?: HTMLTabworthyDatesCalendarElement;
   private errorMessage = "";
+
+  private shouldInputFormat() {
+    if (typeof this.inputShouldFormat === "string") {
+      return this.inputShouldFormat === "true";
+    }
+    return !!this.inputShouldFormat;
+  }
 
   @Watch("value")
   watchValue(_newValue: string | string[] | undefined) {
@@ -210,7 +219,7 @@ export class InclusiveTimes {
     }
 
     this.errorState = false;
-    if (this.inputShouldFormat) {
+    if (this.shouldInputFormat()) {
       this.formatInput();
     }
   }
@@ -268,7 +277,7 @@ export class InclusiveTimes {
   };
 
   private handleInputBlur = () => {
-    if (this.inputShouldFormat) {
+    if (this.shouldInputFormat()) {
       this.formatInput();
     }
   };

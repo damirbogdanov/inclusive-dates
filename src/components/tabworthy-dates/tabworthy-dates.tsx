@@ -114,8 +114,9 @@ export class TabworthyDates {
   // Show or hide the today button
   @Prop() showTodayButton: boolean = true;
   // Enable or disable input field formatting for accepted dates (eg. "Tuesday May 2, 2021" instead of "2021-05-02")
-  @Prop({ attribute: "input-should-format" }) formatInputOnAccept?: boolean =
-    true;
+  @Prop({ attribute: "input-should-format" }) inputShouldFormat?:
+    | boolean
+    | string = true;
   // Show or hide the keyboard hints
   @Prop() showKeyboardHint: boolean = false;
   // Function to disable individual dates
@@ -156,6 +157,13 @@ export class TabworthyDates {
     this.locale.slice(0, 2)
   );
   private errorMessage = "";
+
+  private shouldInputFormat() {
+    if (typeof this.inputShouldFormat === "string") {
+      return this.inputShouldFormat === "true";
+    }
+    return !!this.inputShouldFormat;
+  }
 
   componentDidLoad() {
     this.syncFromValueProp();
@@ -392,7 +400,7 @@ export class TabworthyDates {
   };
 
   private formatInput(enabled: boolean, useInputValue = true) {
-    if (this.formatInputOnAccept === false || enabled === false) {
+    if (this.shouldInputFormat() === false || enabled === false) {
       if (this.internalValue) {
         if (this.internalValue.length === 0) return;
         this.inputRef.value = this.internalValue
@@ -403,7 +411,7 @@ export class TabworthyDates {
     }
     if (
       this.internalValue &&
-      this.formatInputOnAccept === true &&
+      this.shouldInputFormat() === true &&
       this.errorState === false
     ) {
       if (Array.isArray(this.internalValue)) {
@@ -552,7 +560,7 @@ export class TabworthyDates {
 
     // update text input (useInputValue=false so it formats from internalValue, not from input's current text)
     if (this.inputRef) {
-      this.formatInput(!!this.formatInputOnAccept, false);
+      this.formatInput(!!this.shouldInputFormat(), false);
     }
   }
 
