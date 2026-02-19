@@ -240,7 +240,11 @@ export class InclusiveDatesCalendar {
         ?.focus();
   }
 
-  private updateCurrentDate(date: Date, moveFocus?: boolean) {
+  private updateCurrentDate(
+    date: Date,
+    moveFocus?: boolean,
+    emitChangeYear = false
+  ) {
     const month = date.getMonth();
     const year = date.getFullYear();
 
@@ -265,6 +269,10 @@ export class InclusiveDatesCalendar {
 
     if (moveFocus) {
       this.focusDate(this.currentDate);
+    }
+
+    if (emitChangeYear) {
+      this.changeYear?.emit({ year: getYear(date) });
     }
   }
 
@@ -312,7 +320,7 @@ export class InclusiveDatesCalendar {
   };
 
   private nextYear = () => {
-    this.updateCurrentDate(getNextYear(this.currentDate));
+    this.updateCurrentDate(getNextYear(this.currentDate), false, true);
   };
 
   private previousMonth = () => {
@@ -320,7 +328,7 @@ export class InclusiveDatesCalendar {
   };
 
   private previousYear = () => {
-    this.updateCurrentDate(getPreviousYear(this.currentDate));
+    this.updateCurrentDate(getPreviousYear(this.currentDate), false, true);
   };
 
   private showToday = () => {
