@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-C15oswCE.js');
+var index = require('./index-DlzGiVkc.js');
 var appGlobals = require('./app-globals-V2Kpy_OQ.js');
 
 const defineCustomElements = async (win, options) => {

@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-C15oswCE.js');
+var index = require('./index-DlzGiVkc.js');
 var moment = require('./moment-CdViwxPQ.js');
 var utils = require('./utils-y5Vtky2t.js');
 
@@ -20,9 +20,9 @@ const defaultLabels = {
 const InclusiveTimes = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.selectDateTime = index.createEvent(this, "selectDateTime");
-        this.changeYear = index.createEvent(this, "changeYear");
-        this.componentReady = index.createEvent(this, "componentReady");
+        this.selectDateTime = index.createEvent(this, "selectDateTime", 7);
+        this.changeYear = index.createEvent(this, "changeYear", 7);
+        this.componentReady = index.createEvent(this, "componentReady", 7);
         // Enable or disable range mode
         this.range = false;
         // A label for the text field

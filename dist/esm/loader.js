@@ -1,5 +1,5 @@
-import { b as bootstrapLazy } from './index-BusoZVTR.js';
-export { s as setNonce } from './index-BusoZVTR.js';
+import { b as bootstrapLazy } from './index-zgp3PkTz.js';
+export { s as setNonce } from './index-zgp3PkTz.js';
 import { g as globalScripts } from './app-globals-DQuL1Twl.js';
 
 const defineCustomElements = async (win, options) => {

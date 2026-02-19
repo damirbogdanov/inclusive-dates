@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-BusoZVTR.js';
+import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-zgp3PkTz.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { g as getISODateString, r as removeTimezoneOffset } from './utils-BVHu5CWV.js';
 
@@ -18,9 +18,9 @@ const defaultLabels = {
 const InclusiveTimes = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.selectDateTime = createEvent(this, "selectDateTime");
-        this.changeYear = createEvent(this, "changeYear");
-        this.componentReady = createEvent(this, "componentReady");
+        this.selectDateTime = createEvent(this, "selectDateTime", 7);
+        this.changeYear = createEvent(this, "changeYear", 7);
+        this.componentReady = createEvent(this, "componentReady", 7);
         // Enable or disable range mode
         this.range = false;
         // A label for the text field

@@ -1,6 +1,6 @@
 'use strict';
 
-var index = require('./index-C15oswCE.js');
+var index = require('./index-DlzGiVkc.js');
 
 const defaultLabels = {
     hours: "Hours",
@@ -16,7 +16,7 @@ const defaultLabels = {
 const InclusiveTimesPicker = class {
     constructor(hostRef) {
         index.registerInstance(this, hostRef);
-        this.timeChanged = index.createEvent(this, "timeChanged");
+        this.timeChanged = index.createEvent(this, "timeChanged", 7);
         // Current time value (24-hour format)
         this.hours = 12;
         this.minutes = 0;

@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-BusoZVTR.js';
+import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-zgp3PkTz.js';
 
 const defaultLabels = {
     hours: "Hours",
@@ -14,7 +14,7 @@ const defaultLabels = {
 const InclusiveTimesPicker = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.timeChanged = createEvent(this, "timeChanged");
+        this.timeChanged = createEvent(this, "timeChanged", 7);
         // Current time value (24-hour format)
         this.hours = 12;
         this.minutes = 0;

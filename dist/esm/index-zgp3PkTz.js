@@ -630,9 +630,9 @@ var createEvent = (ref, name, flags) => {
   return {
     emit: (detail) => {
       return emitEvent(elm, name, {
-        bubbles: true,
-        composed: true,
-        cancelable: true,
+        bubbles: !!(flags & 4 /* Bubbles */),
+        composed: !!(flags & 2 /* Composed */),
+        cancelable: !!(flags & 1 /* Cancellable */),
         detail
       });
     }

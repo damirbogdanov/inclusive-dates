@@ -1,6 +1,6 @@
 'use strict';
 
-var index$1 = require('./index-C15oswCE.js');
+var index$1 = require('./index-DlzGiVkc.js');
 var moment = require('./moment-CdViwxPQ.js');
 var utils = require('./utils-y5Vtky2t.js');
 
@@ -10487,9 +10487,9 @@ const defaultLabels = {
 const TabworthyDates = class {
     constructor(hostRef) {
         index$1.registerInstance(this, hostRef);
-        this.selectDate = index$1.createEvent(this, "selectDate");
-        this.changeYear = index$1.createEvent(this, "changeYear");
-        this.componentReady = index$1.createEvent(this, "componentReady");
+        this.selectDate = index$1.createEvent(this, "selectDate", 7);
+        this.changeYear = index$1.createEvent(this, "changeYear", 7);
+        this.componentReady = index$1.createEvent(this, "componentReady", 7);
         // Enable or disable range mode
         this.range = false;
         // A label for the text field

@@ -1,4 +1,4 @@
-import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-BusoZVTR.js';
+import { r as registerInstance, c as createEvent, h, H as Host, g as getElement } from './index-zgp3PkTz.js';
 import { h as hooks } from './moment-Mki5YqAR.js';
 import { r as removeTimezoneOffset, x as extractDates, y as isValidISODate, e as dateIsWithinBounds, n as dateIsWithinLowerBounds, o as dateIsWithinUpperBounds, g as getISODateString } from './utils-BVHu5CWV.js';
 
@@ -10485,9 +10485,9 @@ const defaultLabels = {
 const TabworthyDates = class {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.selectDate = createEvent(this, "selectDate");
-        this.changeYear = createEvent(this, "changeYear");
-        this.componentReady = createEvent(this, "componentReady");
+        this.selectDate = createEvent(this, "selectDate", 7);
+        this.changeYear = createEvent(this, "changeYear", 7);
+        this.componentReady = createEvent(this, "componentReady", 7);
         // Enable or disable range mode
         this.range = false;
         // A label for the text field
