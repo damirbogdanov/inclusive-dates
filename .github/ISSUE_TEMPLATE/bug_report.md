@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us improve
 title: "[BUG] …"
 labels: ""
-assignees: Sqrrl
+assignees: damirbogdanov
 ---
 
 **Describe the bug**
@@ -29,3 +29,4 @@ Please provide any relevant information about your setup. This is important in c
 - Device:
 - Operating System:
 - Browser:
+- Stackblitz or CodeSandbox link:
