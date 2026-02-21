@@ -15,7 +15,7 @@ const defaultLabels = {
 };
 
 const meta: Meta<Components.TabworthyTimesPicker> = {
-  title: "Components/TabworthyTimesPicker",
+  title: "Building Blocks/TabworthyTimesPicker",
   tags: ["autodocs"],
   argTypes: {
     timeChanged: { action: "timeChanged" }

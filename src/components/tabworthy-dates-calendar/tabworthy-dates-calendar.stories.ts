@@ -5,7 +5,7 @@ import { Components } from "../../components";
 import { getISODateString } from "@shared/utils/utils";
 
 const meta: Meta<Components.TabworthyDatesCalendar> = {
-  title: "Components/TabworthyDatesCalendar",
+  title: "Building Blocks/TabworthyDatesCalendar",
   tags: ["autodocs"],
   argTypes: {
     selectDate: { action: "selectDate" },

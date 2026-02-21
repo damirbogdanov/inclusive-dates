@@ -2,7 +2,10 @@ import type { StorybookConfig } from "@storybook/web-components-vite";
 import { fileURLToPath } from "url";
 
 const config: StorybookConfig = {
-  stories: ["../src/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
+  stories: [
+    "../src/components/tabworthy-dates/tabworthy-dates.stories.ts",
+    "../src/**/*.stories.@(js|jsx|ts|tsx|mdx)"
+  ],
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-a11y",

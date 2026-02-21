@@ -4,7 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { Components } from "../../components";
 
 const meta: Meta<Components.TabworthyTimes> = {
-  title: "Components/TabworthyTimes",
+  title: "TabworthyTimes",
   tags: ["autodocs"],
   argTypes: {
     selectDateTime: { action: "selectDateTime" },
