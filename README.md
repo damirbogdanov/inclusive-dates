@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>Tabworthy components (TabworthyDates & TabworthyTimes)</h1>
+  <h1>TabworthyDates and TabworthyTimes components</h1>
 
   <p>
     <video controls autoplay>
@@ -19,6 +19,16 @@
     <img alt="NPM version" src="https://img.shields.io/npm/v/@tabworthy/components?color=informational">
   </div>
 </div>
+
+### Documentation & [Demo](https://tabworthy.github.io/tabworthy-components)
+
+All components are documented in Storybook, which also serves as a demo. You can find it here:
+**https://tabworthy.github.io/tabworthy-components/**
+
+If you just interested in API documentation for components without the demo, you can find it here:
+
+* [TabworthyDates](https://github.com/tabworthy/tabworthy-components/tree/main/src/components/tabworthy-dates)
+* [TabworthyTimes](https://github.com/tabworthy/tabworthy-components/tree/main/src/components/tabworthy-times)
 
 ### Features
 
@@ -57,11 +67,3 @@ Semantic markup with no built-in styles.
 #### 100% Test Coverage
 
 Quality assured by means of unit tests.
-
-### Documentation & Demo
-
- <!--
-  TODO: publish storybook and link here
--->
-
-**https://github.io/tabworthy-components/**
