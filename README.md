@@ -8,7 +8,9 @@
     </video>
   </p>
 
-  <p><strong>A human-friendly and fully accessible datepicker and datetimepicker with partial support for natural language input. </strong>Now as a standard Web Component written in Typescript with 100% test coverage!</p>
+  <p><strong>A human-friendly and fully accessible datepicker and datetimepicker with partial support for natural language input. </strong></p>
+
+  <p>Now as a standard Web Component written in Typescript with 100% test coverage!</p>
   <p>Try typing "tomorrow" or "in 10 days"!</p>
   <p>Datepicker is forked from the excellent <a href="https://github.com/fymmot/inclusive-dates"><code>fymmot/inclusive-dates</code></a></p>
 
