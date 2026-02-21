@@ -8,16 +8,14 @@
     </video>
   </p>
 
-  <p><strong>A human-friendly and fully accessible datepicker and datetimepicker with partial () support for natural language input. </strong>Now as a standard Web Component written in Typescript with 100% test coverage!</p>
+  <p><strong>A human-friendly and fully accessible datepicker and datetimepicker with partial support for natural language input. </strong>Now as a standard Web Component written in Typescript with 100% test coverage!</p>
   <p>Try typing "tomorrow" or "in 10 days"!</p>
   <p>Datepicker is forked from the excellent <a href="https://github.com/fymmot/inclusive-dates"><code>fymmot/inclusive-dates</code></a></p>
 
   <div>
-    <!--
-      TODO: hook this up
-      <img alt="Github test action status" src="https://github.com/tabworthy/tabworthy-components/actions/workflows/test.yml/badge.svg" />
-      <img alt="Github docs action status" src="https://github.com/tabworthy/tabworthy-components/actions/workflows/docs.yml/badge.svg" />
-    -->
+    <img alt="Github test action status" src="https://github.com/tabworthy/tabworthy-components/actions/workflows/test.yml/badge.svg" />
+    <img alt="Github docs action status" src="https://github.com/tabworthy/tabworthy-components/actions/workflows/docs.yml/badge.svg" />
+    <img alt="Codecov coverage" src="https://codecov.io/gh/tabworthy/tabworthy-components/branch/main/graph/badge.svg" />
     <img alt="NPM version" src="https://img.shields.io/npm/v/@tabworthy/components?color=informational">
   </div>
 </div>
